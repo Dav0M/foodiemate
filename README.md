@@ -10,7 +10,9 @@ CSCI 5117, Spring 2024, [assignment description](https://canvas.umn.edu/courses/
 
 ### Students
 
-* First Last, x500@umn.edu
+* Hannah Cheng, cheng861@umn.edu
+* Lingyi Xu, xu001032@umn.edu
+* Yuankun Jiao, jiao0052@umn.edu
 * ...
 
 
