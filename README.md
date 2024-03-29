@@ -5,7 +5,7 @@ CSCI 5117, Spring 2024, [assignment description](https://canvas.umn.edu/courses/
 ## App Info:
 
 * Team Name: Delulu
-* App Name: TODO
+* App Name: FoodieMate
 * App Link: <https://TODO.com/>
 
 ### Students
