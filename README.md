@@ -38,8 +38,24 @@ Which (if any) progressive web app feature(s) does your app support?
 
 **[Add images/photos that show your mockup](https://stackoverflow.com/questions/10189356/how-to-add-screenshot-to-readmes-in-github-repository) along with a very brief caption:**
 
-![](https://media.giphy.com/media/26ufnwz3wDUli7GU0/giphy.gif)
+### Not log home page
+<!-- ![](https://media.giphy.com/media/26ufnwz3wDUli7GU0/giphy.gif) -->
+![not log home page](./mockup_images/not_log_home_page.png?raw=true)
 
+### User home page
+![user home page](./mockup_images/user_home_page.png?raw=true)
+
+### Recipe home page
+![recipe home page](./mockup_images/recipe_home_page.png?raw=true)
+
+### Create recipe page
+![create recipe page](./mockup_images/create_recipe_page.png?raw=true)
+
+### About recipe page
+![about recipe page](./mockup_images/about_recipe_page.png?raw=true)
+
+### Plans page
+![plans page](./mockup_images/plans_page.png?raw=true)
 
 ## Testing Notes
 
