@@ -6,22 +6,17 @@ function NavigationBar() {
         <nav>
             <ul style={{ listStyleType: 'none', padding: 0 }}>
                 <li style={{ display: 'inline', marginRight: 10 }}>
-                    <Link to="/">Home</Link>
+                    <Link to="/userhome">Home</Link>
                 </li>
                 <li style={{ display: 'inline', marginRight: 10 }}>
-                    <Link to="/aboutrecipe">About Recipes</Link>
-                </li>
-                <li style={{ display: 'inline', marginRight: 10 }}>
-                    <Link to="/createrecipe">Create Recipe</Link>
+                    <Link to="/recipehome">Recipe</Link>
                 </li>
                 <li style={{ display: 'inline', marginRight: 10 }}>
                     <Link to="/plans">Plans</Link>
                 </li>
+                {/* This Log out is fake. Just for going back to Splash Page */}
                 <li style={{ display: 'inline', marginRight: 10 }}>
-                    <Link to="/recipehome">Recipe Home</Link>
-                </li>
-                <li style={{ display: 'inline', marginRight: 10 }}>
-                    <Link to="/userhome">User Home</Link>
+                    <Link to="/">Log Out</Link>
                 </li>
             </ul>
         </nav>
