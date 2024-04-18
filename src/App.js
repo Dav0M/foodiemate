@@ -19,9 +19,8 @@ function App() {
       <div>
         <Routes>
           <Route path="/" element={<SplashPage />} />
-          {/* <Route path="/aboutrecipe" element={<AboutRecipePage />} /> */}
-          {/* <Route path="/createrecipe" element={<CreateRecipePage />} /> */}
-          {/* <Route path="/aboutrecipe" element={<AboutRecipePage />} /> */}
+          <Route path="/createrecipe" element={<CreateRecipePage />} />
+          <Route path="/aboutrecipe" element={<AboutRecipePage />} />
           <Route path="/plans" element={<PlansPage />} />
           <Route path="/recipehome" element={<RecipeHomePage />} />
           <Route path="/userhome" element={<UserHomePage />} />
