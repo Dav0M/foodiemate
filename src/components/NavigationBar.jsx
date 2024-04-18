@@ -3,22 +3,20 @@ import { Link } from 'react-router-dom';
 
 function NavigationBar() {
     return (
-        <nav>
-            <ul style={{ listStyleType: 'none', padding: 0 }}>
-                <li style={{ display: 'inline', marginRight: 10 }}>
-                    <Link to="/userhome">Home</Link>
-                </li>
-                <li style={{ display: 'inline', marginRight: 10 }}>
-                    <Link to="/recipehome">Recipe</Link>
-                </li>
-                <li style={{ display: 'inline', marginRight: 10 }}>
-                    <Link to="/plans">Plans</Link>
-                </li>
-                {/* This Log out is fake. Just for going back to Splash Page */}
-                <li style={{ display: 'inline', marginRight: 10 }}>
-                    <Link to="/">Log Out</Link>
-                </li>
-            </ul>
+        <nav className="navbar has-background-success-light" role="navigation" aria-label="main navigation">
+            <div className="navbar-brand">
+                <Link className="navbar-item" to="/userhome">
+                    <h1 className="title is-4">FoodieMate</h1>
+                </Link>
+            </div>
+            <div className="navbar-menu">
+                <div className="navbar-end">
+                    <Link className="navbar-item" to="/recipehome">Recipes</Link>
+                    <Link className="navbar-item" to="/plans">Plans</Link>
+                    {/* This Log out is fake. Just for going back to Splash Page */}
+                    <Link className="navbar-item" to="/">Log Out</Link>
+                </div>
+            </div>
         </nav>
     );
 }

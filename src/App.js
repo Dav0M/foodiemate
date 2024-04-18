@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
+import 'bulma/css/bulma.min.css';
 
 import SplashPage from './components/SplashPage';
 import AboutRecipePage from './components/AboutRecipePage';
