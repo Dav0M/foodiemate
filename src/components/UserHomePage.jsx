@@ -32,11 +32,6 @@ function UserHomePage() {
     // State for controlling the visibility of edit/delete options
     const [activeDropdown, setActiveDropdown] = useState(null);
 
-    // Function to toggle dropdown visibility
-    const toggleDropdown = (index) => {
-        setActiveDropdown(activeDropdown === index ? null : index);
-    };
-
     // Functions to handle edit and delete
     const handleEdit = (index) => {
         // Placeholder for edit functionality
@@ -86,21 +81,20 @@ function UserHomePage() {
                                 </div>
                                 <div className="level-right">
                                     <div className="level-item">
-                                        <div className={`dropdown ${activeDropdown === index ? 'is-active' : ''}`}>
+                                        <div className={`dropdown is-right ${activeDropdown === index ? 'is-active' : ''} is-hoverable`}>
                                             <div className="dropdown-trigger">
-                                                <button className="button" aria-haspopup="true" aria-controls="dropdown-menu"
-                                                    onClick={() => toggleDropdown(index)}>
+                                                <button className="button" aria-haspopup="true" aria-controls={`dropdown-menu-${index}`}>
                                                     <span>...</span>
                                                 </button>
                                             </div>
-                                            <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                                            <div className="dropdown-menu" id={`dropdown-menu-${index}`} role="menu">
                                                 <div className="dropdown-content">
-                                                    <a href="#/" className="dropdown-item" onClick={() => handleEdit(index)}>
+                                                    <button className="button is-white dropdown-item" onClick={() => handleEdit(index)}>
                                                         Edit
-                                                    </a>
-                                                    <a href="#/" className="dropdown-item" onClick={() => handleDelete(index)}>
+                                                    </button>
+                                                    <button className="button is-white dropdown-item" onClick={() => handleDelete(index)}>
                                                         Delete
-                                                    </a>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
