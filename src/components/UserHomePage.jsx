@@ -5,7 +5,7 @@ function UserHomePage() {
     const plans = [
         { day: 'Today - Wed', meals: { breakfast: 'Waffles', lunch: 'Chicken Salad', dinner: '...' } },
         { day: 'Tomorrow - Thu', meals: { breakfast: '...', lunch: '...', dinner: '...' } },
-        { day: 'Mar 29 - Fri', meals: { breakfast: '...', lunch: '...', dinner: '...' } },
+        { day: 'Apr 29 - Mon', meals: { breakfast: '...', lunch: '...', dinner: '...' } },
     ];
 
     // Dummy data for shopping list
