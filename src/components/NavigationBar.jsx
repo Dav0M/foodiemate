@@ -14,6 +14,7 @@ function NavigationBar() {
                     <Link className="navbar-item" to="/recipehome">Recipes</Link>
                     <Link className="navbar-item" to="/plans">Plans</Link>
                     {/* This Log out is fake. Just for going back to Splash Page */}
+                    <Link className='navbar-item' to= "/">Log In</Link>
                     <Link className="navbar-item" to="/">Log Out</Link>
                 </div>
             </div>
