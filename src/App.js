@@ -27,13 +27,22 @@ function App() {
     <Router>
       <NavigationBar />
       <div>
-        <Routes>
+        {/* <Routes>
           <Route path="/" element={<SplashPage />} />
           <Route path="/createrecipe" element={<ProtectedRoute><CreateRecipePage /></ProtectedRoute>} />
           <Route path="/aboutrecipe" element={<ProtectedRoute><AboutRecipePage /></ProtectedRoute>} />
           <Route path="/plans" element={<ProtectedRoute><PlansPage /></ProtectedRoute>} />
           <Route path="/recipehome" element={<ProtectedRoute><RecipeHomePage /></ProtectedRoute>} />
           <Route path="/userhome" element={<ProtectedRoute><UserHomePage /></ProtectedRoute>} />
+          <Route path="*" element={<NotFound />} />
+        </Routes> */}
+        <Routes>
+          <Route path="/" element={<SplashPage />} />
+          <Route path="/createrecipe" element={<CreateRecipePage />} />
+          <Route path="/aboutrecipe" element={<AboutRecipePage />} />
+          <Route path="/plans" element={<PlansPage />} />
+          <Route path="/recipehome" element={<RecipeHomePage />} />
+          <Route path="/userhome" element={<UserHomePage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

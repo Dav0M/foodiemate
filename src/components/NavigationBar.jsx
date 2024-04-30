@@ -9,9 +9,7 @@ function NavigationBar() {
     const handleLogin = () => {
         console.log("Attempting to login...");
         console.log("window.location.origin:", window.location.origin);
-        instance.loginRedirect({
-            scopes: ["openid", "profile"],
-        });
+        instance.loginRedirect();
     };
 
     const handleLogout = () => {
