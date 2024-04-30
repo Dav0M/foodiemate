@@ -1,7 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useMsal } from '@azure/msal-react';
 
 function NavigationBar() {
+    const { instance, accounts } = useMsal();
+    const isAuthenticated = accounts.length > 0; // Check if any accounts are logged in
+
+    const handleLogin = () => {
+        console.log("Attempting to login...");
+        console.log("window.location.origin:", window.location.origin);
+        instance.loginRedirect({
+            scopes: ["openid", "profile"],
+        });
+    };
+
+    const handleLogout = () => {
+        console.log("Attempting to logout...");
+        instance.logout();
+    };
+
     const [deferredPrompt, setDeferredPrompt] = useState(null);
     const [isAppInstalled, setIsAppInstalled] = useState(false);
 
@@ -18,7 +35,7 @@ function NavigationBar() {
         const handleAppInstalled = (event) => {
             console.log('PWA was installed', event);
             setIsAppInstalled(true);
-            setDeferredPrompt(null); 
+            setDeferredPrompt(null);
         };
 
         window.addEventListener('appinstalled', handleAppInstalled);
@@ -63,8 +80,14 @@ function NavigationBar() {
                     <div className="navbar-item has-dropdown is-hoverable">
                         <Link className="navbar-link">My Account</Link>
                         <div className="navbar-dropdown">
-                            <Link className="navbar-item" to="/">Log Out</Link>
-                            { !isAppInstalled && 
+                            <div className="navbar-item">
+                                {isAuthenticated ? (
+                                    <button className="navbar-item" onClick={handleLogout}>Log Out</button>
+                                ) : (
+                                    <button className="navbar-item" onClick={handleLogin}>Log In</button>
+                                )}
+                            </div>
+                            {!isAppInstalled &&
                                 <button className="navbar-item" onClick={handleInstallClick}>Add to Home</button>
                             }
                         </div>
