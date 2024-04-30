@@ -2,8 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import 'bulma/css/bulma.min.css';
-import { MsalProvider, useMsal } from '@azure/msal-react';
-import { msalInstance } from './authConfig';
+// import { MsalProvider, useMsal } from '@azure/msal-react';
+// import { msalInstance } from './authConfig';
 
 import SplashPage from './components/SplashPage';
 import AboutRecipePage from './components/AboutRecipePage';
@@ -14,16 +14,16 @@ import UserHomePage from './components/UserHomePage';
 import NavigationBar from './components/NavigationBar';
 import NotFound from './components/NotFound';
 
-function ProtectedRoute({ component: Component }) {
-  const { accounts } = useMsal();
-  const isAuthenticated = accounts.length > 0;
+// function ProtectedRoute({ component: Component }) {
+//   const { accounts } = useMsal();
+//   const isAuthenticated = accounts.length > 0;
 
-  return isAuthenticated ? <Component /> : <Navigate to="/" />;
-}
+//   return isAuthenticated ? <Component /> : <Navigate to="/" />;
+// }
 
 function App() {
   return (
-    <MsalProvider instance={msalInstance}>
+    // <MsalProvider instance={msalInstance}>
     <Router>
       <NavigationBar />
       <div>
@@ -47,7 +47,7 @@ function App() {
         </Routes>
       </div>
     </Router>
-    </MsalProvider>
+    // </MsalProvider>
   );
 }
 

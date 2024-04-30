@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useMsal } from '@azure/msal-react';
+// import { useMsal } from '@azure/msal-react';
 
 function NavigationBar() {
-    const { instance, accounts } = useMsal();
-    const isAuthenticated = accounts.length > 0; // Check if any accounts are logged in
+    // const { instance, accounts } = useMsal();
+    // const isAuthenticated = accounts.length > 0; // Check if any accounts are logged in
+    const loginUrl = '';
+    
+    // const handleLogin = () => {
+    //     console.log("Attempting to login...");
+    //     console.log("window.location.origin:", window.location.origin);
+    //     instance.loginRedirect();
+    // };
 
-    const handleLogin = () => {
-        console.log("Attempting to login...");
-        console.log("window.location.origin:", window.location.origin);
-        instance.loginRedirect();
-    };
-
-    const handleLogout = () => {
-        console.log("Attempting to logout...");
-        instance.logout();
-    };
+    // const handleLogout = () => {
+    //     console.log("Attempting to logout...");
+    //     instance.logout();
+    // };
 
     const [deferredPrompt, setDeferredPrompt] = useState(null);
     const [isAppInstalled, setIsAppInstalled] = useState(false);
@@ -79,11 +80,13 @@ function NavigationBar() {
                         <Link className="navbar-link">My Account</Link>
                         <div className="navbar-dropdown">
                             <div className="navbar-item">
-                                {isAuthenticated ? (
+                                {/* {isAuthenticated ? (
                                     <button className="navbar-item" onClick={handleLogout}>Log Out</button>
                                 ) : (
                                     <button className="navbar-item" onClick={handleLogin}>Log In</button>
-                                )}
+                                    // <a href={loginUrl} className="navbar-item">Log In</a>
+                                )} */}
+                                <a href={loginUrl} className="navbar-item">Log In</a>
                             </div>
                             {!isAppInstalled &&
                                 <button className="navbar-item" onClick={handleInstallClick}>Add to Home</button>
