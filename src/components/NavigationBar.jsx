@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function NavigationBar() {
     // const { instance, accounts } = useMsal();
     // const isAuthenticated = accounts.length > 0; // Check if any accounts are logged in
-    const loginUrl = '';
+    const loginUrl = '/.auth/login/aadb2c';
     
     // const handleLogin = () => {
     //     console.log("Attempting to login...");
