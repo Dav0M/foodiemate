@@ -76,6 +76,7 @@ function NavigationBar() {
                 <div className="navbar-end">
                     <Link className="navbar-item" to="/recipehome">Recipes</Link>
                     <Link className="navbar-item" to="/plans">Plans</Link>
+                    <Link className="navbar-item" to="/nutrition">Nutritions</Link>
                     <div className="navbar-item has-dropdown is-hoverable">
                         <Link className="navbar-link">My Account</Link>
                         <div className="navbar-dropdown">

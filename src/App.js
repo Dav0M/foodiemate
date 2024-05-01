@@ -12,6 +12,7 @@ import PlansPage from './components/PlansPage';
 import RecipeHomePage from './components/RecipeHomePage';
 import UserHomePage from './components/UserHomePage';
 import NavigationBar from './components/NavigationBar';
+import NutritionPage from './components/NutritionPage';
 import NotFound from './components/NotFound';
 
 // function ProtectedRoute({ component: Component }) {
@@ -43,6 +44,7 @@ function App() {
           <Route path="/plans" element={<PlansPage />} />
           <Route path="/recipehome" element={<RecipeHomePage />} />
           <Route path="/userhome" element={<UserHomePage />} />
+          <Route path="/nutrition" element={<NutritionPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
