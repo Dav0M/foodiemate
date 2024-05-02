@@ -16,8 +16,8 @@ import NotFound from './components/NotFound';
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  // Check whether the user is logged in; Only logged-in users can access other pages
   useEffect(() => {
-    // Assume we have a way to check authentication
     const checkAuth = async () => {
       try {
         const response = await fetch('/.auth/me');
@@ -28,9 +28,9 @@ function App() {
         setIsAuthenticated(false);
       }
     };
-
     checkAuth();
   }, []);
+
   return (
     <Router>
       <NavigationBar />

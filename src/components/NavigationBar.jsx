@@ -5,6 +5,7 @@ function NavigationBar() {
     const [user, setUser] = useState(null);
     const [deferredPrompt, setDeferredPrompt] = useState(null);
     const [isAppInstalled, setIsAppInstalled] = useState(false);
+    const [isActive, setIsActive] = useState(false);
 
     const handleLogin = () => {
         window.location.href = '/.auth/login/aadb2c';
@@ -34,18 +35,13 @@ function NavigationBar() {
 
     useEffect(() => {
         window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
-        // App installed event listener
         const handleAppInstalled = (event) => {
             console.log('PWA was installed', event);
             setIsAppInstalled(true);
             setDeferredPrompt(null);
         };
-
         window.addEventListener('appinstalled', handleAppInstalled);
-
         return () => {
-            // Correctly remove the event listeners by passing the exact same function reference
             window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
             window.removeEventListener('appinstalled', handleAppInstalled);
         };
@@ -53,14 +49,9 @@ function NavigationBar() {
 
     const handleInstallClick = async () => {
         if (!deferredPrompt) return;
-
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-            console.log('User accepted the A2HS prompt');
-        } else {
-            console.log('User dismissed the A2HS prompt');
-        }
+        console.log(outcome === 'accepted' ? 'User accepted the A2HS prompt' : 'User dismissed the A2HS prompt');
         setDeferredPrompt(null);
     };
 
@@ -76,8 +67,13 @@ function NavigationBar() {
                 <Link className="navbar-item" to="/userhome">
                     <h1 className="title is-4">FoodieMate</h1>
                 </Link>
+                <button className="navbar-burger" aria-label="menu" aria-expanded="false" onClick={() => setIsActive(!isActive)}>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </button>
             </div>
-            <div className="navbar-menu">
+            <div className={`navbar-menu ${isActive ? 'is-active' : ''}`}>
                 <div className="navbar-end">
                     {user && (
                         <>
