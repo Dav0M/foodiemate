@@ -1,25 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-// import { useMsal } from '@azure/msal-react';
 
 function NavigationBar() {
-    // const { instance, accounts } = useMsal();
-    // const isAuthenticated = accounts.length > 0; // Check if any accounts are logged in
-    const loginUrl = '/.auth/login/aadb2c';
-    
-    // const handleLogin = () => {
-    //     console.log("Attempting to login...");
-    //     console.log("window.location.origin:", window.location.origin);
-    //     instance.loginRedirect();
-    // };
-
-    // const handleLogout = () => {
-    //     console.log("Attempting to logout...");
-    //     instance.logout();
-    // };
-
+    const [user, setUser] = useState(null);
     const [deferredPrompt, setDeferredPrompt] = useState(null);
     const [isAppInstalled, setIsAppInstalled] = useState(false);
+
+    const handleLogin = () => {
+        window.location.href = '/.auth/login/aadb2c';
+    };
+
+    const handleLogout = () => {
+        window.location.href = '/.auth/logout';
+        setUser(null);
+    };
+
+    useEffect(() => {
+        fetch('/.auth/me')
+            .then(response => response.json())
+            .then(data => {
+                if (data.clientPrincipal) {
+                    setUser(data.clientPrincipal);
+                }
+            })
+            .catch(() => setUser(null));
+    }, []);
 
     const handleBeforeInstallPrompt = (e) => {
         e.preventDefault();
@@ -74,20 +79,22 @@ function NavigationBar() {
             </div>
             <div className="navbar-menu">
                 <div className="navbar-end">
-                    <Link className="navbar-item" to="/recipehome">Recipes</Link>
-                    <Link className="navbar-item" to="/plans">Plans</Link>
-                    <Link className="navbar-item" to="/nutrition">Nutritions</Link>
+                    {user && (
+                        <>
+                            <Link className="navbar-item" to="/recipehome">Recipes</Link>
+                            <Link className="navbar-item" to="/plans">Plans</Link>
+                            <Link className="navbar-item" to="/nutrition">Nutritions</Link>
+                        </>
+                    )}
                     <div className="navbar-item has-dropdown is-hoverable">
                         <Link className="navbar-link">My Account</Link>
                         <div className="navbar-dropdown">
                             <div className="navbar-item">
-                                {/* {isAuthenticated ? (
+                                {user ? (
                                     <button className="navbar-item" onClick={handleLogout}>Log Out</button>
                                 ) : (
                                     <button className="navbar-item" onClick={handleLogin}>Log In</button>
-                                    // <a href={loginUrl} className="navbar-item">Log In</a>
-                                )} */}
-                                <a href={loginUrl} className="navbar-item">Log In</a>
+                                )}
                             </div>
                             {!isAppInstalled &&
                                 <button className="navbar-item" onClick={handleInstallClick}>Add to Home</button>

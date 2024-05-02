@@ -1,9 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import 'bulma/css/bulma.min.css';
-// import { MsalProvider, useMsal } from '@azure/msal-react';
-// import { msalInstance } from './authConfig';
 
 import SplashPage from './components/SplashPage';
 import AboutRecipePage from './components/AboutRecipePage';
@@ -15,41 +13,40 @@ import NavigationBar from './components/NavigationBar';
 import NutritionPage from './components/NutritionPage';
 import NotFound from './components/NotFound';
 
-// function ProtectedRoute({ component: Component }) {
-//   const { accounts } = useMsal();
-//   const isAuthenticated = accounts.length > 0;
-
-//   return isAuthenticated ? <Component /> : <Navigate to="/" />;
-// }
-
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    // Assume we have a way to check authentication
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('/.auth/me');
+        const data = await response.json();
+        setIsAuthenticated(data && data.clientPrincipal !== null);
+      } catch (error) {
+        console.error('Authentication check failed', error);
+        setIsAuthenticated(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
   return (
-    // <MsalProvider instance={msalInstance}>
     <Router>
       <NavigationBar />
       <div>
-        {/* <Routes>
-          <Route path="/" element={<SplashPage />} />
-          <Route path="/createrecipe" element={<ProtectedRoute><CreateRecipePage /></ProtectedRoute>} />
-          <Route path="/aboutrecipe" element={<ProtectedRoute><AboutRecipePage /></ProtectedRoute>} />
-          <Route path="/plans" element={<ProtectedRoute><PlansPage /></ProtectedRoute>} />
-          <Route path="/recipehome" element={<ProtectedRoute><RecipeHomePage /></ProtectedRoute>} />
-          <Route path="/userhome" element={<ProtectedRoute><UserHomePage /></ProtectedRoute>} />
-          <Route path="*" element={<NotFound />} />
-        </Routes> */}
         <Routes>
           <Route path="/" element={<SplashPage />} />
-          <Route path="/createrecipe" element={<CreateRecipePage />} />
-          <Route path="/aboutrecipe" element={<AboutRecipePage />} />
-          <Route path="/plans" element={<PlansPage />} />
-          <Route path="/recipehome" element={<RecipeHomePage />} />
-          <Route path="/userhome" element={<UserHomePage />} />
-          <Route path="/nutrition" element={<NutritionPage />} />
+          <Route path="/createrecipe" element={isAuthenticated ? <CreateRecipePage /> : <Navigate replace to="/" />} />
+          <Route path="/aboutrecipe" element={isAuthenticated ? <AboutRecipePage /> : <Navigate replace to="/" />} />
+          <Route path="/plans" element={isAuthenticated ? <PlansPage /> : <Navigate replace to="/" />} />
+          <Route path="/recipehome" element={isAuthenticated ? <RecipeHomePage /> : <Navigate replace to="/" />} />
+          <Route path="/userhome" element={isAuthenticated ? <UserHomePage /> : <Navigate replace to="/" />} />
+          <Route path="/nutrition" element={isAuthenticated ? <NutritionPage /> : <Navigate replace to="/" />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </Router>
-    // </MsalProvider>
   );
 }
 
