@@ -33,18 +33,29 @@ const NutritionPage = () => {
   const renderNutritionData = () => {
     if (!nutritionData || !nutritionData.ingredients) return null;
 
-    const quantityError = nutritionData.ingredients.some(ingredient => {
-        const parsed = ingredient.parsed[0];
-        return parsed.status === 'MISSING_QUANTITY';
-      });
-    
-      if (quantityError) {
-        return (
-          <div className="error-message">
-            Missing quantity or measure, please enter the item like this: 1 egg, 1 cup milk.
-          </div>
-        );
+    const foodError = nutritionData.ingredients.some(ingredient => {
+      return typeof(ingredient.parsed) === "undefined";
+  });
+  
+  const quantityError = nutritionData.ingredients.some(ingredient => {
+      const parsed = ingredient.parsed ? ingredient.parsed[0] : null;
+      return parsed && parsed.status === 'MISSING_QUANTITY';
+  });
+  
+  if (foodError || quantityError) {
+      let errorMessage;
+      if (foodError) {
+          errorMessage = "We cannot find the item in our database, please try another one!";
+      } else {
+          errorMessage = "Missing quantity or measure, please enter the item like this: 1 egg, 1 cup milk.";
       }
+      return (
+          <div className="error-message">
+              {errorMessage}
+          </div>
+      );
+  }
+  
       
     return (
       <div className="nutrition-facts">
@@ -83,11 +94,6 @@ const NutritionPage = () => {
           </thead>
           <tbody>
                 <tr>
-                <td><strong>Calories</strong></td>
-                <td>{nutritionData.calories}</td>
-                <td>-</td>
-                </tr>
-                <tr>
                 <td><strong>Total Fat</strong></td>
                 <td>{Math.round(nutritionData.totalNutrients.FAT.quantity * 10) / 10} {nutritionData.totalNutrients.FAT.unit}</td>
                 <td>{Math.round(nutritionData.totalDaily.FAT.quantity)}%</td>
@@ -115,11 +121,6 @@ const NutritionPage = () => {
                 <td><strong>Total Carbohydrate</strong></td>
                 <td>{Math.round(nutritionData.totalNutrients.CHOCDF.quantity * 10) / 10} {nutritionData.totalNutrients.CHOCDF.unit}</td>
                 <td>{Math.round(nutritionData.totalDaily.CHOCDF.quantity)}%</td>
-                </tr>
-                <tr>
-                <td><strong>Dietary Fiber</strong></td>
-                <td>{nutritionData.totalNutrients.FIBTG ? Math.round(nutritionData.totalNutrients.FIBTG.quantity * 10) / 10 : '-'}</td>
-                <td>{Math.round(nutritionData.totalDaily.FIBTG.quantity)}%</td>
                 </tr>
                 <tr>
                 <td><strong>Total Sugars</strong></td>
