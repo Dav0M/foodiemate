@@ -72,7 +72,7 @@ function UserHomePage() {
         <div className="container">
             <div className="columns">
                 <div className="column">
-                    <h2 className="title is-3" style={{ textAlign: 'left' }}>Plans</h2>
+                    <h2 className="title is-3">Plans</h2>
                     {plans.map((plan, index) => (
                         <div key={index} className="box">
                             <h3>{plan.day}</h3>
@@ -102,10 +102,10 @@ function UserHomePage() {
                                         <input className="input" type="text" name="quantity" defaultValue={editItem ? editItem.quantity : ''} placeholder="Quantity" required />
                                     </p>
                                     <p className="control">
-                                        <button className="button is-info" type="submit">{editItem ? 'Update' : 'Add'}</button>
+                                        <button className="button is-success" type="submit">{editItem ? 'Update' : 'Add'}</button>
                                     </p>
                                     <p className="control">
-                                        <button className="button" type="button" onClick={() => { setEditItem(null); setShowAddItemForm(false); }}>Cancel</button>
+                                        <button className="button is-light" type="button" onClick={() => { setEditItem(null); setShowAddItemForm(false); }}>Cancel</button>
                                     </p>
                                 </div>
                             </form>
@@ -118,7 +118,7 @@ function UserHomePage() {
                                     <div className="level">
                                         <div className="level-left">
                                             <div className="level-item">
-                                                <div style={{ flexGrow: 1, maxWidth: '10vw', textOverflow: 'ellipsis' }}>
+                                                <div style={{ flexGrow: 1, maxWidth: '12vw', textOverflow: 'ellipsis' }}>
                                                     <p><strong>{item.item}</strong></p>
                                                     <p>{item.quantity}</p>
                                                 </div>
