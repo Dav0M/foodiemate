@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../NutritionPage.css';
-import backgroundImage from '../images/nutrition.jpeg'
+import backgroundImage from '../images/n1.jpeg'
+import { Chart } from "react-google-charts";
 
 const NutritionPage = () => {
   const [food, setFood] = useState('');
@@ -85,6 +86,44 @@ const NutritionPage = () => {
             })}
           </tbody>
         </table>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ width: '500px' }}>
+          <Chart
+            chartType="PieChart"
+            data={[
+              ["Label", "Value"],
+              ["Fat", Math.round(nutritionData.totalNutrients.FAT.quantity * 10) / 10],
+              ["Carb", Math.round(nutritionData.totalNutrients.CHOCDF.quantity * 10) / 10],
+              ["Protein", Math.round(nutritionData.totalNutrients.PROCNT.quantity * 10) / 10]
+            ]}
+            options={{
+              position: 'center',
+              fontSize: 20,
+              chartArea: { width: '70%', height: '70%'},
+              legend: {
+                position: 'top',
+                textStyle: { color: 'black' },
+              },
+              backgroundColor: { fill: 'transparent', opacity: 0.5 },
+              pieSliceText: "none", 
+              slices: {
+                0: { color: '#FF6384' },
+                1: { color: '#36A2EB' },
+                2: { color: '#FFCE56' },
+              },
+              pieSliceTextStyle: {
+                color: 'black',
+              },
+              pieHole: 0.6, 
+            }}
+            width={"100%"}
+            height={"400px"}
+          />
+        </div>
+      </div>
+
+
+
         <table className="ingredient-table">
           <thead>
             <tr>
