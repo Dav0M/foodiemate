@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../NutritionPage.css';
-import backgroundImage from '../images/n1.jpeg'
+import backgroundImage from '../images/nutrition.jpeg'
 import { Chart } from "react-google-charts";
 
 const NutritionPage = () => {
