@@ -85,3 +85,119 @@ app.http('deleteShoppingListItem', {
         };
     }
 });
+
+
+
+app.http('signupUser', {
+    methods: ['POST'],
+    authLevel: 'function',
+    handler: async (request, context) => {
+        try {
+            const user = await request.json();
+            const collection = await connectDb('Users');
+
+            const result = await collection.insertOne(user);
+            return { status: 201, jsonBody: result };
+        } catch (error) {
+            return { status: 500, body: error.message };
+        } finally {
+            await client.close();
+        }
+    }
+});
+
+app.http('createRecipe', {
+    methods: ['POST'],
+    authLevel: 'function',
+    handler: async (request, context) => {
+        try {
+            const recipe = await request.json();
+            const collection = await connectDb('Recipes');
+
+            const result = await collection.insertOne(recipe);
+            return { status: 201, jsonBody: result };
+        } catch (error) {
+            return { status: 500, body: error.message };
+        } finally {
+            await client.close();
+        }
+    }
+});
+
+
+app.http('editRecipe', {
+    methods: ['PUT'],
+    authLevel: 'function',
+    handler: async (request, context) => {
+        try {
+            const recipeId = request.params.recipeId;
+            const updates = await request.json();
+
+            // Filter out empty fields
+            const filteredUpdates = Object.fromEntries(
+                Object.entries(updates).filter(([key, value]) => value)
+            );
+
+            const collection = await connectDb('Recipes');
+            const result = await collection.updateOne(
+                { _id: new ObjectId(recipeId) },
+                { $set: filteredUpdates }
+            );
+
+            return { status: 200, jsonBody: result };
+        } catch (error) {
+            return { status: 500, body: error.message };
+        } finally {
+            await client.close();
+        }
+    }
+});
+
+
+
+app.http('addMealPlan', {
+    methods: ['POST'],
+    authLevel: 'function',
+    handler: async (request, context) => {
+        try {
+            const mealPlan = await request.json();
+            const collection = await connectDb('MealPlans');
+
+            const result = await collection.insertOne(mealPlan);
+            return { status: 201, jsonBody: result };
+        } catch (error) {
+            return { status: 500, body: error.message };
+        } finally {
+            await client.close();
+        }
+    }
+});
+
+
+app.http('editMealPlan', {
+    methods: ['PUT'],
+    authLevel: 'function',
+    handler: async (request, context) => {
+        try {
+            const mealPlanId = request.params.mealPlanId;
+            const updates = await request.json();
+
+            // Filter out empty fields
+            const filteredUpdates = Object.fromEntries(
+                Object.entries(updates).filter(([key, value]) => value)
+            );
+
+            const collection = await connectDb('MealPlans');
+            const result = await collection.updateOne(
+                { _id: new ObjectId(mealPlanId) },
+                { $set: filteredUpdates }
+            );
+
+            return { status: 200, jsonBody: result };
+        } catch (error) {
+            return { status: 500, body: error.message };
+        } finally {
+            await client.close();
+        }
+    }
+});
