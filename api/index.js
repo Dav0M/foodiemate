@@ -14,7 +14,12 @@ app.http('getShoppingList', {
     authLevel: 'function',
     route: 'shopping-list',
     handler: async (request, context) => {
-        const userId = request.headers['x-ms-client-principal-id'];
+        const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+        let token = null
+        token = Buffer.from(headers, "base64");
+        token = JSON.parse(token.toString());
+        const userId = token.userId
+
         const collection = await connectDb();
         const items = await collection.find({ userId }).toArray();
         await client.close();
@@ -31,7 +36,12 @@ app.http('addShoppingListItem', {
     authLevel: 'function',
     route: 'shopping-list',
     handler: async (request, context) => {
-        const userId = request.headers['x-ms-client-principal-id'];
+        const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+        let token = null
+        token = Buffer.from(headers, "base64");
+        token = JSON.parse(token.toString());
+        const userId = token.userId
+
         const { item, quantity } = await request.json();
         const collection = await connectDb();
         const result = await collection.insertOne({ userId, item, quantity });
@@ -46,15 +56,20 @@ app.http('addShoppingListItem', {
 // Update an existing shopping list item 
 app.http('updateShoppingListItem', {
     methods: ['PUT'],
-    authLevel: 'function', 
+    authLevel: 'function',
     route: 'shopping-list/{id}',
     handler: async (request, context) => {
-        const userId = request.headers['x-ms-client-principal-id'];
+        const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+        let token = null
+        token = Buffer.from(headers, "base64");
+        token = JSON.parse(token.toString());
+        const userId = token.userId
+
         const { id } = request.params;
         const { item, quantity } = await request.json();
         const collection = await connectDb();
         const result = await collection.updateOne(
-            { _id: new ObjectId(id), userId }, 
+            { _id: new ObjectId(id), userId },
             { $set: { item, quantity } }
         );
         await client.close();
@@ -69,14 +84,19 @@ app.http('updateShoppingListItem', {
 // Delete a shopping list item
 app.http('deleteShoppingListItem', {
     methods: ['DELETE'],
-    authLevel: 'function',  
+    authLevel: 'function',
     route: 'shopping-list/{id}',
     handler: async (request, context) => {
-        const userId = request.headers['x-ms-client-principal-id'];
+        const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+        let token = null
+        token = Buffer.from(headers, "base64");
+        token = JSON.parse(token.toString());
+        const userId = token.userId
+
         const { id } = request.params;
         const collection = await connectDb();
         const result = await collection.deleteOne(
-            { _id: new ObjectId(id), userId }  
+            { _id: new ObjectId(id), userId }
         );
         await client.close();
         return {
