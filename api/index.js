@@ -3,9 +3,9 @@ const { MongoClient, ObjectId } = require('mongodb');
 const uri = process.env.AZURE_MONGO_DB;
 const client = new MongoClient(uri);
 
-const connectDb = async () => {
+const connectDb = async (collection) => {
     await client.connect();
-    return client.db('FoodieMateDB').collection('UserShoppingLists');
+    return client.db('FoodieMateDB').collection(collection);
 };
 
 // Get all shopping list items
@@ -20,7 +20,7 @@ app.http('getShoppingList', {
         token = JSON.parse(token.toString());
         const userId = token.userId
 
-        const collection = await connectDb();
+        const collection = await connectDb('UserShoppingLists');
         const items = await collection.find({ userId }).toArray();
         await client.close();
         return {
@@ -43,7 +43,7 @@ app.http('addShoppingListItem', {
         const userId = token.userId
 
         const { item, quantity } = await request.json();
-        const collection = await connectDb();
+        const collection = await connectDb('UserShoppingLists');
         const result = await collection.insertOne({ userId, item, quantity });
         await client.close();
         return {
@@ -67,7 +67,7 @@ app.http('updateShoppingListItem', {
 
         const { id } = request.params;
         const { item, quantity } = await request.json();
-        const collection = await connectDb();
+        const collection = await connectDb('UserShoppingLists');
         const result = await collection.updateOne(
             { _id: new ObjectId(id), userId },
             { $set: { item, quantity } }
@@ -94,7 +94,7 @@ app.http('deleteShoppingListItem', {
         const userId = token.userId
 
         const { id } = request.params;
-        const collection = await connectDb();
+        const collection = await connectDb('UserShoppingLists');
         const result = await collection.deleteOne(
             { _id: new ObjectId(id), userId }
         );
@@ -130,8 +130,16 @@ app.http('createRecipe', {
     methods: ['POST'],
     authLevel: 'function',
     handler: async (request, context) => {
+        const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+        let token = null
+        token = Buffer.from(headers, "base64");
+        token = JSON.parse(token.toString());
+        const userId = token.userId
+
         try {
             const recipe = await request.json();
+            recipe['userId'] = userId;
+            
             const collection = await connectDb('Recipes');
 
             const result = await collection.insertOne(recipe);
