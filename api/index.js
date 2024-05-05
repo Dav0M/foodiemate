@@ -93,7 +93,7 @@ app.http('signupUser', {
     authLevel: 'function',
     handler: async (request, context) => {
         try {
-            const user = await request.json();
+            const user = await request.headers['x-ms-client-principal-id'];
             const collection = await connectDb('Users');
 
             const result = await collection.insertOne(user);
