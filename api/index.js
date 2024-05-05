@@ -8,6 +8,12 @@ const connectDb = async () => {
     return client.db('FoodieMateDB').collection('UserShoppingLists');
 };
 
+const connectRecipes = async () => {
+    await client.connect();
+    return client.db('FoodieMateDB').collection('recipes');
+};
+
+
 // Get all shopping list items
 app.http('getShoppingList', {
     methods: ['GET'],
@@ -132,7 +138,7 @@ app.http('createRecipe', {
     handler: async (request, context) => {
         try {
             const recipe = await request.json();
-            const collection = await connectDb('Recipes');
+            const collection = await connectDb('recipes');
 
             const result = await collection.insertOne(recipe);
             return { status: 201, jsonBody: result };
@@ -158,7 +164,7 @@ app.http('editRecipe', {
                 Object.entries(updates).filter(([key, value]) => value)
             );
 
-            const collection = await connectDb('Recipes');
+            const collection = await connectDb('recipes');
             const result = await collection.updateOne(
                 { _id: new ObjectId(recipeId) },
                 { $set: filteredUpdates }
@@ -181,7 +187,7 @@ app.http('addMealPlan', {
     handler: async (request, context) => {
         try {
             const mealPlan = await request.json();
-            const collection = await connectDb('MealPlans');
+            const collection = await connectDb('mealplans');
 
             const result = await collection.insertOne(mealPlan);
             return { status: 201, jsonBody: result };
@@ -207,7 +213,7 @@ app.http('editMealPlan', {
                 Object.entries(updates).filter(([key, value]) => value)
             );
 
-            const collection = await connectDb('MealPlans');
+            const collection = await connectDb('mealplans');
             const result = await collection.updateOne(
                 { _id: new ObjectId(mealPlanId) },
                 { $set: filteredUpdates }
@@ -221,3 +227,61 @@ app.http('editMealPlan', {
         }
     }
 });
+
+// // get all recipes in the "recipes" collection
+// const mongoClient = require("mongodb").MongoClient;
+// app.http('getRecipes', {
+//     methods: ['GET'],
+//     authLevel: 'anonymous',
+//     route: 'recipes',
+//     handler: async (request, context) => {
+//         const login = await mongoClient.connect(uri);
+//         const recipes = await login.db("FoodieMateDB").collection("recipes").toArray();
+//         context.log(recipes);
+//         login.close();
+//         return {
+//             jsonBody: { data: recipes }
+//         }
+//     },
+// });
+app.http('getRecipes', {
+    methods: ['GET'],
+    authLevel: 'function',
+    route: 'recipes',
+    handler: async (request, context) => {
+        const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+        let token = null
+        token = Buffer.from(headers, "base64");
+        token = JSON.parse(token.toString());
+        const userId = token.userId
+
+        const collection = await connectRecipes();
+
+        const recipes = await collection.find({ userId }).toArray();
+
+        await client.close();
+        return {
+            status: 200,
+            jsonBody: { data: recipes }
+        };
+    }
+});
+
+// app.http('getRecipes', {
+//     methods: ['GET'],
+//     authLevel: 'function',
+//     route: 'recipes',
+//     handler: async (request, context) => {
+//         try {
+//             const recipe = await request.json();
+//             const collection = await connectDb('recipes');
+
+//             const result = await collection.insertOne(recipe);
+//             return { status: 201, jsonBody: result };
+//         } catch (error) {
+//             return { status: 500, body: error.message };
+//         } finally {
+//             await client.close();
+//         }
+//     }
+// });
