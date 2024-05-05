@@ -94,6 +94,24 @@ const CreateRecipePage = () => {
     const [name, setName] = useState("");
     // const [link, setLink] = useState("");
 
+    // const [checkedTags, setCheckedTags] = useState([])
+    // const checkedTags = [];
+
+    const [checkedTags, setCheckedTags] = useState([]);
+    const handleCheckboxChange = (tag, isChecked) => {
+        if (isChecked) {
+            setCheckedTags(prev => {
+                if (!prev.includes(tag)) {
+                    return [...prev, tag];
+                }
+                return prev;
+            });
+        } else {
+            setCheckedTags(prev => prev.filter(t => t !== tag));
+        }
+        // console.log("CheckedTags: ", checkedTags);
+    };
+
     const [tags, setTags] = useState([])
 
     const [imgInfo, setImgInfo] = useState({});
@@ -110,14 +128,14 @@ const CreateRecipePage = () => {
 
     const recipeImage = cld.image(imgInfo.public_id);
 
-    const fetchTags = async () => {
+    const fetchDbAllTags = async () => {
         const response = await fetch('/api/tags');
         const data = await response.json();
         setTags(data.data);
     };
-    useEffect(() => { fetchTags(); }, []);
+    useEffect(() => { fetchDbAllTags(); }, []);
 
-    console.log("tags:", tags);
+    // console.log("db all tags:", tags);
 
 
     const addIngredient = () => {
@@ -152,6 +170,12 @@ const CreateRecipePage = () => {
         setSteps(steps.filter(step => step.id !== id));
     };
 
+    // const checkTag = (value) => {
+    //     checkedTags.push(value);
+    //     // setSteps([...checkedTags, { tag: stepsCount + 1, text: '' }]);
+    //     // setStepsCount(stepsCount + 1)
+    // };
+
     const submitRecipe = async () => {
         const stepsText = steps.map(s => s.text)
         const ingredientsData = ingredients.map((i) => { return { item: i.item, quantity: i.quantity } })
@@ -160,7 +184,7 @@ const CreateRecipePage = () => {
             steps: stepsText,
             pictureUrl: imgInfo.url,
             ingredients: ingredientsData,
-            tag: tags
+            tag: checkedTags
         }
         const res = await fetch('/api/createRecipe', {
             method: 'POST',
@@ -186,7 +210,17 @@ const CreateRecipePage = () => {
 
                     <div className="field">
                         <label className="label">Tags</label>
+
                         <div className="control">
+
+                            {tags.map((tag, index) => (
+
+                                <label key={tag.id} class="checkbox" style={{ width: '160px' }}>
+                                    <input type="checkbox" onChange={e => handleCheckboxChange(tag.tag, e.target.checked)} />
+                                    {"     " + tag.tag}
+                                </label>
+                            ))}
+
                             {/* <input className="input" type="text" placeholder="Link" onChange={(e) => setLink(e.target.value)} /> */}
                         </div>
                     </div>
