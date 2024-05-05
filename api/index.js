@@ -3,10 +3,16 @@ const { MongoClient, ObjectId } = require('mongodb');
 const uri = process.env.AZURE_MONGO_DB;
 const client = new MongoClient(uri);
 
-const connectDb = async () => {
+const connectDb = async (collection) => {
     await client.connect();
-    return client.db('FoodieMateDB').collection('UserShoppingLists');
+    return client.db('FoodieMateDB').collection(collection);
 };
+
+const connectRecipes = async () => {
+    await client.connect();
+    return client.db('FoodieMateDB').collection('recipes');
+};
+
 
 // Get all shopping list items
 app.http('getShoppingList', {
@@ -14,8 +20,13 @@ app.http('getShoppingList', {
     authLevel: 'function',
     route: 'shopping-list',
     handler: async (request, context) => {
-        const userId = request.headers['x-ms-client-principal-id'];
-        const collection = await connectDb();
+        const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+        let token = null
+        token = Buffer.from(headers, "base64");
+        token = JSON.parse(token.toString());
+        const userId = token.userId
+
+        const collection = await connectDb('UserShoppingLists');
         const items = await collection.find({ userId }).toArray();
         await client.close();
         return {
@@ -31,9 +42,14 @@ app.http('addShoppingListItem', {
     authLevel: 'function',
     route: 'shopping-list',
     handler: async (request, context) => {
-        const userId = request.headers['x-ms-client-principal-id'];
+        const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+        let token = null
+        token = Buffer.from(headers, "base64");
+        token = JSON.parse(token.toString());
+        const userId = token.userId
+
         const { item, quantity } = await request.json();
-        const collection = await connectDb();
+        const collection = await connectDb('UserShoppingLists');
         const result = await collection.insertOne({ userId, item, quantity });
         await client.close();
         return {
@@ -46,15 +62,20 @@ app.http('addShoppingListItem', {
 // Update an existing shopping list item 
 app.http('updateShoppingListItem', {
     methods: ['PUT'],
-    authLevel: 'function', 
+    authLevel: 'function',
     route: 'shopping-list/{id}',
     handler: async (request, context) => {
-        const userId = request.headers['x-ms-client-principal-id'];
+        const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+        let token = null
+        token = Buffer.from(headers, "base64");
+        token = JSON.parse(token.toString());
+        const userId = token.userId
+
         const { id } = request.params;
         const { item, quantity } = await request.json();
-        const collection = await connectDb();
+        const collection = await connectDb('UserShoppingLists');
         const result = await collection.updateOne(
-            { _id: new ObjectId(id), userId }, 
+            { _id: new ObjectId(id), userId },
             { $set: { item, quantity } }
         );
         await client.close();
@@ -69,14 +90,19 @@ app.http('updateShoppingListItem', {
 // Delete a shopping list item
 app.http('deleteShoppingListItem', {
     methods: ['DELETE'],
-    authLevel: 'function',  
+    authLevel: 'function',
     route: 'shopping-list/{id}',
     handler: async (request, context) => {
-        const userId = request.headers['x-ms-client-principal-id'];
+        const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+        let token = null
+        token = Buffer.from(headers, "base64");
+        token = JSON.parse(token.toString());
+        const userId = token.userId
+
         const { id } = request.params;
-        const collection = await connectDb();
+        const collection = await connectDb('UserShoppingLists');
         const result = await collection.deleteOne(
-            { _id: new ObjectId(id), userId }  
+            { _id: new ObjectId(id), userId }
         );
         await client.close();
         return {
@@ -110,9 +136,16 @@ app.http('createRecipe', {
     methods: ['POST'],
     authLevel: 'function',
     handler: async (request, context) => {
+        const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+        let token = null
+        token = Buffer.from(headers, "base64");
+        token = JSON.parse(token.toString());
+        const userId = token.userId
+
         try {
             const recipe = await request.json();
-            const collection = await connectDb('Recipes');
+            recipe['userId'] = userId
+            const collection = await connectDb('recipes');
 
             const result = await collection.insertOne(recipe);
             return { status: 201, jsonBody: result };
@@ -138,7 +171,7 @@ app.http('editRecipe', {
                 Object.entries(updates).filter(([key, value]) => value)
             );
 
-            const collection = await connectDb('Recipes');
+            const collection = await connectDb('recipes');
             const result = await collection.updateOne(
                 { _id: new ObjectId(recipeId) },
                 { $set: filteredUpdates }
@@ -161,7 +194,7 @@ app.http('addMealPlan', {
     handler: async (request, context) => {
         try {
             const mealPlan = await request.json();
-            const collection = await connectDb('MealPlans');
+            const collection = await connectDb('mealplans');
 
             const result = await collection.insertOne(mealPlan);
             return { status: 201, jsonBody: result };
@@ -187,7 +220,7 @@ app.http('editMealPlan', {
                 Object.entries(updates).filter(([key, value]) => value)
             );
 
-            const collection = await connectDb('MealPlans');
+            const collection = await connectDb('mealplans');
             const result = await collection.updateOne(
                 { _id: new ObjectId(mealPlanId) },
                 { $set: filteredUpdates }
@@ -201,3 +234,61 @@ app.http('editMealPlan', {
         }
     }
 });
+
+// // get all recipes in the "recipes" collection
+// const mongoClient = require("mongodb").MongoClient;
+// app.http('getRecipes', {
+//     methods: ['GET'],
+//     authLevel: 'anonymous',
+//     route: 'recipes',
+//     handler: async (request, context) => {
+//         const login = await mongoClient.connect(uri);
+//         const recipes = await login.db("FoodieMateDB").collection("recipes").toArray();
+//         context.log(recipes);
+//         login.close();
+//         return {
+//             jsonBody: { data: recipes }
+//         }
+//     },
+// });
+app.http('getRecipes', {
+    methods: ['GET'],
+    authLevel: 'function',
+    route: 'recipes',
+    handler: async (request, context) => {
+        const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+        let token = null
+        token = Buffer.from(headers, "base64");
+        token = JSON.parse(token.toString());
+        const userId = token.userId
+
+        const collection = await connectRecipes();
+
+        const recipes = await collection.find({ userId }).toArray();
+
+        await client.close();
+        return {
+            status: 200,
+            jsonBody: { data: recipes }
+        };
+    }
+});
+
+// app.http('getRecipes', {
+//     methods: ['GET'],
+//     authLevel: 'function',
+//     route: 'recipes',
+//     handler: async (request, context) => {
+//         try {
+//             const recipe = await request.json();
+//             const collection = await connectDb('recipes');
+
+//             const result = await collection.insertOne(recipe);
+//             return { status: 201, jsonBody: result };
+//         } catch (error) {
+//             return { status: 500, body: error.message };
+//         } finally {
+//             await client.close();
+//         }
+//     }
+// });

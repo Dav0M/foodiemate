@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../NutritionPage.css';
+import backgroundImage from '../images/nutrition.jpeg'
+import { Chart } from "react-google-charts";
 
 const NutritionPage = () => {
   const [food, setFood] = useState('');
@@ -84,6 +86,44 @@ const NutritionPage = () => {
             })}
           </tbody>
         </table>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ width: '500px' }}>
+          <Chart
+            chartType="PieChart"
+            data={[
+              ["Label", "Value"],
+              ["Fat", Math.round(nutritionData.totalNutrients.FAT.quantity * 10) / 10],
+              ["Carb", Math.round(nutritionData.totalNutrients.CHOCDF.quantity * 10) / 10],
+              ["Protein", Math.round(nutritionData.totalNutrients.PROCNT.quantity * 10) / 10]
+            ]}
+            options={{
+              position: 'center',
+              fontSize: 20,
+              chartArea: { width: '70%', height: '70%'},
+              legend: {
+                position: 'top',
+                textStyle: { color: 'black' },
+              },
+              backgroundColor: { fill: 'transparent', opacity: 0.5 },
+              pieSliceText: "none", 
+              slices: {
+                0: { color: '#FF6384' },
+                1: { color: '#36A2EB' },
+                2: { color: '#FFCE56' },
+              },
+              pieSliceTextStyle: {
+                color: 'black',
+              },
+              pieHole: 0.6, 
+            }}
+            width={"100%"}
+            height={"400px"}
+          />
+        </div>
+      </div>
+
+
+
         <table className="ingredient-table">
           <thead>
             <tr>
@@ -95,12 +135,12 @@ const NutritionPage = () => {
           <tbody>
             <tr>
               <td><strong>Total Fat</strong></td>
-              <td>{Math.round(nutritionData.totalNutrients.FAT.quantity * 10) / 10} {nutritionData.totalNutrients.FAT.unit}</td>
+              <td>{nutritionData.totalNutrients.FAT ? Math.round(nutritionData.totalNutrients.FAT.quantity * 10) / 10 : '-'} {nutritionData.totalNutrients.FAT.unit}</td>
               <td>{Math.round(nutritionData.totalDaily.FAT.quantity)}%</td>
             </tr>
             <tr>
               <td><strong>Saturated Fat</strong></td>
-              <td>{Math.round(nutritionData.totalNutrients.FASAT.quantity * 10) / 10} {nutritionData.totalNutrients.FASAT.unit}</td>
+              <td>{nutritionData.totalNutrients.FASAT ? Math.round(nutritionData.totalNutrients.FASAT.quantity * 10) / 10 : '-'} {nutritionData.totalNutrients.FASAT.unit}</td>
               <td>{Math.round(nutritionData.totalDaily.FASAT.quantity)}%</td>
             </tr>
             <tr>
@@ -109,17 +149,17 @@ const NutritionPage = () => {
             </tr>
             <tr>
               <td><strong>Cholesterol</strong></td>
-              <td>{Math.round(nutritionData.totalNutrients.CHOLE.quantity * 10) / 10} {nutritionData.totalNutrients.CHOLE.unit}</td>
+              <td>{nutritionData.totalNutrients.CHOLE ? Math.round(nutritionData.totalNutrients.CHOLE.quantity * 10) / 10 : '-'} {nutritionData.totalNutrients.CHOLE.unit}</td>
               <td>{Math.round(nutritionData.totalDaily.CHOLE.quantity)}%</td>
             </tr>
             <tr>
               <td><strong>Sodium</strong></td>
-              <td>{Math.round(nutritionData.totalNutrients.NA.quantity * 10) / 10} {nutritionData.totalNutrients.NA.unit}</td>
+              <td>{nutritionData.totalNutrients.NA ? Math.round(nutritionData.totalNutrients.NA.quantity * 10) / 10 : '-'} {nutritionData.totalNutrients.NA.unit}</td>
               <td>{Math.round(nutritionData.totalDaily.NA.quantity)}%</td>
             </tr>
             <tr>
               <td><strong>Total Carbohydrate</strong></td>
-              <td>{Math.round(nutritionData.totalNutrients.CHOCDF.quantity * 10) / 10} {nutritionData.totalNutrients.CHOCDF.unit}</td>
+              <td>{nutritionData.totalNutrients.CHOCDF ? Math.round(nutritionData.totalNutrients.CHOCDF.quantity * 10) / 10 : '-'} {nutritionData.totalNutrients.CHOCDF.unit}</td>
               <td>{Math.round(nutritionData.totalDaily.CHOCDF.quantity)}%</td>
             </tr>
             <tr>
@@ -128,22 +168,22 @@ const NutritionPage = () => {
             </tr>
             <tr>
               <td><strong>Protein</strong></td>
-              <td>{Math.round(nutritionData.totalNutrients.PROCNT.quantity * 10) / 10} {nutritionData.totalNutrients.PROCNT.unit}</td>
+              <td>{nutritionData.totalNutrients.PROCNT ?  Math.round(nutritionData.totalNutrients.PROCNT.quantity * 10) / 10 : '-'} {nutritionData.totalNutrients.PROCNT.unit}</td>
               <td>{Math.round(nutritionData.totalDaily.PROCNT.quantity)}%</td>
             </tr>
             <tr>
               <td><strong>Vitamin D</strong></td>
               <td>{nutritionData.totalNutrients.VITD ? Math.round(nutritionData.totalNutrients.VITD.quantity * 10) / 10 : '-'}</td>
-              <td>{Math.round(nutritionData.totalDaily.VITD.quantity)}%</td>
+              <td>{nutritionData.totalDaily.VITD ? Math.round(nutritionData.totalDaily.VITD.quantity) : '-'}</td>
             </tr>
             <tr>
               <td><strong>Calcium</strong></td>
-              <td>{Math.round(nutritionData.totalNutrients.CA.quantity * 10) / 10} {nutritionData.totalNutrients.CA.unit}</td>
+              <td>{nutritionData.totalNutrients.CA ? Math.round(nutritionData.totalNutrients.CA.quantity * 10) / 10 : '-'} {nutritionData.totalNutrients.CA.unit}</td>
               <td>{Math.round(nutritionData.totalDaily.CA.quantity)}%</td>
             </tr>
             <tr>
               <td><strong>Iron</strong></td>
-              <td>{Math.round(nutritionData.totalNutrients.FE.quantity * 10) / 10} {nutritionData.totalNutrients.FE.unit}</td>
+              <td>{nutritionData.totalNutrients.FE ? Math.round(nutritionData.totalNutrients.FE.quantity * 10) / 10 : '-'} {nutritionData.totalNutrients.FE.unit}</td>
               <td>{Math.round(nutritionData.totalDaily.FE.quantity)}%</td>
             </tr>
             <tr>
@@ -158,15 +198,26 @@ const NutritionPage = () => {
   };
 
   return (
-    <div className="nutrition-page">
-      <h2>Nutrition Analysis</h2>
-      <form onSubmit={handleSubmit} className="nutrition-form-container">
-        <input type="text" value={food} onChange={handleInputChange} placeholder="Enter Food" />
-        <button type="submit" disabled={!food || loading}>Get Nutrition Data</button>
-      </form>
-      {loading && <p>Loading...</p>}
-      {renderNutritionData()}
-    </div>
+    <section className="hero is-fullheight-with-navbar" style={{ 
+      backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5)), url(${backgroundImage})`, 
+      backgroundSize: 'cover', 
+      backgroundRepeat: 'no-repeat' 
+      }}>
+      <div className="nutrition-page">
+        <h2>Nutrition Analysis</h2>
+        <div className="enter">
+          <p>Enter a food item to check out its nutrients! Format: 2 tablespoons salt (quantity measure item)</p>
+        </div>
+        <form onSubmit={handleSubmit} className="nutrition-form-container">
+          <input type="text" value={food} onChange={handleInputChange} placeholder="Enter Food" />
+          <button type="submit" disabled={!food || loading}>Get Data</button>
+        </form>
+        <div className="loading">
+          {loading && <p>Loading...</p>}
+        </div>
+        {renderNutritionData()}
+      </div>
+    </section>
   );
 };
 

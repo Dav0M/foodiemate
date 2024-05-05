@@ -78,13 +78,41 @@
 
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Cloudinary } from "@cloudinary/url-gen";
+import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
+import CloudinaryWidget from './CloudinaryWidget';
 
 const CreateRecipePage = () => {
+    const navigate = useNavigate();
+
     const [ingredients, setIngredients] = useState([{ id: 1, item: '', quantity: '' }]);
     const [steps, setSteps] = useState([{ id: 1, text: '' }]);
+    const [ingredientsCount, setIngredientsCount] = useState(1);
+    const [stepsCount, setStepsCount] = useState(1);
+
+    const [name, setName] = useState("");
+    const [link, setLink] = useState("");
+
+    const [tags, setTags] = useState([])
+
+    const [imgInfo, setImgInfo] = useState({});
+    const [cloudName] = useState("dzvggknvm");
+    const [uploadPreset] = useState("ml_default");
+
+    const [uwConfig] = useState({
+        cloudName,
+        uploadPreset,
+        multiple: false,
+    });
+
+    const cld = new Cloudinary({ cloud: { cloudName } });
+
+    const recipeImage = cld.image(imgInfo.public_id);
 
     const addIngredient = () => {
-        setIngredients([...ingredients, { id: ingredients.length + 1, item: '', quantity: '' }]);
+        setIngredients([...ingredients, { id: ingredientsCount + 1, item: '', quantity: '' }]);
+        setIngredientsCount(ingredientsCount + 1)
     };
 
     const removeIngredient = (id) => {
@@ -100,13 +128,39 @@ const CreateRecipePage = () => {
     };
 
     const addStep = () => {
-        setSteps([...steps, { id: steps.length + 1, text: '' }]);
+        setSteps([...steps, { id: stepsCount + 1, text: '' }]);
+        setStepsCount(stepsCount + 1)
     };
 
     const updateStep = (id, value) => {
         setSteps(
             steps.map(step => step.id === id ? { ...step, text: value } : step)
         );
+    };
+
+    const removeStep = (id) => {
+        setSteps(steps.filter(step => step.id !== id));
+    };
+
+    const submitRecipe = async () => {
+        const stepsText = steps.map(s => s.text)
+        const ingredientsData = ingredients.map( (i) => { return {item: i.item, quantity: i.quantity} })
+        const payload = {
+            name: name,
+            steps: stepsText, 
+            pictureUrl: imgInfo.url,
+            ingredients: ingredientsData,
+            tags: tags,
+            link: link
+        }
+        const res = await fetch('/api/createRecipe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+            navigate('/recipehome')
+        }
     };
 
     return (
@@ -117,22 +171,29 @@ const CreateRecipePage = () => {
                     <div className="field">
                         <label className="label">Name</label>
                         <div className="control">
-                            <input className="input" type="text" placeholder="Name" />
+                            <input className="input" type="text" placeholder="Name" onChange={(e) => setName(e.target.value)}/>
                         </div>
                     </div>
 
                     <div className="field">
                         <label className="label">Link</label>
                         <div className="control">
-                            <input className="input" type="text" placeholder="Link" />
+                            <input className="input" type="text" placeholder="Link" onChange={(e) => setLink(e.target.value)}/>
                         </div>
                     </div>
 
                     <div className="field">
                         <label className="label">Recipe Picture</label>
                         <p className="control">
-                            <button className="button">+ Add Photo</button>
+                            <CloudinaryWidget uwConfig={uwConfig} setImgInfo={setImgInfo}></CloudinaryWidget>
                         </p>
+                        <div style={{ width: "40%" }}>
+                            <AdvancedImage
+                            style={{ maxWidth: "100%" }}
+                            cldImg={recipeImage}
+                            plugins={[responsive(), placeholder()]}
+                            />
+                        </div>
                     </div>
 
                     <div className="field">
@@ -170,8 +231,11 @@ const CreateRecipePage = () => {
                     <div className="field">
                         <label className="label">Steps</label>
                         {steps.map((step, index) => (
-                            <div key={step.id} className="field">
+                            <div key={step.id} className="field has-addons">
                                 <p className="control">
+                                    <button className="button" onClick={() => removeStep(step.id)}>❌</button>
+                                </p>
+                                <p className="control is-expanded">
                                     <input 
                                         className="input" 
                                         type="text" 
@@ -185,6 +249,9 @@ const CreateRecipePage = () => {
                         <button className="button" onClick={addStep}>+ Add Steps</button>
                     </div>
                 </div>
+            </div>
+            <div className  ='has-text-centered'>
+                <button className='button is-success' onClick={() => submitRecipe()}>Finish</button>
             </div>
         </div>
     );
