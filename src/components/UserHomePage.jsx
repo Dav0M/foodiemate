@@ -2,21 +2,47 @@ import React, { useState, useEffect } from 'react';
 import backgroundImage from '../images/shoppinglist_background.jpeg';
 
 function UserHomePage() {
-    const [plans, setPlans] = useState([
-        { day: 'Today - Wed', meals: { breakfast: 'Waffles', lunch: 'Chicken Salad', dinner: '...' } },
-        { day: 'Tomorrow - Thu', meals: { breakfast: '...', lunch: '...', dinner: '...' } },
-        { day: 'Apr 29 - Mon', meals: { breakfast: '...', lunch: '...', dinner: '...' } },
-    ]);
+    const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const initialPlans = weekDays.map(day => ({ day, meals: { breakfast: '...', lunch: '...', dinner: '...' } }));
+
+    const [plans, setPlans] = useState(initialPlans);
+    // const [plans, setPlans] = useState([
+    //     { day: 'Mon', meals: { breakfast: 'Waffles', lunch: 'Chicken Salad', dinner: '...' } },
+    //     { day: 'Thu', meals: { breakfast: '...', lunch: '...', dinner: '...' } },
+    //     { day: 'Wed', meals: { breakfast: '...', lunch: '...', dinner: '...' } },
+    // ]);
     const [shoppingList, setShoppingList] = useState();
     const [showAddItemForm, setShowAddItemForm] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [editItem, setEditItem] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentPlan, setCurrentPlan] = useState(null);
+
     useEffect(() => {
         fetchShoppingList();
     }, []);
 
+    const handleEditPlan = (plan) => {
+        setCurrentPlan(plan);
+        setIsModalOpen(true);
+    };
+
+    const handleDeletePlan = async (day) => {
+        try {
+            setLoading(true);
+            const response = await fetch(`/api/deleteMealPlan/${day}`, { method: 'DELETE' });
+            if (!response.ok) throw new Error('Failed to delete the plan');
+            setPlans(plans.map(plan => plan.day === day ? { ...plan, meals: { breakfast: '...', lunch: '...', dinner: '...' } } : plan));
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    //
     const fetchShoppingList = async () => {
         setLoading(true);
         const response = await fetch('/api/shopping-list');
@@ -56,13 +82,13 @@ function UserHomePage() {
         setShowAddItemForm(false);
     };
 
-    const handleEdit = (item) => {
+    const handleEditItem = (item) => {
         setEditItem(item);
         setShowAddItemForm(true);
         setActiveDropdown(null);
     };
 
-    const handleDelete = async (id) => {
+    const handleDeleteItem = async (id) => {
         const response = await fetch(`/api/shopping-list/${id}`, {
             method: 'DELETE'
         });
@@ -86,12 +112,15 @@ function UserHomePage() {
                 <div className="columns">
                     <div className="column">
                         <h2 className="title is-3 has-text-centered-touch" style={{ marginTop: '1vw', marginLeft: '0.5rem' }}>Plans</h2>
+                        <button className="button is-info" onClick={() => { }}>Add Plan</button>
                         {plans.map((plan, index) => (
-                            <div key={index} className="box" style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>
-                                <h3 className="has-text-centered-touch">{plan.day}</h3>
+                            <div key={index} className="box">
+                                <h3 className="title is-4">{plan.day}</h3>
                                 <p>Breakfast: {plan.meals.breakfast}</p>
                                 <p>Lunch: {plan.meals.lunch}</p>
                                 <p>Dinner: {plan.meals.dinner}</p>
+                                <button onClick={() => handleEditPlan(plan.day)}>Edit</button>
+                                <button onClick={() => handleDeletePlan(plan.day)}>Delete</button>
                             </div>
                         ))}
                     </div>
@@ -149,10 +178,10 @@ function UserHomePage() {
                                                                 </div>
                                                                 <div className="dropdown-menu" id={`dropdown-menu-${index}`} role="menu">
                                                                     <div className="dropdown-content">
-                                                                        <button className="button is-white dropdown-item" onClick={() => handleEdit(item)}>
+                                                                        <button className="button is-white dropdown-item" onClick={() => handleEditItem(item)}>
                                                                             Edit
                                                                         </button>
-                                                                        <button className="button is-white dropdown-item" onClick={() => handleDelete(item._id)}>
+                                                                        <button className="button is-white dropdown-item" onClick={() => handleDeleteItem(item._id)}>
                                                                             Delete
                                                                         </button>
                                                                     </div>

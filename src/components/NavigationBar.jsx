@@ -64,7 +64,7 @@ function NavigationBar() {
     return (
         <nav className="navbar has-background-success-light" role="navigation" aria-label="main navigation">
             <div className="navbar-brand">
-                <Link className="navbar-item" to="/userhome">
+                <Link className="navbar-item" to="/">
                     <h1 className="title is-4">FoodieMate</h1>
                 </Link>
                 <button className="navbar-burger" aria-label="menu" aria-expanded="false" onClick={() => setIsActive(!isActive)}>
@@ -77,9 +77,10 @@ function NavigationBar() {
                 <div className="navbar-end">
                     {user && (
                         <>
-                            <Link className="navbar-item" to="/recipehome">Recipes</Link>
+                            <Link className="navbar-item" to="/userhome"><strong>🍴{user.userDetails}'s Home</strong></Link>
+                            <Link className="navbar-item" to="/recipehome">🥘 Recipes</Link>
                             <Link className="navbar-item" to="/plans">Plans</Link>
-                            <Link className="navbar-item" to="/nutrition">Nutritions</Link>
+                            <Link className="navbar-item" to="/nutrition">🥗 Nutritions</Link>
                         </>
                     )}
                     <div className="navbar-item has-dropdown is-hoverable">
