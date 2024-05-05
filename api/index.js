@@ -263,7 +263,6 @@ app.http('getRecipes', {
         const userId = token.userId
 
         const collection = await connectRecipes();
-
         const recipes = await collection.find({ userId }).toArray();
 
         await client.close();
@@ -274,21 +273,104 @@ app.http('getRecipes', {
     }
 });
 
-// app.http('getRecipes', {
-//     methods: ['GET'],
-//     authLevel: 'function',
-//     route: 'recipes',
-//     handler: async (request, context) => {
-//         try {
-//             const recipe = await request.json();
-//             const collection = await connectDb('recipes');
+app.http('getOneRecipe', {
+    methods: ['GET'],
+    authLevel: 'function',
+    route: 'recipe/{id}',
+    handler: async (request, context) => {
+        const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+        let token = null
+        token = Buffer.from(headers, "base64");
+        token = JSON.parse(token.toString());
+        const userId = token.userId;
+        // const recipeName = request.params.name;
+        const recipeId = request.params.id;
 
-//             const result = await collection.insertOne(recipe);
-//             return { status: 201, jsonBody: result };
-//         } catch (error) {
-//             return { status: 500, body: error.message };
-//         } finally {
-//             await client.close();
-//         }
-//     }
-// });
+        // const body = await request.json();
+        // const recipeId = body.recipeId ?? request.params.id;
+
+        const collection = await connectRecipes();
+        const recipe = await collection.findOne({ _id: new ObjectId(recipeId), userId: userId });
+
+        await client.close();
+        return {
+            status: 200,
+            jsonBody: recipe
+        };
+
+        // const collection = await connectRecipes();
+        // const recipe = await collection.find({ userId }).findOne({ name: recipeName })
+        // await client.close();
+        // // context.log(deck);
+        // if (recipe) {
+        //     return {
+        //         jsonBody: { data: recipe }
+        //     }
+        // }
+
+
+        // try {
+        //     const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+        //     let token = null
+        //     token = Buffer.from(headers, "base64");
+        //     token = JSON.parse(token.toString());
+        //     const userId = token.userId;
+        //     // const recipeName = request.params.name;
+        //     const recipeId = request.params.id;
+
+        //     const collection = await connectRecipes();
+        //     const recipe = await collection.findOne({ _id: new ObjectId(recipeId), userId: userId }).toArray();
+
+        //     await client.close();
+        //     return {
+        //         status: 200,
+        //         jsonBody: { data: recipe }
+        //     };
+
+        // if (recipe) {
+        //     context.res = {
+        //         status: 200,
+        //         body: recipe
+        //     };
+        // } else {
+        //     context.res = {
+        //         status: 404,
+        //         body: "Recipe not found or you do not have permission to view it"
+        //     };
+        // }
+
+        // } catch (error) {
+        //     context.res = {
+        //         status: 500,
+        //         body: `Error retrieving the task: ${error.message}`
+        //     };
+        // }
+        // finally {
+        // await client.close();
+        // }
+
+        // if (ObjectId.isValid(recipeId)) {
+
+        //     const collection = await connectRecipes();
+        //     const recipe = await collection.findOne({ _id: new ObjectId(recipeId), userId: userId });
+        //     if (recipe) {
+        //         console.log("Recipe found:", recipe);
+        //     } else {
+        //         console.log("No recipe found with the specified userId and recipeId.");
+        //     }
+
+
+        //     await client.close();
+        //     // context.log(deck);
+        //     if (recipe) {
+        //         return {
+        //             jsonBody: { recipe: recipe }
+        //         }
+        //     }
+        // }
+        // return {
+        //     status: 404,
+        //     jsonBody: { error: "no recipe found by that Id" }
+        // }
+    },
+});

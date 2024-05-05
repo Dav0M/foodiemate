@@ -69,7 +69,7 @@ const RecipeHomePage = () => {
         navigate('/createrecipe');
     };
 
-    if (recipes === undefined ) {
+    if (recipes === undefined) {
         return (<div><progress className="progress is-small is-primary" max="100">Loading</progress></div>)
     }
 
@@ -106,7 +106,8 @@ const RecipeHomePage = () => {
                                 <div className="card-image">
                                     {/* Placeholder for recipe image */}
                                     <figure className="image is-4by3">
-                                        <img src={recipe.pictureUrl} alt={recipe.name} onClick={() => navigate(`/aboutrecipe/${recipe.name}`)} />
+                                        <img src={recipe.pictureUrl} alt={recipe.name} onClick={() => navigate('/aboutrecipe/' + recipe._id)} />
+                                        {/* <img src={recipe.pictureUrl} alt={recipe.name} onClick={() => navigate(`/aboutrecipe/${encodeURIComponent(recipe.name)}`)} /> */}
                                     </figure>
                                 </div>
                                 <div className="card-content">
