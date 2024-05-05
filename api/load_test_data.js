@@ -26,7 +26,7 @@ raw_recipe_data = [
             { "item": "Eggs", "quantity": "2" },
             { "item": "Parmesan cheese", "quantity": "50g" }
         ],
-        "tags": ["Dinner"]
+        "tag": ["Dinner"]
     },
     {
         "userId": null,
@@ -45,7 +45,7 @@ raw_recipe_data = [
             { "item": "Caesar dressing", "quantity": "100ml" },
             { "item": "Parmesan cheese", "quantity": "30g" }
         ],
-        "tags": ["Lunch"]
+        "tag": ["Lunch"]
     },
     {
         "userId": null,
@@ -64,7 +64,7 @@ raw_recipe_data = [
             { "item": "Soy sauce", "quantity": "2 tbsp" },
             { "item": "Rice", "quantity": "200g" }
         ],
-        "tags": ["Dinner", "Fast Food"]
+        "tag": ["Dinner", "Fast Food"]
     },
     {
         "userId": null,
@@ -84,7 +84,7 @@ raw_recipe_data = [
             { "item": "Mushrooms", "quantity": "150g" },
             { "item": "Parmesan cheese", "quantity": "50g" }
         ],
-        "tags": ["Dinner", "Dessert"]
+        "tag": ["Dinner", "Dessert"]
     },
     {
         "userId": null,
@@ -104,7 +104,7 @@ raw_recipe_data = [
             { "item": "Vegetable broth", "quantity": "500ml" },
             { "item": "Basil", "quantity": "20g" }
         ],
-        "tags": ["Lunch", "Dessert"]
+        "tag": ["Lunch", "Dessert"]
     },
     {
         "userId": null,
@@ -125,7 +125,7 @@ raw_recipe_data = [
             { "item": "Milk", "quantity": "300ml" },
             { "item": "Butter", "quantity": "50g melted" }
         ],
-        "tags": ["Breakfast"]
+        "tag": ["Breakfast"]
     },
     {
         "userId": null,
@@ -142,7 +142,7 @@ raw_recipe_data = [
             { "item": "Butter", "quantity": "2 tbsp" },
             { "item": "Cheese", "quantity": "2 slices" }
         ],
-        "tags": ["Lunch", "Fast Food"]
+        "tag": ["Lunch", "Fast Food"]
     },
     {
         "userId": null,
@@ -162,7 +162,7 @@ raw_recipe_data = [
             { "item": "Water", "quantity": "50ml" },
             { "item": "Rice", "quantity": "200g" }
         ],
-        "tags": ["Dinner", "Fast Food"]
+        "tag": ["Dinner", "Fast Food"]
     },
     {
         "userId": null,
@@ -181,7 +181,7 @@ raw_recipe_data = [
             { "item": "Cilantro", "quantity": "30g" },
             { "item": "Lime", "quantity": "1" }
         ],
-        "tags": ["Lunch", "Fast Food"]
+        "tag": ["Lunch", "Fast Food"]
     },
     {
         "userId": null,
@@ -200,7 +200,7 @@ raw_recipe_data = [
             { "item": "Herbs", "quantity": "1 tbsp" },
             { "item": "Chicken broth", "quantity": "100ml" }
         ],
-        "tags": ["Dinner"]
+        "tag": ["Dinner"]
     },
     {
         "userId": null,
@@ -222,7 +222,7 @@ raw_recipe_data = [
             { "item": "Canned tomatoes", "quantity": "400g" },
             { "item": "Kidney beans", "quantity": "400g" }
         ],
-        "tags": ["Dinner"]
+        "tag": ["Dinner"]
     },
     {
         "userId": null,
@@ -243,7 +243,7 @@ raw_recipe_data = [
             { "item": "Chickpeas", "quantity": "200g" },
             { "item": "Coconut milk", "quantity": "400ml" }
         ],
-        "tags": ["Dinner", "Vegan"]
+        "tag": ["Dinner", "Vegan"]
     },
     {
         "userId": null,
@@ -262,7 +262,7 @@ raw_recipe_data = [
             { "item": "Cinnamon", "quantity": "1 tsp" },
             { "item": "Flour", "quantity": "2 tbsp" }
         ],
-        "tags": ["Dessert"]
+        "tag": ["Dessert"]
     },
     {
         "userId": null,
@@ -285,7 +285,7 @@ raw_recipe_data = [
             { "item": "Vanilla extract", "quantity": "1 tsp" },
             { "item": "Flour", "quantity": "190g" }
         ],
-        "tags": ["Dessert"]
+        "tag": ["Dessert"]
     },
     {
         "userId": null,
@@ -307,7 +307,7 @@ raw_recipe_data = [
             { "item": "Worcestershire sauce", "quantity": "1 tsp" },
             { "item": "Dijon mustard", "quantity": "1 tsp" }
         ],
-        "tags": ["Lunch", "Dessert"]
+        "tag": ["Lunch", "Dessert"]
     },
     {
         "userId": null,
@@ -325,7 +325,7 @@ raw_recipe_data = [
             { "item": "Pumpkin", "quantity": "1kg" },
             { "item": "Vegetable stock", "quantity": "1 liter" }
         ],
-        "tags": ["Dinner", "Vegan"]
+        "tag": ["Dinner", "Vegan"]
     },
     {
         "userId": null,
@@ -347,7 +347,7 @@ raw_recipe_data = [
             { "item": "Vegetables", "quantity": "1 cup" },
             { "item": "Green onions", "quantity": "2" }
         ],
-        "tags": ["Lunch", "Fast Food"]
+        "tag": ["Lunch", "Fast Food"]
     },
     {
         "userId": null,
@@ -370,7 +370,7 @@ raw_recipe_data = [
             { "item": "Butter", "quantity": "50g" },
             { "item": "Parsley", "quantity": "20g" }
         ],
-        "tags": ["Dinner"]
+        "tag": ["Dinner"]
     },
     {
         "userId": null,
@@ -394,7 +394,7 @@ raw_recipe_data = [
             { "item": "Beef stock", "quantity": "500ml" },
             { "item": "Mushrooms", "quantity": "250g" }
         ],
-        "tags": ["Dinner"]
+        "tag": ["Dinner"]
     },
     {
         "userId": null,
@@ -414,7 +414,7 @@ raw_recipe_data = [
             { "item": "Salt", "quantity": "1 pinch" },
             { "item": "Cream", "quantity": "250ml" }
         ],
-        "tags": ["Dessert"]
+        "tag": ["Dessert"]
     }
 ];
 
@@ -613,6 +613,49 @@ raw_mealplan_data = [
     }
 ]
 
+raw_tag_data = [
+    {
+        "tag": "Breakfast",
+        "deleted": false
+    },
+    {
+        "tag": "Lunch",
+        "deleted": false
+    },
+    {
+        "tag": "Dinner",
+        "deleted": false
+    },
+    {
+        "tag": "Fast Food",
+        "deleted": false
+    },
+    {
+        "tag": "Vegan",
+        "deleted": false
+    },
+    {
+        "tag": "Desserts",
+        "deleted": false
+    },
+    {
+        "tag": "Salads",
+        "deleted": false
+    },
+    {
+        "tag": "Seafood",
+        "deleted": false
+    },
+    {
+        "tag": "Italian Cuisine",
+        "deleted": false
+    },
+    {
+        "tag": "Beverages",
+        "deleted": false
+    }
+];
+
 // // form 1: just a single document
 // async function form1() {
 //     website = { _id: "1", decks: raw_data }
@@ -625,78 +668,70 @@ raw_mealplan_data = [
 
 
 // form 2: cards are embedded on decks
-async function form2() {
+async function tag() {
     const client = await mongoClient.connect(mongodb_connection_string)
-    for (const deck of raw_recipe_data) {
-        await client.db("FoodieMateDB").collection("recipes").insertOne(deck)
+    for (const deck of raw_tag_data) {
+        await client.db("FoodieMateDB").collection("tags").insertOne(deck)
     }
     client.close()
-    return "done2"
+    return "done tag"
 }
-form2().then(console.log)
+tag().then(console.log)
 
-
-// form 3: cards are distinct collection, decks reference cards
-async function form3() {
-    const client = await mongoClient.connect(mongodb_connection_string)
-    for (const deck of raw_mealplan_data) {
-        const meals = {};
-        for (const meal in deck.meals) {
-
-            if (deck.meals.hasOwnProperty(meal)) {
-                // temp = deck["meals"];
-                // 获取当前餐点的第一个元素的 $id
-                const recipeId = deck.meals[meal][0]["$id"];
-                // 创建一个新的 ObjectId 并赋值给 meals 对象
-                meals[meal] = new ObjectId(recipeId);
-            }
-        }
-        //     const res = await client.db("FoodieMateDB").collection("recipes").insertOne(card)
-        //     meals.push(new ObjectId(res.insertedId))
-        // }
-        const deck2 = { ...deck }
-        deck2.meals = meals
-        await client.db("FoodieMateDB").collection("mealplans").insertOne(deck2)
-    }
-    client.close()
-    return "done3"
-}
-form3().then(console.log)
-
-// test: cards are distinct collection, decks reference cards
-async function test() {
-    const client = await mongoClient.connect(mongodb_connection_string)
-    for (const deck of raw_data) {
-        cards = []
-        for (const card of deck.cards) {
-            const res = await client.db("testDB").collection("cards").insertOne(card)
-            cards.push(new ObjectId(res.insertedId))
-        }
-        const deck2 = { ...deck }
-        deck2.cards = cards
-        await client.db("testDB").collection("decks").insertOne(deck2)
-    }
-    client.close()
-    return "done test"
-}
-test().then(console.log)
-
-
-// // form 4: cards are a distinct collection, cards reference their deck.
-// async function form4() {
+// // form 2: cards are embedded on decks
+// async function form2() {
 //     const client = await mongoClient.connect(mongodb_connection_string)
-//     for (const deck of raw_data) {
-//         const deck2 = { ...deck }
-//         delete deck2.cards
-//         const res = await client.db("form4").collection("decks").insertOne(deck2)
-
-//         for (const card of deck.cards) {
-//             const card2 = { ...card }
-//             card2.deck = new ObjectId(res.insertedId)
-//             await client.db("form4").collection("cards").insertOne(card2)
-//         }
+//     for (const deck of raw_recipe_data) {
+//         await client.db("FoodieMateDB").collection("recipes").insertOne(deck)
 //     }
 //     client.close()
-//     return "done4"
+//     return "done2"
 // }
-// form4().then(console.log)
+// form2().then(console.log)
+
+
+// // form 3: cards are distinct collection, decks reference cards
+// async function form3() {
+//     const client = await mongoClient.connect(mongodb_connection_string)
+//     for (const deck of raw_mealplan_data) {
+//         const meals = {};
+//         for (const meal in deck.meals) {
+
+//             if (deck.meals.hasOwnProperty(meal)) {
+//                 // temp = deck["meals"];
+//                 // 获取当前餐点的第一个元素的 $id
+//                 const recipeId = deck.meals[meal][0]["$id"];
+//                 // 创建一个新的 ObjectId 并赋值给 meals 对象
+//                 meals[meal] = new ObjectId(recipeId);
+//             }
+//         }
+//         //     const res = await client.db("FoodieMateDB").collection("recipes").insertOne(card)
+//         //     meals.push(new ObjectId(res.insertedId))
+//         // }
+//         const deck2 = { ...deck }
+//         deck2.meals = meals
+//         await client.db("FoodieMateDB").collection("mealplans").insertOne(deck2)
+//     }
+//     client.close()
+//     return "done3"
+// }
+// form3().then(console.log)
+
+// // test: cards are distinct collection, decks reference cards
+// async function test() {
+//     const client = await mongoClient.connect(mongodb_connection_string)
+//     for (const deck of raw_data) {
+//         cards = []
+//         for (const card of deck.cards) {
+//             const res = await client.db("testDB").collection("cards").insertOne(card)
+//             cards.push(new ObjectId(res.insertedId))
+//         }
+//         const deck2 = { ...deck }
+//         deck2.cards = cards
+//         await client.db("testDB").collection("decks").insertOne(deck2)
+//     }
+//     client.close()
+//     return "done test"
+// }
+// test().then(console.log)
+

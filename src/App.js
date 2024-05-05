@@ -38,7 +38,7 @@ function App() {
         <Routes>
           <Route path="/" element={<SplashPage />} />
           <Route path="/createrecipe" element={isAuthenticated ? <CreateRecipePage /> : <Navigate replace to="/" />} />
-          <Route path="/aboutrecipe" element={isAuthenticated ? <AboutRecipePage /> : <Navigate replace to="/" />} />
+          <Route path="/aboutrecipe/:id" element={isAuthenticated ? <AboutRecipePage /> : <Navigate replace to="/" />} />
           <Route path="/plans" element={isAuthenticated ? <PlansPage /> : <Navigate replace to="/" />} />
           <Route path="/recipehome" element={isAuthenticated ? <RecipeHomePage /> : <Navigate replace to="/" />} />
           <Route path="/userhome" element={isAuthenticated ? <UserHomePage /> : <Navigate replace to="/" />} />

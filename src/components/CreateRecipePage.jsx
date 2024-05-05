@@ -77,7 +77,7 @@
 
 
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Cloudinary } from "@cloudinary/url-gen";
 import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
@@ -92,7 +92,7 @@ const CreateRecipePage = () => {
     const [stepsCount, setStepsCount] = useState(1);
 
     const [name, setName] = useState("");
-    const [link, setLink] = useState("");
+    // const [link, setLink] = useState("");
 
     const [tags, setTags] = useState([])
 
@@ -110,6 +110,16 @@ const CreateRecipePage = () => {
 
     const recipeImage = cld.image(imgInfo.public_id);
 
+    const fetchTags = async () => {
+        const response = await fetch('/api/tags');
+        const data = await response.json();
+        setTags(data.data);
+    };
+    useEffect(() => { fetchTags(); }, []);
+
+    console.log("tags:", tags);
+
+
     const addIngredient = () => {
         setIngredients([...ingredients, { id: ingredientsCount + 1, item: '', quantity: '' }]);
         setIngredientsCount(ingredientsCount + 1)
@@ -121,7 +131,7 @@ const CreateRecipePage = () => {
 
     const updateIngredient = (id, field, value) => {
         setIngredients(
-            ingredients.map(ingredient => 
+            ingredients.map(ingredient =>
                 ingredient.id === id ? { ...ingredient, [field]: value } : ingredient
             )
         );
@@ -144,18 +154,17 @@ const CreateRecipePage = () => {
 
     const submitRecipe = async () => {
         const stepsText = steps.map(s => s.text)
-        const ingredientsData = ingredients.map( (i) => { return {item: i.item, quantity: i.quantity} })
+        const ingredientsData = ingredients.map((i) => { return { item: i.item, quantity: i.quantity } })
         const payload = {
             name: name,
-            steps: stepsText, 
+            steps: stepsText,
             pictureUrl: imgInfo.url,
             ingredients: ingredientsData,
-            tags: tags,
-            link: link
+            tag: tags
         }
         const res = await fetch('/api/createRecipe', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
         if (res.ok) {
@@ -171,14 +180,14 @@ const CreateRecipePage = () => {
                     <div className="field">
                         <label className="label">Name</label>
                         <div className="control">
-                            <input className="input" type="text" placeholder="Name" onChange={(e) => setName(e.target.value)}/>
+                            <input className="input" type="text" placeholder="Name" onChange={(e) => setName(e.target.value)} />
                         </div>
                     </div>
 
                     <div className="field">
-                        <label className="label">Link</label>
+                        <label className="label">Tags</label>
                         <div className="control">
-                            <input className="input" type="text" placeholder="Link" onChange={(e) => setLink(e.target.value)}/>
+                            {/* <input className="input" type="text" placeholder="Link" onChange={(e) => setLink(e.target.value)} /> */}
                         </div>
                     </div>
 
@@ -189,9 +198,9 @@ const CreateRecipePage = () => {
                         </p>
                         <div style={{ width: "40%" }}>
                             <AdvancedImage
-                            style={{ maxWidth: "100%" }}
-                            cldImg={recipeImage}
-                            plugins={[responsive(), placeholder()]}
+                                style={{ maxWidth: "100%" }}
+                                cldImg={recipeImage}
+                                plugins={[responsive(), placeholder()]}
                             />
                         </div>
                     </div>
@@ -204,19 +213,19 @@ const CreateRecipePage = () => {
                                     <button className="button" onClick={() => removeIngredient(ingredient.id)}>❌</button>
                                 </p>
                                 <p className="control">
-                                    <input 
-                                        className="input" 
-                                        type="text" 
-                                        placeholder="Item" 
-                                        value={ingredient.item} 
+                                    <input
+                                        className="input"
+                                        type="text"
+                                        placeholder="Item"
+                                        value={ingredient.item}
                                         onChange={(e) => updateIngredient(ingredient.id, 'item', e.target.value)}
                                     />
                                 </p>
                                 <p className="control">
-                                    <input 
-                                        className="input" 
-                                        type="text" 
-                                        placeholder="Quantity" 
+                                    <input
+                                        className="input"
+                                        type="text"
+                                        placeholder="Quantity"
                                         value={ingredient.quantity}
                                         onChange={(e) => updateIngredient(ingredient.id, 'quantity', e.target.value)}
                                     />
@@ -236,10 +245,10 @@ const CreateRecipePage = () => {
                                     <button className="button" onClick={() => removeStep(step.id)}>❌</button>
                                 </p>
                                 <p className="control is-expanded">
-                                    <input 
-                                        className="input" 
-                                        type="text" 
-                                        placeholder={`Step ${index + 1}`} 
+                                    <input
+                                        className="input"
+                                        type="text"
+                                        placeholder={`Step ${index + 1}`}
                                         value={step.text}
                                         onChange={(e) => updateStep(step.id, e.target.value)}
                                     />
@@ -250,7 +259,7 @@ const CreateRecipePage = () => {
                     </div>
                 </div>
             </div>
-            <div className  ='has-text-centered'>
+            <div className='has-text-centered'>
                 <button className='button is-success' onClick={() => submitRecipe()}>Finish</button>
             </div>
         </div>

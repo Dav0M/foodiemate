@@ -235,22 +235,7 @@ app.http('editMealPlan', {
     }
 });
 
-// // get all recipes in the "recipes" collection
-// const mongoClient = require("mongodb").MongoClient;
-// app.http('getRecipes', {
-//     methods: ['GET'],
-//     authLevel: 'anonymous',
-//     route: 'recipes',
-//     handler: async (request, context) => {
-//         const login = await mongoClient.connect(uri);
-//         const recipes = await login.db("FoodieMateDB").collection("recipes").toArray();
-//         context.log(recipes);
-//         login.close();
-//         return {
-//             jsonBody: { data: recipes }
-//         }
-//     },
-// });
+// get all recipes in the "recipes" collection
 app.http('getRecipes', {
     methods: ['GET'],
     authLevel: 'function',
@@ -263,7 +248,6 @@ app.http('getRecipes', {
         const userId = token.userId
 
         const collection = await connectRecipes();
-
         const recipes = await collection.find({ userId }).toArray();
 
         await client.close();
@@ -274,21 +258,52 @@ app.http('getRecipes', {
     }
 });
 
-// app.http('getRecipes', {
-//     methods: ['GET'],
-//     authLevel: 'function',
-//     route: 'recipes',
-//     handler: async (request, context) => {
-//         try {
-//             const recipe = await request.json();
-//             const collection = await connectDb('recipes');
+// get one single recipe from the "recipes" collection for the About Recipe Page
+app.http('getOneRecipe', {
+    methods: ['GET'],
+    authLevel: 'function',
+    route: 'recipe/{id}',
+    handler: async (request, context) => {
+        const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+        let token = null
+        token = Buffer.from(headers, "base64");
+        token = JSON.parse(token.toString());
+        const userId = token.userId;
+        const recipeId = request.params.id;
 
-//             const result = await collection.insertOne(recipe);
-//             return { status: 201, jsonBody: result };
-//         } catch (error) {
-//             return { status: 500, body: error.message };
-//         } finally {
-//             await client.close();
-//         }
-//     }
-// });
+        // const body = await request.json();
+        // const recipeId = body.recipeId ?? request.params.id;
+
+        const collection = await connectRecipes();
+        const recipe = await collection.findOne({ _id: new ObjectId(recipeId), userId: userId });
+
+        await client.close();
+        return {
+            status: 200,
+            jsonBody: recipe
+        };
+    },
+});
+
+// get all Tags of recipes
+app.http('getTags', {
+    methods: ['GET'],
+    authLevel: 'anonymous',
+    route: 'tags',
+    handler: async (request, context) => {
+        const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+        let token = null
+        token = Buffer.from(headers, "base64");
+        token = JSON.parse(token.toString());
+        const userId = token.userId
+
+        const collection = await connectDb('tags');
+        const tags = await collection.find({ deleted: false }).toArray();
+
+        await client.close();
+        return {
+            status: 200,
+            jsonBody: { data: tags }
+        };
+    }
+});
