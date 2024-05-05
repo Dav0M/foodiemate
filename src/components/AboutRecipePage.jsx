@@ -24,7 +24,7 @@ const AboutRecipePage = () => {
     const { id } = useParams();
     const [recipe, setRecipe] = useState(null);
     const [theName, setTheName] = useState('');
-    const [theCategory, setTheCategory] = useState([]);
+    const [theTag, setTheTag] = useState([]);
     const [theImage, setTheImage] = useState('');
     const [theIngredients, setTheIngredients] = useState([]);
     const [theSteps, setTheSteps] = useState([]);
@@ -47,7 +47,7 @@ const AboutRecipePage = () => {
                 // console.log("typeof data:", typeof data);
                 setLoading(false);
                 setTheName(data.name);
-                setTheCategory(data.category);
+                setTheTag(data.tag);
                 setTheImage(data.pictureUrl);
                 setTheIngredients(data.ingredients);
                 setTheSteps(data.steps);
@@ -71,7 +71,7 @@ const AboutRecipePage = () => {
 
     // console.log(recipe);
     // console.log("name: ", theName);
-    // console.log("category: ", theCategory);
+    // console.log("tag: ", theTag);
     // console.log("image: ", theImage);
     // console.log("ingredients: ", theIngredients);
     // console.log("steps:", theSteps);
@@ -106,8 +106,8 @@ const AboutRecipePage = () => {
 
                     <div className="table">
                         <table>
-                            <tr key="categories">
-                                {theCategory.map(cat => (
+                            <tr key="tags">
+                                {theTag.map(cat => (
 
                                     <th key={cat}>
                                         {cat}

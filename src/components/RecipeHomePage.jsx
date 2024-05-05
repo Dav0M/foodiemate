@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const RecipeHomePage = () => {
-    // Dummy data for categories and recipes data
+    // Dummy data for tags and recipes data
 
     const [recipes, setRecipes] = useState();
     // const [newTodo, setNewTodo] = useState('');
@@ -38,21 +38,21 @@ const RecipeHomePage = () => {
     };
     useEffect(() => { fetchRecipes(); }, []);
 
-    const categories = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Fast Food', 'Vegan', 'Desserts', 'Salads', 'Seafood', 'Italian Cuisine', 'Beverages']
+    const tags = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Fast Food', 'Vegan', 'Desserts', 'Salads', 'Seafood', 'Italian Cuisine', 'Beverages']
 
-    // const categories = ['All', 'Breakfast', 'Fast Food', 'Desserts', 'Salads', 'Seafood', 'Italian cuisine', 'Beverages'];
+    // const tags = ['All', 'Breakfast', 'Fast Food', 'Desserts', 'Salads', 'Seafood', 'Italian cuisine', 'Beverages'];
     // const recipes = [
-    //     { name: 'Chicken Salad', category: 'Salads' },
-    //     { name: 'Spaghetti', category: 'Italian cuisine' },
-    //     { name: 'Caesar Salad', category: 'Salads' },
-    //     { name: 'Tuna Casserole', category: 'Seafood' },
-    //     { name: 'Clam Chowder', category: 'Seafood' },
-    //     { name: 'Beef Stew', category: 'All' },
-    //     { name: 'Hamburger', category: 'Fast Food' },
+    //     { name: 'Chicken Salad', tag: 'Salads' },
+    //     { name: 'Spaghetti', tag: 'Italian cuisine' },
+    //     { name: 'Caesar Salad', tag: 'Salads' },
+    //     { name: 'Tuna Casserole', tag: 'Seafood' },
+    //     { name: 'Clam Chowder', tag: 'Seafood' },
+    //     { name: 'Beef Stew', tag: 'All' },
+    //     { name: 'Hamburger', tag: 'Fast Food' },
     // ];
 
-    // State for the active category
-    const [activeCategory, setActiveCategory] = useState('All');
+    // State for the active tag
+    const [activeTag, setActiveTag] = useState('All');
 
     // Use navigate function from react-router-dom to programmatically navigate
     const navigate = useNavigate();
@@ -77,13 +77,13 @@ const RecipeHomePage = () => {
         <div>
             <div className="tabs">
                 <ul>
-                    {categories.map((category) => (
+                    {tags.map((tag) => (
                         <li
-                            key={category}
-                            className={activeCategory === category ? 'is-active' : ''}
-                            onClick={() => setActiveCategory(category)}
+                            key={tag}
+                            className={activeTag === tag ? 'is-active' : ''}
+                            onClick={() => setActiveTag(tag)}
                         >
-                            <a>{category}</a>
+                            <a>{tag}</a>
                         </li>
                     ))}
                 </ul>
@@ -99,7 +99,7 @@ const RecipeHomePage = () => {
 
             <div className="columns is-multiline">
                 {recipes
-                    .filter((recipe) => activeCategory === 'All' || recipe.category.includes(activeCategory))
+                    .filter((recipe) => activeTag === 'All' || recipe.tag.includes(activeTag))
                     .map((recipe) => (
                         <div className="column is-one-fifth" key={recipe._id}>
                             <div className="card">
