@@ -130,7 +130,7 @@ const RecipeHomePage = () => {
     const handleSuggestionClick = (name) => {
         setSearchTerm(name);
         setSuggestions([]);
-        fetchRecipes(name);
+        fetchRecipes();
     };
 
     if (recipes === undefined) {
