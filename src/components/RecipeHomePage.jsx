@@ -19,6 +19,15 @@ const RecipeHomePage = () => {
         setRecipes(data.data);
     };
     useEffect(() => { fetchRecipes(); }, []);
+    // const fetchRecipes = async (searchTerm = '') => {
+    //     let endpoint = '/api/recipes';
+    //     if (searchTerm) {
+    //         endpoint += `?q=${encodeURIComponent(searchTerm)}`;
+    //     }
+    //     const response = await fetch(endpoint);
+    //     const data = await response.json();
+    //     setRecipes(data.data);
+    // };
 
     const tags = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Fast Food', 'Vegan', 'Desserts', 'Salads', 'Seafood', 'Italian Cuisine', 'Beverages']
 
@@ -37,15 +46,8 @@ const RecipeHomePage = () => {
         navigate('/createrecipe');
     };
 
-    const debounce = (func, delay) => {
-        let inDebounce;
-        return function() {
-            const context = this;
-            const args = arguments;
-            clearTimeout(inDebounce);
-            inDebounce = setTimeout(() => func.apply(context, args), delay);
-        };
-    };
+
+
     // const handleSearchChange = debounce(async (event) => {
     //     const input = event.target.value;
     //     setSearchTerm(input);
@@ -67,14 +69,40 @@ const RecipeHomePage = () => {
     //     }
     // }, 300);
 
-    const handleSearchChange = async (event) => {
-        const input = event.target.value;
-        setSearchTerm(input);
-        console.log(input);
+    // const handleSearchChange = async (event) => {
+    //     const input = event.target.value;
+    //     setSearchTerm(input);
+    //     console.log(searchTerm);
+
     
-        if (input.length > 2) {
+    //     if (input.length > 2) {
+    //         try {
+    //             const response = await fetch(`/api/searchRecipes?q=${encodeURIComponent(searchTerm)}`);
+    //             if (!response.ok) {
+    //                 throw new Error('Failed to fetch: ' + response.statusText);
+    //             }
+    //             const data = await response.json();
+    //             setSuggestions(data.data.map(recipe => recipe.name));
+    //         } catch (error) {
+    //             console.error('Failed to load data:', error);
+    //             setSuggestions([]); // Reset suggestions or handle error differently
+    //         }
+    //     } else {
+    //         setSuggestions([]);
+    //     }
+    // };
+    const debounce = (func, delay) => {
+        let inDebounce;
+        return function(...args) {
+            clearTimeout(inDebounce);
+            inDebounce = setTimeout(() => func(...args), delay);
+        };
+    };
+
+    const fetchSuggestions = async (searchValue) => {
+        if (searchValue.length > 2) {
             try {
-                const response = await fetch(`/api/searchRecipes?q=${encodeURIComponent(input)}&tag=${encodeURIComponent(activeTag)}`);
+                const response = await fetch(`/api/searchRecipes?q=${encodeURIComponent(searchValue)}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch: ' + response.statusText);
                 }
@@ -82,17 +110,25 @@ const RecipeHomePage = () => {
                 setSuggestions(data.data.map(recipe => recipe.name));
             } catch (error) {
                 console.error('Failed to load data:', error);
-                setSuggestions([]); // Reset suggestions or handle error differently
+                setSuggestions([]); // Optionally reset suggestions or handle error differently
             }
         } else {
             setSuggestions([]);
         }
     };
 
+    const debouncedFetchSuggestions = debounce(fetchSuggestions, 400);
+
+    const handleSearchChange = (event) => {
+        const { value } = event.target;
+        setSearchTerm(value);
+        debouncedFetchSuggestions(value);
+    };
+
     const handleSuggestionClick = (name) => {
         setSearchTerm(name);
         setSuggestions([]);
-        fetchRecipes();
+        fetchRecipes(name);
     };
 
     if (recipes === undefined) {
