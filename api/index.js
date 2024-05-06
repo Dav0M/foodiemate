@@ -190,6 +190,28 @@ app.http('editRecipe', {
     }
 });
 
+app.http('deleteRecipe', {
+    methods: ['DELETE'],
+    route: 'recipe/{recipeId}',
+    authLevel: 'function',
+    handler: async (request, context) => {
+        try {
+            const recipeId = request.params.recipeId;
+            const collection = await connectDb('recipes');
+            const result = await collection.deleteOne({ _id: new ObjectId(recipeId) });
+            if (!result.deletedCount) {
+                return { status: 404, body: 'No recipe found with that ID' };
+            }
+            return { status: 200, jsonBody: { message: 'Recipe deleted successfully' } };
+        } catch (error) {
+            console.error('Error deleting recipe:', error);
+            return { status: 500, body: error.message };
+        } finally {
+            await client.close();
+        }
+    }
+});
+
 
 app.http('addMealPlan', {
     methods: ['POST'],
@@ -336,6 +358,6 @@ app.http('searchRecipes', {
         return {
             status: 200,
             jsonBody: { data: recipes }
-        };  
+        };
     }
 });
