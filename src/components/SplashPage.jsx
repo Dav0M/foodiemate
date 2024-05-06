@@ -25,7 +25,7 @@ const SplashPage = () => {
                         FoodieMate
                     </h1>
                     {user ? (
-                        <div className="subtitle">👋Welcome, {user.userDetails}!🥳
+                        <div className="subtitle">👋 Welcome, Foodie! 🥳
                             <div>Create and find your recipes here!</div>
                         </div>
                     ) : (
