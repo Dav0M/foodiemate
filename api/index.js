@@ -307,3 +307,195 @@ app.http('getTags', {
         };
     }
 });
+
+
+// get mealplans of a user
+app.http('getMealplans', {
+    methods: ['GET'],
+    authLevel: 'function',
+    route: 'mealplans',
+    handler: async (request, context) => {
+
+        try {
+            const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+            let token = null
+            token = Buffer.from(headers, "base64");
+            token = JSON.parse(token.toString());
+            const userId = token.userId
+
+            const collection = await connectDb('mealplans');
+            const mealplans = await collection.find({ userId: userId }).toArray();
+
+            // await client.close();
+            return {
+                status: 200,
+                jsonBody: { data: mealplans }
+            };
+        } catch (error) {
+            console.error("Error fetching meal plans:", error);
+            return {
+                status: 500,
+                jsonBody: { error: "Failed to fetch meal plans." }
+            };
+        } finally {
+            await client.close();
+        }
+    }
+});
+
+app.http('checkDefault7Days', {
+    methods: ['GET'],
+    authLevel: 'function',
+    route: 'checkdefault7days',
+    handler: async (request, context) => {
+
+
+        // // const sevenDays = await request.json();
+        // const jason = await request.json();
+        // const sevenDays = Object.values(jason);
+        // const results = [];
+        // // const body = await request.json();
+        // // const todoid = body.todoid ?? null;
+        // // const summary = body.summary ?? "no text";
+        // // const createtime = body.createtime ?? new Date();
+        // // const isDone = body.isDone ?? false;
+        // // const category = body.category ?? "Undefined";
+        // // const userid = body.userid ?? null;
+        // // const payload = { todoid, summary, createtime, isDone, category, userid };
+
+        // const collection = await connectDb('mealplans');
+        // // const mealplans = await collection.find({ userId: userId }).toArray();
+
+        // for (let oneday of sevenDays) {
+
+        //     let record = await collection.findOne({ date: oneday, userId: userId });
+        //     // results.push({ record });
+        //     if (!record && typeof oneday === "string") {
+        //         record = await collection.insertOne({ userId: userId, date: oneday, meals: { "breakfast": null, "lunch": null, "dinner": null } });
+        //         results.push({ date: oneday, status: 'created' });
+        //     } else {
+        //         results.push({ oneday, status: 'exists' });
+        //     }
+        // }
+
+        // await client.close();
+        // return {
+        //     status: 201,
+        //     jsonBody: { results: results }
+        // };
+
+
+
+        try {
+            // const jason = await request.json();
+            // const sevenDays = Object.values(jason);
+
+            const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+            let token = null
+            token = Buffer.from(headers, "base64");
+            token = JSON.parse(token.toString());
+            const userId = token.userId;
+
+            const results = [];
+
+            const sevenDays = [];
+
+            const oneDayTime = 24 * 60 * 60 * 1000;
+            const now = new Date();
+            const nowTime = now.getTime() - 14 * oneDayTime;
+            for (let i = 0; i < 15; i++) {
+                const ShowTime = nowTime + i * oneDayTime;
+                const myDate = new Date(ShowTime);
+                // const year = myDate.getFullYear().toString();
+                // const month = (myDate.getMonth() + 1).toString();
+                // const date = myDate.getDate().toString();
+
+                // function addzero(dstr) {
+                //     if (dstr.length !== 2) {
+                //         return "0" + dstr;
+                //     }
+                //     else { return dstr; }
+                // };
+                // const save_date = year + "-" + addzero(month) + "-" + addzero(date);
+                const save_date = myDate.toISOString().split('T')[0];
+                if (!sevenDays.includes(save_date)) {
+                    sevenDays.push(save_date);
+                }
+            }
+
+
+
+            const collection = await connectDb('mealplans');
+
+            for (let oneday of sevenDays) {
+
+                let record = await collection.findOne({ date: oneday, userId: userId });
+                // results.push({ record });
+                if (!record && typeof oneday === "string") {
+                    // record = await collection.insertOne({ userId: userId, date: oneday, meals: { "breakfast": null, "lunch": null, "dinner": null } });
+                    results.push({ date: oneday });
+                }
+            }
+            return {
+                status: 201,
+                jsonBody: { results: results }
+            };
+        } catch (error) {
+            console.error("Error in checkDefault7Days:", error);
+            return {
+                status: 500,
+                jsonBody: { error: "Failed to check for default 7 days due to a server error." }
+            };
+        } finally {
+            await client.close();
+        }
+    },
+});
+
+app.http('createDefault7Days', {
+    methods: ['POST'],
+    authLevel: 'function',
+    route: 'createdefault7days',
+    handler: async (request, context) => {
+
+
+        try {
+
+            const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+            let token = null
+            token = Buffer.from(headers, "base64");
+            token = JSON.parse(token.toString());
+            const userId = token.userId;
+
+
+            const jason = await request.json();
+            const sevenDays = Object.values(jason);
+            const results = [];
+            const collection = await connectDb('mealplans');
+
+            for (let oneday of sevenDays) {
+
+                let record = await collection.findOne({ date: oneday, userId: userId });
+                // results.push({ record });
+                if (!record && typeof oneday === "string") {
+                    record = await collection.insertOne({ userId: userId, date: oneday, meals: { "breakfast": null, "lunch": null, "dinner": null } });
+                    results.push({ date: oneday, status: 'created' });
+                } else {
+                    results.push({ date: oneday, status: 'exists' });
+                }
+            }
+            return {
+                status: 201,
+                jsonBody: { results: results }
+            };
+        } catch (error) {
+            console.error("Error in createDefault7Days:", error);
+            return {
+                status: 500,
+                jsonBody: { error: "Failed to create default 7 days due to a server error." }
+            };
+        } finally {
+            await client.close();
+        }
+    },
+});
