@@ -4,7 +4,7 @@ import { Cloudinary } from "@cloudinary/url-gen";
 import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
 import CloudinaryWidget from './CloudinaryWidget';
 import backgroundImage from '../images/createRecipe.jpeg'
-import '../recipes.module.css';
+import '../recipes.css';
 
 const CreateRecipePage = () => {
     const navigate = useNavigate();
@@ -59,6 +59,11 @@ const CreateRecipePage = () => {
     useEffect(() => { fetchDbAllTags(); }, []);
 
     // console.log("db all tags:", tags);
+
+    const handleCancel = () => {
+        navigate('/recipehome');
+    };
+
 
 
     const addIngredient = () => {
@@ -126,7 +131,7 @@ const CreateRecipePage = () => {
             backgroundRepeat: 'no-repeat'
         }}>
             <div className="container">
-                <h2 className="title is-3">Create</h2>
+                <h2 className="title is-3" style={{ marginLeft: '10px' }}>Create</h2>
                 <div className="columns">
                     <div className="column">
                         <div className="field">
@@ -143,7 +148,7 @@ const CreateRecipePage = () => {
 
                                 {tags.map((tag, index) => (
 
-                                    <label key={tag.id} class="checkbox" style={{ width: '160px' }}>
+                                    <label key={tag.id} className="checkbox" style={{ width: '160px' }}>
                                         <input type="checkbox" onChange={e => handleCheckboxChange(tag.tag, e.target.checked)} />
                                         {"     " + tag.tag}
                                     </label>
@@ -224,7 +229,8 @@ const CreateRecipePage = () => {
                     </div>
                 </div>
                 <div className='has-text-centered'>
-                    <button className='button is-success' onClick={() => submitRecipe()}>Finish</button>
+                    <button className='button is-success' onClick={() => submitRecipe()} style={{ marginBottom: '10px' }}>Finish</button>
+                    <button className="button " onClick={handleCancel} style={{ marginBottom: '20px' }}>Cancel</button> 
                 </div>
             </div>
         </section>

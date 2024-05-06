@@ -4,8 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 const EditRecipeForm = ({ recipe, onSave, onCancel }) => {
     const [name, setName] = useState(recipe.name);
-    const [ingredients, setIngredients] = useState(recipe.ingredients.map((ing, index) => ({ ...ing, id: uuidv4() })));
-    const [steps, setSteps] = useState(recipe.steps.map((step, index) => ({ text: step, id: uuidv4() })));
+    const [ingredients, setIngredients] = useState(recipe.ingredients.map(ing => ({ ...ing, id: uuidv4() })));
+    const [steps, setSteps] = useState(recipe.steps.map(step => ({ text: step, id: uuidv4() })));
 
     const [tags, setTags] = useState(recipe.tag || []);
     const [allTags, setAllTags] = useState([]);
@@ -94,19 +94,23 @@ const EditRecipeForm = ({ recipe, onSave, onCancel }) => {
             </div>
             <div className="field">
                 <label className="label">Tags</label>
-                {allTags.map((tag, index) => (
-                    <label key={index} className="checkbox" style={{ marginRight: '1vw' }}>
-                        <input type="checkbox"
-                            checked={tags.includes(tag)}
-                            onChange={() => handleTagChange(tag)} />
-                        {tag}
-                    </label>
-                ))}
+                <div className="control">
+                    {allTags.map((tag, index) => (
+                        <label key={index} className="checkbox mr-2">
+                            <input type="checkbox"
+                                checked={tags.includes(tag)}
+                                onChange={() => handleTagChange(tag)} />
+                            {" " + tag}
+                        </label>
+                    ))}
+                </div>
             </div>
             <div className="field">
                 <label className="label">Recipe Picture</label>
-                <CloudinaryWidget uwConfig={uwConfig} setImgInfo={handleImageChange}></CloudinaryWidget>
-                {image && <img src={image} alt="Recipe" style={{ width: '80px', height: '60px' }} />}
+                <div className="control">
+                    <CloudinaryWidget uwConfig={uwConfig} setImgInfo={handleImageChange}></CloudinaryWidget>
+                    {image && <img src={image} alt="Recipe" className="image is-128x128" />}
+                </div>
             </div>
             <div className="field">
                 <label className="label">Ingredients</label>
