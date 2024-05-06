@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import CloudinaryWidget from './CloudinaryWidget';
+import { v4 as uuidv4 } from 'uuid';
 
 const EditRecipeForm = ({ recipe, onSave, onCancel }) => {
     const [name, setName] = useState(recipe.name);
-    const [ingredients, setIngredients] = useState(recipe.ingredients.map((ing, index) => ({ ...ing, id: index })));
-    const [steps, setSteps] = useState(recipe.steps.map((step, index) => ({ text: step, id: index })));
+    const [ingredients, setIngredients] = useState(recipe.ingredients.map((ing, index) => ({ ...ing, id: uuidv4() })));
+    const [steps, setSteps] = useState(recipe.steps.map((step, index) => ({ text: step, id: uuidv4() })));
 
     const [tags, setTags] = useState(recipe.tag || []);
     const [allTags, setAllTags] = useState([]);
@@ -42,7 +43,7 @@ const EditRecipeForm = ({ recipe, onSave, onCancel }) => {
     };
 
     const handleAddIngredient = () => {
-        setIngredients([...ingredients, { id: ingredients.length, item: '', quantity: '' }]);
+        setIngredients([...ingredients, { id: uuidv4(), item: '', quantity: '' }]);
     };
 
     const handleRemoveIngredient = (id) => {
@@ -57,7 +58,7 @@ const EditRecipeForm = ({ recipe, onSave, onCancel }) => {
     };
 
     const handleAddStep = () => {
-        setSteps([...steps, { id: steps.length, text: '' }]);
+        setSteps([...steps, { id: uuidv4(), text: '' }]);
     };
 
     const handleRemoveStep = (id) => {
