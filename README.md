@@ -26,7 +26,7 @@ CSCI 5117, Spring 2024, [assignment description](https://canvas.umn.edu/courses/
 
 Which (if any) device integration(s) does your app support?
 
-* ...
+* Our web application is compatible with any web browser. When accessed on a mobile browser, the interface automatically adjusts for optimal mobile usability.
 
 Which (if any) progressive web app feature(s) does your app support?
 
@@ -80,7 +80,7 @@ along with a very brief caption:**
 Please do not document required libraries (e.g., React, Azure serverless functions, Azure nosql).**
 
 * Library or service name: description of use
-* ...
+* Bulma CSS
 
 **If there's anything else you would like to disclose about how your project
 relied on external code, expertise, or anything else, please disclose that
