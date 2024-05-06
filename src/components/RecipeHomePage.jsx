@@ -181,7 +181,7 @@ const RecipeHomePage = () => {
                             </div>
                         </div>
                     </div>
-                    <button className="button is-primary" style={{ marginBottom: '10px', marginLeft: '10px' }} onClick={goToCreateRecipe}>
+                    <button className="button is-primary" style={{ marginBottom: '10px', marginLeft: '10px', height:'100%' }} onClick={goToCreateRecipe}>
                         + Create Recipe
                     </button>
                 </div>

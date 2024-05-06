@@ -20,6 +20,8 @@ const AboutRecipePage = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
+    const [buttonClick, setButton] = useState(false);
+
     const [recipeAnalysis, setRecipeAnalysis] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [triggerReload, setTriggerReload] = useState(false);
@@ -158,6 +160,7 @@ const AboutRecipePage = () => {
                 },
                 body: JSON.stringify(requestBody)
             });
+            setButton(true);
 
             if (response.ok) {
                 const data = await response.json();
@@ -292,14 +295,12 @@ const AboutRecipePage = () => {
                                     </table>
                                 </div>
                             </div>
-
+                            
                             <div className="column is-5">
-                                <div className="field">
-                                    <button className="button is-primary" onClick={handleFullRecipeAnalysis}>
-                                        Recipe Nutrient
-                                    </button>
-                                </div>
-                                {recipeAnalysis && (
+                                <button className="button is-primary" onClick={handleFullRecipeAnalysis}>
+                                    Recipe Nutrient
+                                </button>      
+                                {buttonClick && recipeAnalysis !== null ?(
                                     <div>
                                         <table className="table">
                                             <thead>
@@ -343,6 +344,8 @@ const AboutRecipePage = () => {
                                             </tbody>
                                         </table>
                                     </div>
+                                ) : (
+                                    buttonClick && <p>There is something wrong with your ingredients. Please check both the spelling, quantity and measure.</p>
                                 )}
                             </div>
                         </div>
