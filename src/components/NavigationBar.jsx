@@ -77,7 +77,7 @@ function NavigationBar() {
                 <div className="navbar-end">
                     {user && (
                         <>
-                            <Link className="navbar-item" to="/userhome"><strong>🍴 Home</strong></Link>
+                            <Link className="navbar-item" to="/userhome"><>🍴 Home</></Link>
                             <Link className="navbar-item" to="/recipehome">🥘 Recipes</Link>
                             <Link className="navbar-item" to="/plans">📝 Plans</Link>
                             <Link className="navbar-item" to="/nutrition">🥗 Nutritions</Link>
