@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../recipes.css';
+import backgroundImage from '../images/recipeHome.jpeg';
 
 const RecipeHomePage = () => {
     // Dummy data for tags and recipes data
@@ -102,6 +104,11 @@ const RecipeHomePage = () => {
 
 
     return (
+        <section className="hero is-fullheight-with-navbar" style={{ 
+            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5)), url(${backgroundImage})`, 
+            backgroundSize: 'cover', 
+            backgroundRepeat: 'no-repeat' 
+        }}>
         <div>
             <div className="tabs">
                 <ul>
@@ -131,7 +138,7 @@ const RecipeHomePage = () => {
                         </span>
                         <div className="list is-hoverable">
                             {suggestions.map((suggestion, index) => (
-                                <a key={index} className="list-item" class="box" onClick={() => handleSuggestionClick(suggestion)}>
+                                <a key={index} className="list-item" class="box" onClick={() => handleSuggestionClick(suggestion)} style={{ marginLeft: '10px' }}>
                                     {suggestion}
                                 </a>
                             ))}
@@ -143,7 +150,7 @@ const RecipeHomePage = () => {
                 </button>
             </div>
 
-            <div className="columns is-multiline">
+            <div className="columns is-multiline card-container">
                 {recipes
                     .filter((recipe) => activeTag === 'All' || recipe.tag.includes(activeTag))
                     .map((recipe) => (
@@ -164,6 +171,7 @@ const RecipeHomePage = () => {
                     ))}
             </div>
         </div>
+        </section>
     );
 };
 
