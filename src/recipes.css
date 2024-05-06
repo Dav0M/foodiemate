@@ -3,6 +3,7 @@
     .card{
         margin-left: 30px;
         margin-right: 20px;
+        margin-bottom: 20px;
     }
 
     .card-image img {
@@ -27,19 +28,6 @@
         object-fit: cover;
         cursor: pointer; 
     }
-    
-    .card-container {
-        display: flex;
-        flex-wrap: wrap; /* Wrap cards onto multiple rows */
-        justify-content: flex-start;
-        overflow-x: auto; 
-    }
-    
-    .card {
-        flex: 1 1 calc(50% - 10px);
-        margin: 5px;
-        box-sizing: border-box;
-    }
-    
-    
+
+  
 }
