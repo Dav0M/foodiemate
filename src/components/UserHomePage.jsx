@@ -21,7 +21,7 @@ function UserHomePage() {
 
     const oneDayTime = 24 * 60 * 60 * 1000;
     const now = new Date();
-    const nowTime = now.getTime() - 14 * oneDayTime; //+83
+    const nowTime = now.getTime() - 6 * oneDayTime; //+83
 
 
     const get7Days = () => {
@@ -194,12 +194,18 @@ function UserHomePage() {
                                         {/* <p>{recipes.find(recipe => recipe._id === plan.meals.breakfast)?.name}</p> */}
                                         {/* <div className="card"> */}
                                         {/* <div className="card-content"> */}
-                                        <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.breakfast)?.name}</p>
+                                        {plan.meals.breakfast === null
+                                            ? (<div>
+                                                <p className="has-text-centered">No plan</p></div>) :
+                                            (<div>
+
+                                                <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.breakfast)?.name}</p>
+
+                                                <figure className="image is-4by3">
+                                                    <img src={recipes.find(recipe => recipe._id === plan.meals.breakfast)?.pictureUrl} />
+                                                </figure></div>)}
                                         {/* </div> */}
                                         {/* <div className="card-image"> */}
-                                        <figure className="image is-4by3">
-                                            <img src={recipes.find(recipe => recipe._id === plan.meals.breakfast)?.pictureUrl} />
-                                        </figure>
                                         {/* </div> */}
 
                                         {/* </div> */}
@@ -208,19 +214,27 @@ function UserHomePage() {
                                     <div className="column is-one-third" key="lunch">
                                         <i><strong>Lunch:</strong></i>
                                         {/* <p>{recipes.find(recipe => recipe._id === plan.meals.lunch)?.name}</p> */}
-                                        <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.lunch)?.name}</p>
-                                        <figure className="image is-4by3">
-                                            <img src={recipes.find(recipe => recipe._id === plan.meals.lunch)?.pictureUrl} />
-                                        </figure>
+                                        {plan.meals.lunch === null
+                                            ? (<div>
+                                                <p className="has-text-centered">No plan</p></div>) :
+                                            (<div>
+                                                <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.lunch)?.name}</p>
+                                                <figure className="image is-4by3">
+                                                    <img src={recipes.find(recipe => recipe._id === plan.meals.lunch)?.pictureUrl} />
+                                                </figure></div>)}
                                     </div>
 
                                     <div className="column is-one-third" key="dinner">
                                         <i><strong>Dinner:</strong></i>
                                         {/* <p>{recipes.find(recipe => recipe._id === plan.meals.dinner)?.name}</p> */}
-                                        <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.dinner)?.name}</p>
-                                        <figure className="image is-4by3">
-                                            <img src={recipes.find(recipe => recipe._id === plan.meals.dinner)?.pictureUrl} />
-                                        </figure>
+                                        {plan.meals.dinner === null
+                                            ? (<div>
+                                                <p className="has-text-centered">No plan</p></div>) :
+                                            (<div>
+                                                <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.dinner)?.name}</p>
+                                                <figure className="image is-4by3">
+                                                    <img src={recipes.find(recipe => recipe._id === plan.meals.dinner)?.pictureUrl} />
+                                                </figure></div>)}
                                     </div>
                                 </div></div>
                         ))}

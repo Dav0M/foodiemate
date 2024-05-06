@@ -427,7 +427,7 @@ app.http('checkDefault7Days', {
 
             const oneDayTime = 24 * 60 * 60 * 1000;
             const now = new Date();
-            const nowTime = now.getTime() + 83 * oneDayTime;
+            const nowTime = now.getTime() - 6 * oneDayTime;
             for (let i = 0; i < 15; i++) {
                 const ShowTime = nowTime + i * oneDayTime;
                 const myDate = new Date(ShowTime);
