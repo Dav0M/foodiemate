@@ -130,7 +130,7 @@ const RecipeHomePage = () => {
     const handleSuggestionClick = (name) => {
         setSearchTerm(name);
         setSuggestions([]);
-        fetchRecipes(name);
+        //fetchRecipes(name);
     };
 
     if (recipes === undefined) {
@@ -174,7 +174,7 @@ const RecipeHomePage = () => {
                             </span>
                             <div className="list is-hoverable">
                                 {suggestions.map((suggestion, index) => (
-                                    <a key={index} className="list-item" class="box" onClick={() => handleSuggestionClick(suggestion)} style={{ marginLeft: '10px' }}>
+                                    <a key={index} className="list-item box" onClick={() => handleSuggestionClick(suggestion)} style={{ marginLeft: '10px' }}>
                                         {suggestion}
                                     </a>
                                 ))}
@@ -188,6 +188,7 @@ const RecipeHomePage = () => {
 
                 <div className="columns is-multiline card-container">
                     {recipes
+                        .filter((recipe) => recipe.name.toLowerCase().includes(searchTerm.toLowerCase()))
                         .filter((recipe) => activeTag === 'All' || recipe.tag.includes(activeTag))
                         .map((recipe) => (
                             <div className="column is-one-fifth" key={recipe._id}>
