@@ -21,7 +21,7 @@ const SplashPage = () => {
         <section className="hero is-fullheight-with-navbar" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
             <div className="hero-body" style={{ margin: 'auto' }}>
                 <div className="container has-text-centered" style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', borderRadius: '10px', padding: '50px' }}>
-                    <h1 className="title is-1">
+                    <h1 className="title is-1" style={{ whiteSpace: 'nowrap' }}>
                         FoodieMate
                     </h1>
                     {user ? (

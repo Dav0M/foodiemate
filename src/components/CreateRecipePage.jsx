@@ -82,6 +82,8 @@ import { useNavigate } from 'react-router-dom';
 import { Cloudinary } from "@cloudinary/url-gen";
 import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
 import CloudinaryWidget from './CloudinaryWidget';
+import backgroundImage from '../images/createRecipe.jpeg'
+import '../recipes.module.css';
 
 const CreateRecipePage = () => {
     const navigate = useNavigate();
@@ -197,6 +199,11 @@ const CreateRecipePage = () => {
     };
 
     return (
+        <section className="hero is-fullheight-with-navbar" style={{ 
+            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5)), url(${backgroundImage})`, 
+            backgroundSize: 'cover', 
+            backgroundRepeat: 'no-repeat' 
+        }}>
         <div className="container">
             <h2 className="title is-3">Create</h2>
             <div className="columns">
@@ -241,6 +248,8 @@ const CreateRecipePage = () => {
 
                     <div className="field">
                         <label className="label">Ingredients</label>
+                        <p>Please enter the correct names and quantity.</p>
+                        <p  style={{ marginBottom: '10px' }}>If any of the ingredients is spelled wrong, the Recipe Nutrient will not work!</p>
                         {ingredients.map((ingredient, index) => (
                             <div key={ingredient.id} className="field has-addons">
                                 <p className="control">
@@ -297,6 +306,7 @@ const CreateRecipePage = () => {
                 <button className='button is-success' onClick={() => submitRecipe()}>Finish</button>
             </div>
         </div>
+        </section>
     );
 };
 

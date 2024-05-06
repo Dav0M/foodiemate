@@ -77,30 +77,32 @@ const RecipeHomePage = () => {
                     ))}
                 </ul>
             </div>
-            <div className="field">
-                <p className="control has-icons-left">
-                    <input
-                        className="input"
-                        type="search"
-                        placeholder="Search"
-                        value={searchTerm}
-                        onChange={handleSearchChange}
-                    />
-                    <span className="icon is-left">
-                        <i className="fas fa-search"></i>
-                    </span>
-                    <div className="list is-hoverable">
-                        {suggestions.map((suggestion, index) => (
-                            <a key={index} className="list-item" onClick={() => handleSuggestionClick(suggestion)}>
-                                {suggestion}
-                            </a>
-                        ))}
-                    </div>
-                </p>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <div className="field" style={{ width: '70%' }}>
+                    <p className="control has-icons-left">
+                        <input
+                            className="input"
+                            type="search"
+                            placeholder="Search"
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                        />
+                        <span className="icon is-left">
+                            <i className="fas fa-search"></i>
+                        </span>
+                        <div className="list is-hoverable">
+                            {suggestions.map((suggestion, index) => (
+                                <a key={index} className="list-item" onClick={() => handleSuggestionClick(suggestion)}>
+                                    {suggestion}
+                                </a>
+                            ))}
+                        </div>
+                    </p>
+                </div>
+                <button className="button is-primary" style={{ marginBottom: '10px', marginLeft: '10px' }} onClick={goToCreateRecipe}>
+                    + Create Recipe
+                </button>
             </div>
-            <button className="button is-primary" onClick={goToCreateRecipe}>
-                + Create Recipe
-            </button>
 
             <div className="columns is-multiline">
                 {recipes
