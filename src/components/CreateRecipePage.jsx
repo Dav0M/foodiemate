@@ -163,7 +163,7 @@ const CreateRecipePage = () => {
                             <p className="control">
                                 <CloudinaryWidget uwConfig={uwConfig} setImgInfo={setImgInfo}></CloudinaryWidget>
                             </p>
-                            <div style={{ width: "40%" }}>
+                            <div style={{ width: "40%",  margin: "0 auto", marginTop:'10px'}}>
                                 <AdvancedImage
                                     style={{ maxWidth: "100%" }}
                                     cldImg={recipeImage}
@@ -229,7 +229,7 @@ const CreateRecipePage = () => {
                     </div>
                 </div>
                 <div className='has-text-centered'>
-                    <button className='button is-success' onClick={() => submitRecipe()} style={{ marginBottom: '10px' }}>Finish</button>
+                    <button className='button is-success' onClick={() => submitRecipe()} style={{ marginBottom: '10px', marginRight: '10px' }}>Finish</button>
                     <button className="button " onClick={handleCancel} style={{ marginBottom: '20px' }}>Cancel</button> 
                 </div>
             </div>
