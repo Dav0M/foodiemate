@@ -4,104 +4,39 @@ import '../recipes.css';
 import backgroundImage from '../images/recipeHome.jpeg';
 
 const RecipeHomePage = () => {
-    // Dummy data for tags and recipes data
-
-    const [recipes, setRecipes] = useState();
+    const [recipes, setRecipes] = useState([{}]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [suggestions, setSuggestions] = useState([]);
-
-  
-
-    
-
+    const [loading, setLoading] = useState(true)
 
     const fetchRecipes = async () => {
         const response = await fetch('/api/recipes');
         const data = await response.json();
         setRecipes(data.data);
+        setLoading(false)
     };
     useEffect(() => { fetchRecipes(); }, []);
 
+
     const tags = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Fast Food', 'Vegan', 'Desserts', 'Salads', 'Seafood', 'Italian Cuisine', 'Beverages']
-
-  
-
     // State for the active tag
     const [activeTag, setActiveTag] = useState('All');
 
 
     const navigate = useNavigate();
 
-
     const goToCreateRecipe = () => {
-        
-
         navigate('/createrecipe');
     };
-
-    const debounce = (func, delay) => {
-        let inDebounce;
-        return function() {
-            const context = this;
-            const args = arguments;
-            clearTimeout(inDebounce);
-            inDebounce = setTimeout(() => func.apply(context, args), delay);
-        };
-    };
-    // const handleSearchChange = debounce(async (event) => {
-    //     const input = event.target.value;
-    //     setSearchTerm(input);
-    
-    //     if (input.length > 2) {
-    //         try {
-    //             const response = await fetch(`/api/searchRecipes?q=${encodeURIComponent(input)}&tag=${encodeURIComponent(activeTag)}`);
-    //             if (!response.ok) {
-    //                 throw new Error('Failed to fetch: ' + response.statusText);
-    //             }
-    //             const data = await response.json();
-    //             setSuggestions(data.data.map(recipe => recipe.name));
-    //         } catch (error) {
-    //             console.error('Failed to load data:', error);
-    //             setSuggestions([]); // Reset suggestions or handle error differently
-    //         }
-    //     } else {
-    //         setSuggestions([]);
-    //     }
-    // }, 300);
 
     const handleSearchChange = async (event) => {
         const input = event.target.value;
         setSearchTerm(input);
-        console.log(input);
-    
-        if (input.length > 2) {
-            try {
-                const response = await fetch(`/api/searchRecipes?q=${encodeURIComponent(input)}&tag=${encodeURIComponent(activeTag)}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch: ' + response.statusText);
-                }
-                const data = await response.json();
-                setSuggestions(data.data.map(recipe => recipe.name));
-            } catch (error) {
-                console.error('Failed to load data:', error);
-                setSuggestions([]); // Reset suggestions or handle error differently
-            }
-        } else {
-            setSuggestions([]);
-        }
     };
 
-    const handleSuggestionClick = (name) => {
-        setSearchTerm(name);
-        setSuggestions([]);
-        //fetchRecipes();
-    };
 
-    if (recipes === undefined) {
+    if (loading) {
         return (<div><progress className="progress is-small is-primary" max="100">Loading</progress></div>)
     };
-
-
 
     return (
         <section className="hero is-fullheight-with-navbar" style={{ 
@@ -133,15 +68,10 @@ const RecipeHomePage = () => {
                             value={searchTerm}
                             onChange={handleSearchChange}
                         />
-                        <span className="icon is-left">
-                            <i className="fas fa-search"></i>
-                        </span>
-                        <div className="list is-hoverable">
-                            {suggestions.map((suggestion, index) => (
-                                <a key={index} className="list-item box" onClick={() => handleSuggestionClick(suggestion)} >
-                                    {suggestion}
-                                </a>
-                            ))}
+                        <div className='icon-text'>
+                            <span className="is-left">
+                                <i className="fas fa-search"></i>
+                            </span>
                         </div>
                     </p>
                 </div>
