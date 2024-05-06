@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLoaderData, Link, useParams } from 'react-router-dom';
+import { useNavigate, Link, useParams } from 'react-router-dom';
 import backgroundImage from '../images/aboutRecipe.jpeg'
 import EditRecipeForm from './EditRecipeForm'
 
@@ -86,6 +86,20 @@ const AboutRecipePage = () => {
     // console.log("ingredients: ", theIngredients);
     // console.log("steps:", theSteps);
 
+    const handleDeleteRecipe = async () => {
+        if (window.confirm('Are you sure you want to delete this recipe?')) {
+            try {
+                const response = await fetch(`/api/recipe/${id}`, {
+                    method: 'DELETE'
+                });
+                if (!response.ok) throw new Error('Failed to delete the recipe');
+                navigate('/recipehome');
+            } catch (error) {
+                console.error('Error deleting recipe:', error);
+            }
+        }
+    };
+
     const handleEdit = () => {
         setIsEditing(true);
     };
@@ -101,7 +115,7 @@ const AboutRecipePage = () => {
             // const updatedData = await response.json();
             // setRecipe(updatedData);
             setIsEditing(false);
-            setTriggerReload(!triggerReload); 
+            setTriggerReload(!triggerReload);
         } catch (error) {
             console.error('Error updating recipe:', error);
         }
@@ -179,6 +193,11 @@ const AboutRecipePage = () => {
                         onClick={() => { handleEdit() }}>
                         📝 Edit
                     </button>
+                    <button className="button is-danger is-light"
+                        style={{ marginLeft: '0.5rem', marginTop: '1vw' }}
+                        onClick={handleDeleteRecipe}>
+                        🗑 Delete
+                    </button>
                 </div>
                 {isEditing ? (
                     <EditRecipeForm recipe={recipe} onSave={handleUpdateRecipe} onCancel={handleCancelEdit} />
@@ -191,14 +210,13 @@ const AboutRecipePage = () => {
 
                             <div className="table">
                                 <table>
-                                    <tr key="tags">
-                                        {theTag.map(cat => (
-                                            <th key={cat}>
-                                                🏷️ {cat}
-                                            </th>
-
-                                        ))}
-                                    </tr>
+                                    <thead>
+                                        <tr key="tags">
+                                            {theTag.map(cat => (
+                                                <th key={cat}>🏷️ {cat}</th>
+                                            ))}
+                                        </tr>
+                                    </thead>
                                 </table>
                             </div>
 
@@ -225,19 +243,21 @@ const AboutRecipePage = () => {
                                             <th style={{ tableLayout: 'fixed', width: '140px' }}>Add ShopList</th>
                                         </tr>
                                     </thead>
-                                    {theIngredients.map(ingredient => (
-                                        <tr key={ingredient.item} className='ingredientitem' style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                            <td style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                                {ingredient.item}
-                                            </td>
-                                            <td>
-                                                {ingredient.quantity}
-                                            </td>
-                                            <td>
-                                                <button className='button is-primary is-small' onClick={() => handleAddOrUpdateItem(ingredient.item, ingredient.quantity)}>Add</button>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                    <tbody>
+                                        {theIngredients.map(ingredient => (
+                                            <tr key={ingredient.item} className='ingredientitem' style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                                <td style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                                    {ingredient.item}
+                                                </td>
+                                                <td>
+                                                    {ingredient.quantity}
+                                                </td>
+                                                <td>
+                                                    <button className='button is-primary is-small' onClick={() => handleAddOrUpdateItem(ingredient.item, ingredient.quantity)}>Add</button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -257,16 +277,18 @@ const AboutRecipePage = () => {
                                                 <th>Details</th>
                                             </tr>
                                         </thead>
-                                        {theSteps.map((step, index) => (
-                                            <tr key={index} className='step'>
-                                                <th>
-                                                    {index + 1}
-                                                </th>
-                                                <td>
-                                                    {step}
-                                                </td>
-                                            </tr>
-                                        ))}
+                                        <tbody>
+                                            {theSteps.map((step, index) => (
+                                                <tr key={index} className='step'>
+                                                    <th>
+                                                        {index + 1}
+                                                    </th>
+                                                    <td>
+                                                        {step}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>

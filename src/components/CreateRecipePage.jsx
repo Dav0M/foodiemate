@@ -148,7 +148,7 @@ const CreateRecipePage = () => {
 
                                 {tags.map((tag, index) => (
 
-                                    <label key={tag.id} class="checkbox" style={{ width: '160px' }}>
+                                    <label key={tag.id} className="checkbox" style={{ width: '160px' }}>
                                         <input type="checkbox" onChange={e => handleCheckboxChange(tag.tag, e.target.checked)} />
                                         {"     " + tag.tag}
                                     </label>
