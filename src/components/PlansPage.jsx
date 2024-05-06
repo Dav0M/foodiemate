@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../recipes.css';
 // import RecipeDisplay from './RecipeDisplay';
 
 // function RecipeDisplay({ recipes, givenId }) {
@@ -642,7 +643,7 @@ const PlansPage = () => {
                 ))}
 
             </div>
-            <div className="column">
+            <div className="column recipe-selections">
 
                 <h2 className="title is-3">Meal Plans with Recipes</h2>
 
@@ -662,19 +663,18 @@ const PlansPage = () => {
                                         {recipes.length > 0 && (
                                             <div class="columns">
                                                 <div class="column is-8">
-                                                    <div class="select is-primary is-small">
-                                                        <select id="recipe-select" onChange={e => updateBreakfastRecipe(e.target.value)}>
-
-                                                            {recipes.map((rec) => (
-                                                                <option key={rec._id} value={rec._id}>
-                                                                    {rec.name}
-                                                                </option>
-                                                            ))}
-                                                        </select>
+                                                    <div class="select-save-container">
+                                                        <div class="select is-primary is-small">
+                                                            <select id="recipe-select" onChange={e => updateBreakfastRecipe(e.target.value)}>
+                                                                {recipes.map((rec) => (
+                                                                    <option key={rec._id} value={rec._id}>
+                                                                        {rec.name}
+                                                                    </option>
+                                                                ))}
+                                                            </select>
+                                                        </div>
+                                                        <button class='button is-primary is-outlined is-small save' onClick={handleChangeBreakfast}>Save</button>
                                                     </div>
-                                                </div>
-                                                <div class="column is-3">
-                                                    <button class='button is-primary is-outlined is-small' onClick={handleChangeBreakfast}>Save</button>
                                                 </div>
                                             </div>
                                         )}
@@ -744,12 +744,12 @@ const PlansPage = () => {
                                     </div>
 
                                     <div>
-                                        {recipes.length > 0 && (
-                                            <div class="columns">
-                                                <div class="column is-8">
+                                    {recipes.length > 0 && (
+                                        <div class="columns">
+                                            <div class="column is-8">
+                                                <div class="select-save-container">
                                                     <div class="select is-primary is-small">
                                                         <select id="recipe-select" onChange={e => updateLunchRecipe(e.target.value)}>
-
                                                             {recipes.map((rec) => (
                                                                 <option key={rec._id} value={rec._id}>
                                                                     {rec.name}
@@ -757,12 +757,11 @@ const PlansPage = () => {
                                                             ))}
                                                         </select>
                                                     </div>
-                                                </div>
-                                                <div class="column is-3">
-                                                    <button class='button is-primary is-outlined is-small' onClick={handleChangeLunch}>Save</button>
+                                                    <button class='button is-primary is-outlined is-small save' onClick={handleChangeLunch}>Save</button>
                                                 </div>
                                             </div>
-                                        )}
+                                        </div>
+                                    )}
                                     </div>
                                 </div>
                                 ) :
@@ -808,12 +807,12 @@ const PlansPage = () => {
                                     </div>
 
                                     <div>
-                                        {recipes.length > 0 && (
-                                            <div class="columns">
-                                                <div class="column is-8">
+                                    {recipes.length > 0 && (
+                                        <div class="columns">
+                                            <div class="column is-8">
+                                                <div class="select-save-container">
                                                     <div class="select is-primary is-small">
                                                         <select id="recipe-select" onChange={e => updateDinnerRecipe(e.target.value)}>
-
                                                             {recipes.map((rec) => (
                                                                 <option key={rec._id} value={rec._id}>
                                                                     {rec.name}
@@ -821,12 +820,11 @@ const PlansPage = () => {
                                                             ))}
                                                         </select>
                                                     </div>
-                                                </div>
-                                                <div class="column is-3">
-                                                    <button class='button is-primary is-outlined is-small' onClick={handleChangeDinner}>Save</button>
+                                                    <button class='button is-primary is-outlined is-small save' onClick={handleChangeDinner}>Save</button>
                                                 </div>
                                             </div>
-                                        )}
+                                        </div>
+                                    )}
                                     </div></div>) :
                                 (recipes
                                     .filter((recipe) => selectedDinner.includes(recipe._id))

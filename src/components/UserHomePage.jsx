@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import backgroundImage from '../images/shoppinglist_background.jpeg';
+import '../recipes.css';
 
 function UserHomePage() {
     // const [plans, setPlans] = useState([
@@ -172,7 +173,7 @@ function UserHomePage() {
             <div className="container">
                 <div className="columns">
                     <div className="column" style={{ overflowY: 'auto', height: '788px' }}>
-                        <h2 className="title is-3 has-text-centered-touch" style={{ marginTop: '1vw', marginLeft: '0.5rem' }}>Meal Plans</h2>
+                        <h2 className="title is-3 has-text-centered-touch meal-plans">Meal Plans</h2>
                         {/* {plans.map((plan, index) => (
                             <div key={index} className="box" style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>
                                 <h3 className="has-text-centered-touch">{plan.day}</h3>
@@ -184,7 +185,7 @@ function UserHomePage() {
 
                         {validPlans.map((plan, index) => (
                             // <div key={date} className={`box ${selectedDate === date ? 'is-selected' : ''}`} onClick={() => handleSelectDate(date)}>
-                            <div key={plan.id} className="box" style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>
+                            <div key={plan.id} className="box box-home" style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>
                                 <h3 className="has-text-centered-touch"><strong>{plan.date}</strong></h3>
                                 <div className="columns is-multiline">
                                     <div className="column is-one-third" key="breakfast">

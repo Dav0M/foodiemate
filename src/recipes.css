@@ -13,6 +13,15 @@
         object-fit: cover;
         cursor: pointer; 
     }
+    .save {
+        margin-left: 10px; 
+    }
+
+    .meal-plans{
+        margin-top: 1vw;
+        margin-left: 0.5rem;
+    }
+
 }
 
 @media screen and (max-width: 767px) {
@@ -28,6 +37,57 @@
         object-fit: cover;
         cursor: pointer; 
     }
+
+    .box {
+        width: 30%;
+        margin-bottom: 10px;
+    }
+
+    .box-home {
+        width: 100%;
+        margin-bottom: 30px;
+        justify-content: center;
+    }
+
+    .recipe-selections {
+        width: 70%;
+        position: fixed; 
+        margin-top: 50px; 
+        margin-bottom: 20px;
+        top: 0;
+        right: 0; 
+        bottom: 0;
+        height: 100%; 
+        overflow-y: auto; 
+    }
+
+    .recipe-selections {
+        width: 70%;
+        position: fixed; 
+        margin-top: 50px; 
+        margin-bottom: 20px;
+        top: 0;
+        right: 0; 
+        bottom: 0;
+        height: 100%; 
+        overflow-y: auto; 
+    }
+
+    .select-save-container {
+        display: flex;
+        align-items: center;
+    }
+    
+    .save {
+        margin-left: 10px; 
+    }
+
+    .meal-plans {
+        text-align: left;
+        margin-left: 10px;
+        left: 400px;
+    }
+    
 
   
 }
