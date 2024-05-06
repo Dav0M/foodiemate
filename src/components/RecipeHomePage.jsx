@@ -94,7 +94,7 @@ const RecipeHomePage = () => {
     const handleSuggestionClick = (name) => {
         setSearchTerm(name);
         setSuggestions([]);
-        fetchRecipes();
+        //fetchRecipes();
     };
 
     if (recipes === undefined) {
@@ -138,20 +138,21 @@ const RecipeHomePage = () => {
                         </span>
                         <div className="list is-hoverable">
                             {suggestions.map((suggestion, index) => (
-                                <a key={index} className="list-item" class="box" onClick={() => handleSuggestionClick(suggestion)} >
+                                <a key={index} className="list-item box" onClick={() => handleSuggestionClick(suggestion)} >
                                     {suggestion}
                                 </a>
                             ))}
                         </div>
                     </p>
                 </div>
-                <button className="button is-primary" style={{ marginBottom: '10px', marginLeft: '10px' }} onClick={goToCreateRecipe}>
+                <button className="button is-primary" style={{ marginBottom: '10px', marginLeft: '10px', height:'100%' }} onClick={goToCreateRecipe}>
                     + Create Recipe
                 </button>
             </div>
 
             <div className="columns is-multiline card-container">
                 {recipes
+                    .filter((recipe) => recipe.name.toLowerCase().includes(searchTerm.toLowerCase()))
                     .filter((recipe) => activeTag === 'All' || recipe.tag.includes(activeTag))
                     .map((recipe) => (
                         <div className="column is-one-fifth" key={recipe._id}>
