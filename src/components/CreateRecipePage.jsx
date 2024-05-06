@@ -1,82 +1,3 @@
-// import React from 'react';
-
-// const CreateRecipePage = () => {
-//     return (
-//         <div className="container">
-//             <h2 className="title is-3">Create</h2>
-//             <div className="columns">
-//                 <div className="column">
-//                     <div className="field">
-//                         <label className="label">Name</label>
-//                         <div className="control">
-//                             <input className="input" type="text" placeholder="Name" />
-//                         </div>
-//                     </div>
-
-//                     <div className="field">
-//                         <label className="label">Link</label>
-//                         <div className="control">
-//                             <input className="input" type="text" placeholder="Link" />
-//                         </div>
-//                     </div>
-
-//                     <div className="field">
-//                         <label className="label">Tag</label>
-//                         <p className="control">
-//                             <button className="button">+ Add Tag</button>
-//                         </p>
-//                     </div>
-
-//                     <div className="field">
-//                         <label className="label">Recipe Picture</label>
-//                         <p className="control">
-//                             <button className="button">+ Add Photo</button>
-//                         </p>
-//                     </div>
-
-//                     <div className="field">
-//                         <label className="label">Ingredients</label>
-//                             <div className="field has-addons">
-//                                 <p className="control">
-//                                     <button className="button" >❌</button>
-//                                 </p>
-//                                 <p className="control">
-//                                     <input className="input" type="text" placeholder="Item" />
-//                                 </p>
-//                                 <p className="control">
-//                                     <input className="input" type="text" placeholder="Quantity" />
-//                                 </p>
-//                             </div>
-
-//                         <button className="button" >+ Add ingredient</button>
-//                     </div>
-//                 </div>
-
-//                 <div className="column">
-//                     <div className="field">
-//                         <label className="label">Steps</label>
-//                         <div className="field">
-//                             <p className="control">
-//                                 <input className="input" type="text" placeholder="Step 1" />
-//                             </p>
-//                         </div>
-//                         <div className="field">
-//                             <p className="control">
-//                                 <input className="input" type="text" placeholder="Step 1" />
-//                             </p>
-//                         </div>
-//                         <button className="button" >+ Add Steps</button>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default CreateRecipePage;
-
-
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Cloudinary } from "@cloudinary/url-gen";
@@ -199,113 +120,113 @@ const CreateRecipePage = () => {
     };
 
     return (
-        <section className="hero is-fullheight-with-navbar" style={{ 
-            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5)), url(${backgroundImage})`, 
-            backgroundSize: 'cover', 
-            backgroundRepeat: 'no-repeat' 
+        <section className="hero is-fullheight-with-navbar" style={{
+            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5)), url(${backgroundImage})`,
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat'
         }}>
-        <div className="container">
-            <h2 className="title is-3">Create</h2>
-            <div className="columns">
-                <div className="column">
-                    <div className="field">
-                        <label className="label">Name</label>
-                        <div className="control">
-                            <input className="input" type="text" placeholder="Name" onChange={(e) => setName(e.target.value)} />
+            <div className="container">
+                <h2 className="title is-3">Create</h2>
+                <div className="columns">
+                    <div className="column">
+                        <div className="field">
+                            <label className="label">Name</label>
+                            <div className="control">
+                                <input className="input" type="text" placeholder="Name" onChange={(e) => setName(e.target.value)} />
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="field">
-                        <label className="label">Tags</label>
+                        <div className="field">
+                            <label className="label">Tags</label>
 
-                        <div className="control">
+                            <div className="control">
 
-                            {tags.map((tag, index) => (
+                                {tags.map((tag, index) => (
 
-                                <label key={tag.id} class="checkbox" style={{ width: '160px' }}>
-                                    <input type="checkbox" onChange={e => handleCheckboxChange(tag.tag, e.target.checked)} />
-                                    {"     " + tag.tag}
-                                </label>
+                                    <label key={tag.id} class="checkbox" style={{ width: '160px' }}>
+                                        <input type="checkbox" onChange={e => handleCheckboxChange(tag.tag, e.target.checked)} />
+                                        {"     " + tag.tag}
+                                    </label>
+                                ))}
+
+                                {/* <input className="input" type="text" placeholder="Link" onChange={(e) => setLink(e.target.value)} /> */}
+                            </div>
+                        </div>
+
+                        <div className="field">
+                            <label className="label">Recipe Picture</label>
+                            <p className="control">
+                                <CloudinaryWidget uwConfig={uwConfig} setImgInfo={setImgInfo}></CloudinaryWidget>
+                            </p>
+                            <div style={{ width: "40%" }}>
+                                <AdvancedImage
+                                    style={{ maxWidth: "100%" }}
+                                    cldImg={recipeImage}
+                                    plugins={[responsive(), placeholder()]}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="field">
+                            <label className="label">Ingredients</label>
+                            <p>Please enter the correct names and quantity.</p>
+                            <p style={{ marginBottom: '10px' }}>If any of the ingredients is spelled wrong, the Recipe Nutrient will not work!</p>
+                            {ingredients.map((ingredient, index) => (
+                                <div key={ingredient.id} className="field has-addons">
+                                    <p className="control">
+                                        <button className="button" onClick={() => removeIngredient(ingredient.id)}>❌</button>
+                                    </p>
+                                    <p className="control">
+                                        <input
+                                            className="input"
+                                            type="text"
+                                            placeholder="Item"
+                                            value={ingredient.item}
+                                            onChange={(e) => updateIngredient(ingredient.id, 'item', e.target.value)}
+                                        />
+                                    </p>
+                                    <p className="control">
+                                        <input
+                                            className="input"
+                                            type="text"
+                                            placeholder="Quantity"
+                                            value={ingredient.quantity}
+                                            onChange={(e) => updateIngredient(ingredient.id, 'quantity', e.target.value)}
+                                        />
+                                    </p>
+                                </div>
                             ))}
-
-                            {/* <input className="input" type="text" placeholder="Link" onChange={(e) => setLink(e.target.value)} /> */}
+                            <button className="button" onClick={addIngredient}>+ Add ingredient</button>
                         </div>
                     </div>
 
-                    <div className="field">
-                        <label className="label">Recipe Picture</label>
-                        <p className="control">
-                            <CloudinaryWidget uwConfig={uwConfig} setImgInfo={setImgInfo}></CloudinaryWidget>
-                        </p>
-                        <div style={{ width: "40%" }}>
-                            <AdvancedImage
-                                style={{ maxWidth: "100%" }}
-                                cldImg={recipeImage}
-                                plugins={[responsive(), placeholder()]}
-                            />
+                    <div className="column">
+                        <div className="field">
+                            <label className="label">Steps</label>
+                            {steps.map((step, index) => (
+                                <div key={step.id} className="field has-addons">
+                                    <p className="control">
+                                        <button className="button" onClick={() => removeStep(step.id)}>❌</button>
+                                    </p>
+                                    <p className="control is-expanded">
+                                        <input
+                                            className="input"
+                                            type="text"
+                                            placeholder={`Step ${index + 1}`}
+                                            value={step.text}
+                                            onChange={(e) => updateStep(step.id, e.target.value)}
+                                        />
+                                    </p>
+                                </div>
+                            ))}
+                            <button className="button" onClick={addStep}>+ Add Steps</button>
                         </div>
                     </div>
-
-                    <div className="field">
-                        <label className="label">Ingredients</label>
-                        <p>Please enter the correct names and quantity.</p>
-                        <p  style={{ marginBottom: '10px' }}>If any of the ingredients is spelled wrong, the Recipe Nutrient will not work!</p>
-                        {ingredients.map((ingredient, index) => (
-                            <div key={ingredient.id} className="field has-addons">
-                                <p className="control">
-                                    <button className="button" onClick={() => removeIngredient(ingredient.id)}>❌</button>
-                                </p>
-                                <p className="control">
-                                    <input
-                                        className="input"
-                                        type="text"
-                                        placeholder="Item"
-                                        value={ingredient.item}
-                                        onChange={(e) => updateIngredient(ingredient.id, 'item', e.target.value)}
-                                    />
-                                </p>
-                                <p className="control">
-                                    <input
-                                        className="input"
-                                        type="text"
-                                        placeholder="Quantity"
-                                        value={ingredient.quantity}
-                                        onChange={(e) => updateIngredient(ingredient.id, 'quantity', e.target.value)}
-                                    />
-                                </p>
-                            </div>
-                        ))}
-                        <button className="button" onClick={addIngredient}>+ Add ingredient</button>
-                    </div>
                 </div>
-
-                <div className="column">
-                    <div className="field">
-                        <label className="label">Steps</label>
-                        {steps.map((step, index) => (
-                            <div key={step.id} className="field has-addons">
-                                <p className="control">
-                                    <button className="button" onClick={() => removeStep(step.id)}>❌</button>
-                                </p>
-                                <p className="control is-expanded">
-                                    <input
-                                        className="input"
-                                        type="text"
-                                        placeholder={`Step ${index + 1}`}
-                                        value={step.text}
-                                        onChange={(e) => updateStep(step.id, e.target.value)}
-                                    />
-                                </p>
-                            </div>
-                        ))}
-                        <button className="button" onClick={addStep}>+ Add Steps</button>
-                    </div>
+                <div className='has-text-centered'>
+                    <button className='button is-success' onClick={() => submitRecipe()}>Finish</button>
                 </div>
             </div>
-            <div className='has-text-centered'>
-                <button className='button is-success' onClick={() => submitRecipe()}>Finish</button>
-            </div>
-        </div>
         </section>
     );
 };
