@@ -343,9 +343,11 @@ app.http('searchRecipes', {
         token = Buffer.from(headers, "base64");
         token = JSON.parse(token.toString());
         const userId = token.userId;
+
+        const queryParams = new URLSearchParams(request.query);
         console.log("request.query", request.query);
 
-        const query = request.query.q || '';
+        const query = queryParams.get('q') || '';
         console.log("Search Query:", query);
         const collection = await connectRecipes();
         const filter = { userId: userId };
