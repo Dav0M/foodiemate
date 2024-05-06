@@ -26,9 +26,9 @@ CSCI 5117, Spring 2024, [assignment description](https://canvas.umn.edu/courses/
 
 * Nutrition calculator and integration with recipes. 
 
-* Searchbar with an autofill dropdown
+* Searchbar with an autofill dropdown.
 
-*
+* Cloudinary image storing and upload for recipes. 
 
 Which (if any) device integration(s) does your app support?
 
