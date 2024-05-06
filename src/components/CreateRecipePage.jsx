@@ -105,7 +105,7 @@ const CreateRecipePage = () => {
         const payload = {
             name: name,
             steps: stepsText,
-            pictureUrl: imgInfo.url,
+            pictureUrl: imgInfo.url ? imgInfo.url : 'https://upload.wikimedia.org/wikipedia/commons/2/2e/Fluent_Emoji_flat_1f37d-fe0f.svg',
             ingredients: ingredientsData,
             tag: checkedTags
         }
