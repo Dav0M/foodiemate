@@ -119,7 +119,7 @@ app.http('signupUser', {
     authLevel: 'function',
     handler: async (request, context) => {
         try {
-            const user = await request.json();
+            const user = await request.headers['x-ms-client-principal-id'];
             const collection = await connectDb('Users');
 
             const result = await collection.insertOne(user);
@@ -161,10 +161,13 @@ app.http('createRecipe', {
 app.http('editRecipe', {
     methods: ['PUT'],
     authLevel: 'function',
+    route: 'recipe/{recipeId}',
     handler: async (request, context) => {
         try {
             const recipeId = request.params.recipeId;
             const updates = await request.json();
+
+            delete updates._id;
 
             // Filter out empty fields
             const filteredUpdates = Object.fromEntries(
@@ -179,6 +182,7 @@ app.http('editRecipe', {
 
             return { status: 200, jsonBody: result };
         } catch (error) {
+            console.error('Error updating recipe:', error);
             return { status: 500, body: error.message };
         } finally {
             await client.close();
@@ -186,6 +190,27 @@ app.http('editRecipe', {
     }
 });
 
+app.http('deleteRecipe', {
+    methods: ['DELETE'],
+    route: 'recipe/{recipeId}',
+    authLevel: 'function',
+    handler: async (request, context) => {
+        try {
+            const recipeId = request.params.recipeId;
+            const collection = await connectDb('recipes');
+            const result = await collection.deleteOne({ _id: new ObjectId(recipeId) });
+            if (!result.deletedCount) {
+                return { status: 404, body: 'No recipe found with that ID' };
+            }
+            return { status: 200, jsonBody: { message: 'Recipe deleted successfully' } };
+        } catch (error) {
+            console.error('Error deleting recipe:', error);
+            return { status: 500, body: error.message };
+        } finally {
+            await client.close();
+        }
+    }
+});
 
 
 app.http('addMealPlan', {
@@ -497,5 +522,35 @@ app.http('createDefault7Days', {
         } finally {
             await client.close();
         }
-    },
+    }
+});
+
+app.http('searchRecipes', {
+    methods: ['GET'],
+    authLevel: 'function',
+    handler: async (request, context) => {
+        const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+        let token = null
+        token = Buffer.from(headers, "base64");
+        token = JSON.parse(token.toString());
+        const userId = token.userId;
+
+        const queryParams = new URLSearchParams(request.query);
+        console.log("request.query", request.query);
+
+        const query = queryParams.get('q') || '';
+        console.log("Search Query:", query);
+        const collection = await connectRecipes();
+        const filter = { userId: userId };
+        if (query) {
+            filter.name = { $regex: query, $options: 'i' }; // Use regex for case-insensitive partial matching
+        }
+        const recipes = await collection.find(filter).toArray();
+
+        await client.close(); // Make sure the connection is managed correctly
+        return {
+            status: 200,
+            jsonBody: { data: recipes }
+        };
+    }
 });
