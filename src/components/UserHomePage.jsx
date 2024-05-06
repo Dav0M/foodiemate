@@ -21,7 +21,7 @@ function UserHomePage() {
 
     const oneDayTime = 24 * 60 * 60 * 1000;
     const now = new Date();
-    const nowTime = now.getTime() - 6 * oneDayTime; //+83
+    const nowTime = now.getTime(); //+83
 
 
     const get7Days = () => {
