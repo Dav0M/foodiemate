@@ -2,20 +2,107 @@ import React, { useState, useEffect } from 'react';
 import backgroundImage from '../images/shoppinglist_background.jpeg';
 
 function UserHomePage() {
-    const [plans, setPlans] = useState([
-        { day: 'Today - Wed', meals: { breakfast: 'Waffles', lunch: 'Chicken Salad', dinner: '...' } },
-        { day: 'Tomorrow - Thu', meals: { breakfast: '...', lunch: '...', dinner: '...' } },
-        { day: 'Apr 29 - Mon', meals: { breakfast: '...', lunch: '...', dinner: '...' } },
-    ]);
+    // const [plans, setPlans] = useState([
+    //     { day: 'Today - Wed', meals: { breakfast: 'Waffles', lunch: 'Chicken Salad', dinner: '...' } },
+    //     { day: 'Tomorrow - Thu', meals: { breakfast: '...', lunch: '...', dinner: '...' } },
+    //     { day: 'Apr 29 - Mon', meals: { breakfast: '...', lunch: '...', dinner: '...' } },
+    // ]);
     const [shoppingList, setShoppingList] = useState();
     const [showAddItemForm, setShowAddItemForm] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [editItem, setEditItem] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    const [validPlans, setValidPlans] = useState([]);
+    const [recipes, setRecipes] = useState();
+    const [loading2, setLoading2] = useState(true);
+    const [error, setError] = useState(null);
+    const [sevenDays, setSevenDays] = useState([]);
+
+    const oneDayTime = 24 * 60 * 60 * 1000;
+    const now = new Date();
+    const nowTime = now.getTime() - 14 * oneDayTime; //+83
+
+
+    const get7Days = () => {
+
+        for (let i = 0; i < 15; i++) {
+            const ShowTime = nowTime + i * oneDayTime;
+            const myDate = new Date(ShowTime);
+            const save_date = myDate.toISOString().split('T')[0];
+
+            if (!sevenDays.includes(save_date)) {
+                sevenDays.push(save_date);
+            }
+        }
+        // console.log(sevenDays);
+    };
+
     useEffect(() => {
-        fetchShoppingList();
+        // const fetchShoppingList = async () => {
+        //     setLoading(true);
+        //     const response = await fetch('/api/shopping-list');
+        //     const data = await response.json();
+        //     setShoppingList(data);
+        //     setLoading(false);
+        // };
+
+        const fetchData = async () => {
+
+            get7Days();
+
+            try {
+
+                // Fetch from the first database
+                const db4Data = await fetch('/api/recipes').then(res => {
+                    if (!res.ok) throw new Error('Failed to fetch from database 4');
+                    return res.json();
+                })
+                    .then(data => {
+                        setRecipes(data.data);
+
+                    });
+
+
+                // Fetch from the third database, might depend on second fetch
+                const db3Data = await fetch('/api/mealplans').then(res => {
+                    if (!res.ok) throw new Error('Failed to fetch from database 3');
+                    return res.json();
+                }).then(data => {
+                    const valid_data = data.data.filter(mealplan => sevenDays.includes(mealplan.date));
+                    setValidPlans(valid_data);
+                    return valid_data;
+                });
+
+                setLoading(true);
+                const response = await fetch('/api/shopping-list');
+                const data = await response.json();
+                setShoppingList(data);
+                setLoading(false);
+
+            }
+            catch (error) {
+                if (error.message.includes("1 Network response was not ok")) {
+                    // Log and ignore
+                    console.log("Ignoring specific error:", error);
+                } else {
+                    setError(error); // Re-throw errors that are not to be ignored
+                }
+
+            } finally {
+                setLoading2(false);
+                // setShouldFetch(false);
+            }
+
+        };
+        fetchData();
+        // fetchShoppingList();
+
     }, []);
+
+    // useEffect(() => {
+    //     fetchShoppingList();
+    // }, []);
 
     const fetchShoppingList = async () => {
         setLoading(true);
@@ -84,17 +171,61 @@ function UserHomePage() {
         }}>
             <div className="container">
                 <div className="columns">
-                    <div className="column">
-                        <h2 className="title is-3 has-text-centered-touch" style={{ marginTop: '1vw', marginLeft: '0.5rem' }}>Plans</h2>
-                        {plans.map((plan, index) => (
+                    <div className="column" style={{ overflowY: 'auto', height: '788px' }}>
+                        <h2 className="title is-3 has-text-centered-touch" style={{ marginTop: '1vw', marginLeft: '0.5rem' }}>Meal Plans</h2>
+                        {/* {plans.map((plan, index) => (
                             <div key={index} className="box" style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>
                                 <h3 className="has-text-centered-touch">{plan.day}</h3>
                                 <p>Breakfast: {plan.meals.breakfast}</p>
                                 <p>Lunch: {plan.meals.lunch}</p>
                                 <p>Dinner: {plan.meals.dinner}</p>
                             </div>
+                        ))} */}
+
+                        {validPlans.map((plan, index) => (
+                            // <div key={date} className={`box ${selectedDate === date ? 'is-selected' : ''}`} onClick={() => handleSelectDate(date)}>
+                            <div key={plan.id} className="box" style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>
+                                <h3 className="has-text-centered-touch"><strong>{plan.date}</strong></h3>
+                                <div className="columns is-multiline">
+                                    <div className="column is-one-third" key="breakfast">
+                                        <i><strong>Breakfast:</strong></i>
+                                        {/* <RecipeDisplay recipes={recipes} givenId={plan.meals.breakfast} /> */}
+                                        {/* {plan.meals.breakfast} */}
+                                        {/* <p>{recipes.find(recipe => recipe._id === plan.meals.breakfast)?.name}</p> */}
+                                        {/* <div className="card"> */}
+                                        {/* <div className="card-content"> */}
+                                        <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.breakfast)?.name}</p>
+                                        {/* </div> */}
+                                        {/* <div className="card-image"> */}
+                                        <figure className="image is-4by3">
+                                            <img src={recipes.find(recipe => recipe._id === plan.meals.breakfast)?.pictureUrl} />
+                                        </figure>
+                                        {/* </div> */}
+
+                                        {/* </div> */}
+                                    </div>
+
+                                    <div className="column is-one-third" key="lunch">
+                                        <i><strong>Lunch:</strong></i>
+                                        {/* <p>{recipes.find(recipe => recipe._id === plan.meals.lunch)?.name}</p> */}
+                                        <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.lunch)?.name}</p>
+                                        <figure className="image is-4by3">
+                                            <img src={recipes.find(recipe => recipe._id === plan.meals.lunch)?.pictureUrl} />
+                                        </figure>
+                                    </div>
+
+                                    <div className="column is-one-third" key="dinner">
+                                        <i><strong>Dinner:</strong></i>
+                                        {/* <p>{recipes.find(recipe => recipe._id === plan.meals.dinner)?.name}</p> */}
+                                        <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.dinner)?.name}</p>
+                                        <figure className="image is-4by3">
+                                            <img src={recipes.find(recipe => recipe._id === plan.meals.dinner)?.pictureUrl} />
+                                        </figure>
+                                    </div>
+                                </div></div>
                         ))}
                     </div>
+
                     <div className="column">
                         <div className="is-flex is-justify-content-space-between">
                             <h2 className="title is-3 has-text-centered-touch" style={{ marginTop: '1vw', marginLeft: '0.5rem' }}>Shopping list</h2>
@@ -170,7 +301,7 @@ function UserHomePage() {
                     </div>
                 </div>
             </div>
-        </section>
+        </section >
     );
 }
 
