@@ -605,9 +605,13 @@ const PlansPage = () => {
                                 <div className="column is-one-third" key="breakfast"><i><strong>Breakfast:</strong></i></div>
                                 {/* <RecipeDisplay recipes={recipes} givenId={plan.meals.breakfast} /> */}
                                 {/* {plan.meals.breakfast} */}
-                                <div className="column is-two-thrids" key="breakfastplan">
+                                <div className="column is-two-thirds" key="breakfastplan">
                                     {plan.meals.breakfast === null ? <p>No plan</p> :
-                                        <p>{recipes.find(recipe => recipe._id === plan.meals.breakfast)?.name}</p>}
+                                        (recipes.find(recipe => recipe._id === plan.meals.breakfast) ?
+                                            <p>{recipes.find(recipe => recipe._id === plan.meals.breakfast)?.name}</p> :
+                                            (() => { plan.meals.breakfast = null; return <p>No plan</p>; })()
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -615,9 +619,13 @@ const PlansPage = () => {
                         <div key="lunch">
                             <div className="columns is-multiline">
                                 <div className="column is-one-third" key="lunch"><i><strong>Lunch:</strong></i></div>
-                                <div className="column is-two-thrids" key="lunchplan">
+                                <div className="column is-two-thirds" key="lunchplan">
                                     {plan.meals.lunch === null ? <p>No plan</p> :
-                                        <p>{recipes.find(recipe => recipe._id === plan.meals.lunch)?.name}</p>}
+                                        (recipes.find(recipe => recipe._id === plan.meals.lunch) ?
+                                            <p>{recipes.find(recipe => recipe._id === plan.meals.lunch)?.name}</p> :
+                                            (() => { plan.meals.lunch = null; return <p>No plan</p>; })()
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -625,9 +633,13 @@ const PlansPage = () => {
                         <div key="dinner">
                             <div className="columns is-multiline">
                                 <div className="column is-one-third" key="dinner"><i><strong>Dinner:</strong></i></div>
-                                <div className="column is-two-thrids" key="dinnerplan">
-                                    {plan.meals.dinner === null ? <p>No plan</p> :
-                                        <p>{recipes.find(recipe => recipe._id === plan.meals.dinner)?.name}</p>}
+                                <div className="column is-two-thirds" key="dinnerplan">
+                                    {plan.meals.dubber === null ? <p>No plan</p> :
+                                        (recipes.find(recipe => recipe._id === plan.meals.dinner) ?
+                                            <p>{recipes.find(recipe => recipe._id === plan.meals.dinner)?.name}</p> :
+                                            (() => { plan.meals.dinner = null; return <p>No plan</p>; })()
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -649,7 +661,7 @@ const PlansPage = () => {
 
                 {selectedDate ? (
                     <div>
-                        <h2>Selected Date: {selectedDate}</h2>
+                        <h2>Selected Date: <strong>{selectedDate}</strong></h2>
                         <div className="columns is-multiline">
                             {selectedBreakfast[0] === null ?
                                 (<div className="column is-one-third" key="recipeBreakfast">
