@@ -3,22 +3,19 @@ import backgroundImage from '../images/shoppinglist_background.jpeg';
 import '../recipes.css';
 
 function UserHomePage() {
-    // const [plans, setPlans] = useState([
-    //     { day: 'Today - Wed', meals: { breakfast: 'Waffles', lunch: 'Chicken Salad', dinner: '...' } },
-    //     { day: 'Tomorrow - Thu', meals: { breakfast: '...', lunch: '...', dinner: '...' } },
-    //     { day: 'Apr 29 - Mon', meals: { breakfast: '...', lunch: '...', dinner: '...' } },
-    // ]);
+    const isMobile = window.innerWidth <= 767;
+
     const [shoppingList, setShoppingList] = useState();
     const [showAddItemForm, setShowAddItemForm] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [editItem, setEditItem] = useState(null);
     const [loading, setLoading] = useState(false);
-
     const [validPlans, setValidPlans] = useState([]);
     const [recipes, setRecipes] = useState();
     const [loading2, setLoading2] = useState(true);
     const [error, setError] = useState(null);
     const [sevenDays, setSevenDays] = useState([]);
+
 
     const oneDayTime = 24 * 60 * 60 * 1000;
     const now = new Date();
@@ -26,7 +23,6 @@ function UserHomePage() {
 
 
     const get7Days = () => {
-
         for (let i = 0; i < 15; i++) {
             const ShowTime = nowTime + i * oneDayTime;
             const myDate = new Date(ShowTime);
@@ -36,18 +32,10 @@ function UserHomePage() {
                 sevenDays.push(save_date);
             }
         }
-        // console.log(sevenDays);
     };
 
     useEffect(() => {
-        // const fetchShoppingList = async () => {
-        //     setLoading(true);
-        //     const response = await fetch('/api/shopping-list');
-        //     const data = await response.json();
-        //     setShoppingList(data);
-        //     setLoading(false);
-        // };
-
+        console.log('isMobile: ', isMobile)
         const fetchData = async () => {
 
             get7Days();
@@ -87,23 +75,16 @@ function UserHomePage() {
                     // Log and ignore
                     console.log("Ignoring specific error:", error);
                 } else {
-                    setError(error); // Re-throw errors that are not to be ignored
+                    setError(error);
                 }
 
             } finally {
                 setLoading2(false);
-                // setShouldFetch(false);
             }
 
         };
         fetchData();
-        // fetchShoppingList();
-
     }, []);
-
-    // useEffect(() => {
-    //     fetchShoppingList();
-    // }, []);
 
     const fetchShoppingList = async () => {
         setLoading(true);
@@ -170,138 +151,243 @@ function UserHomePage() {
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat'
         }}>
-            <div className="container">
+            <div className="container" style={{marginBottom: '5vw'}}>
                 <div className="columns">
-                    <div className="column" style={{ overflowY: 'auto', height: '788px' }}>
-                        <h2 className="title is-3 has-text-centered-touch meal-plans">Meal Plans</h2>
-                        {/* {plans.map((plan, index) => (
-                            <div key={index} className="box" style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>
-                                <h3 className="has-text-centered-touch">{plan.day}</h3>
-                                <p>Breakfast: {plan.meals.breakfast}</p>
-                                <p>Lunch: {plan.meals.lunch}</p>
-                                <p>Dinner: {plan.meals.dinner}</p>
-                            </div>
-                        ))} */}
-
-                        {validPlans.map((plan, index) => (
-                            // <div key={date} className={`box ${selectedDate === date ? 'is-selected' : ''}`} onClick={() => handleSelectDate(date)}>
-                            <div key={plan.id} className="box box-home" style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>
-                                <h3 className="has-text-centered-touch"><strong>{plan.date}</strong></h3>
-                                <div className="columns is-multiline">
-                                    <div className="column is-one-third" key="breakfast">
-                                        <i><strong>Breakfast:</strong></i>
-                                        {/* <RecipeDisplay recipes={recipes} givenId={plan.meals.breakfast} /> */}
-                                        {/* {plan.meals.breakfast} */}
-                                        {/* <p>{recipes.find(recipe => recipe._id === plan.meals.breakfast)?.name}</p> */}
-                                        {/* <div className="card"> */}
-                                        {/* <div className="card-content"> */}
-                                        {plan.meals.breakfast === null
-                                            ? (<div>
-                                                <p className="has-text-centered">No plan</p></div>) :
-                                            (<div>
-
-                                                <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.breakfast)?.name}</p>
-
-                                                <figure className="image is-4by3">
-                                                    <img src={recipes.find(recipe => recipe._id === plan.meals.breakfast)?.pictureUrl} />
-                                                </figure></div>)}
-                                        {/* </div> */}
-                                        {/* <div className="card-image"> */}
-                                        {/* </div> */}
-
-                                        {/* </div> */}
-                                    </div>
-
-                                    <div className="column is-one-third" key="lunch">
-                                        <i><strong>Lunch:</strong></i>
-                                        {/* <p>{recipes.find(recipe => recipe._id === plan.meals.lunch)?.name}</p> */}
-                                        {plan.meals.lunch === null
-                                            ? (<div>
-                                                <p className="has-text-centered">No plan</p></div>) :
-                                            (<div>
-                                                <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.lunch)?.name}</p>
-                                                <figure className="image is-4by3">
-                                                    <img src={recipes.find(recipe => recipe._id === plan.meals.lunch)?.pictureUrl} />
-                                                </figure></div>)}
-                                    </div>
-
-                                    <div className="column is-one-third" key="dinner">
-                                        <i><strong>Dinner:</strong></i>
-                                        {/* <p>{recipes.find(recipe => recipe._id === plan.meals.dinner)?.name}</p> */}
-                                        {plan.meals.dinner === null
-                                            ? (<div>
-                                                <p className="has-text-centered">No plan</p></div>) :
-                                            (<div>
-                                                <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.dinner)?.name}</p>
-                                                <figure className="image is-4by3">
-                                                    <img src={recipes.find(recipe => recipe._id === plan.meals.dinner)?.pictureUrl} />
-                                                </figure></div>)}
-                                    </div>
-                                </div></div>
-                        ))}
-                    </div>
-
-                    <div className="column" style={{ overflowY: 'auto', height: '788px' }}>
-                        <div className="is-flex is-justify-content-space-between">
-                            <h2 className="title is-3 has-text-centered-touch" style={{ marginTop: '1vw', marginLeft: '0.5rem' }}>Shopping list</h2>
-                            <button className="button is-info is-light"
-                                style={{ marginLeft: 'auto', marginTop: '1vw', marginBottom: '1vw', marginRight: '0.5rem' }}
-                                onClick={() => { setEditItem(null); setShowAddItemForm(true); }}>
-                                ➕
-                            </button>
-                        </div>
-                        {loading ? <progress className="progress is-small is-primary" max="100">Loading</progress> : (
-                            <>
-                                {showAddItemForm && (
-                                    <div className="box">
-                                        <form onSubmit={handleAddOrUpdateItem}>
-                                            <div className="field is-grouped">
-                                                <p className="control is-expanded">
-                                                    <input className="input" type="text" name="item" defaultValue={editItem ? editItem.item : ''} placeholder="Item" required />
-                                                </p>
-                                                <p className="control is-expanded">
-                                                    <input className="input" type="text" name="quantity" defaultValue={editItem ? editItem.quantity : ''} placeholder="Quantity" required />
-                                                </p>
-                                                <p className="control">
-                                                    <button className="button is-success" type="submit">{editItem ? 'Update' : 'Add'}</button>
-                                                </p>
-                                                <p className="control">
-                                                    <button className="button is-light" type="button" onClick={() => { setEditItem(null); setShowAddItemForm(false); }}>Cancel</button>
-                                                </p>
+                    {isMobile ? (
+                        <div style={{ overflowX: 'auto', overflowY: 'hidden', whiteSpace: 'nowrap', marginLeft: '5vw', marginRight: '5vw' }}>
+                            <h2 className="title is-3 has-text-centered-touch meal-plans" style={{ marginTop: '5vw' }}>Meal Plans</h2>
+                            <div className="is-flex" style={{ alignItems: 'start' }}>
+                                {validPlans.map((plan, index) => (
+                                    <div key={plan.id} className="box" style={{ display: 'inline-block', width: '50vw', marginRight: '1rem', verticalAlign: 'top' }}>
+                                        <h3 className="has-text-centered-touch"><strong>{plan.date}</strong></h3>
+                                        <div >
+                                            <div key="breakfast">
+                                                <i><strong>Breakfast:</strong></i>
+                                                {plan.meals.breakfast === null
+                                                    ? (
+                                                        <div><p className="has-text-centered">No plan</p></div>
+                                                    ) : (
+                                                        <div>
+                                                            <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.breakfast)?.name}</p>
+                                                            <figure className="image image is-128x128">
+                                                                <img src={recipes.find(recipe => recipe._id === plan.meals.breakfast)?.pictureUrl} />
+                                                            </figure>
+                                                        </div>
+                                                    )}
                                             </div>
-                                        </form>
+
+                                            <div key="lunch">
+                                                <i><strong>Lunch:</strong></i>
+                                                {plan.meals.lunch === null
+                                                    ? (
+                                                        <div><p className="has-text-centered">No plan</p></div>
+                                                    ) : (
+                                                        <div>
+                                                            <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.lunch)?.name}</p>
+                                                            <figure className="image is-128x128">
+                                                                <img src={recipes.find(recipe => recipe._id === plan.meals.lunch)?.pictureUrl} />
+                                                            </figure>
+                                                        </div>
+                                                    )}
+                                            </div>
+
+                                            <div key="dinner">
+                                                <i><strong>Dinner:</strong></i>
+                                                {plan.meals.dinner === null
+                                                    ? (
+                                                        <div><p className="has-text-centered">No plan</p></div>
+                                                    ) : (
+                                                        <div>
+                                                            <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.dinner)?.name}</p>
+                                                            <figure className="image is-128x128">
+                                                                <img src={recipes.find(recipe => recipe._id === plan.meals.dinner)?.pictureUrl} />
+                                                            </figure>
+                                                        </div>
+                                                    )}
+                                            </div>
+                                        </div>
                                     </div>
-                                )}
-                                <div className="columns is-multiline">
-                                    {shoppingList.map((item, index) => (
-                                        <div key={index} className="column is-half">
-                                            <div className="box" style={{ margin: '0.5rem' }}>
-                                                <div className="level">
-                                                    <div className="level-left">
-                                                        <div className="level-item">
-                                                            <div style={{ flexGrow: 1, maxWidth: '12vw', textOverflow: 'ellipsis' }}>
-                                                                <p><strong>{item.item}</strong></p>
-                                                                <p>{item.quantity}</p>
+                                ))}
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="column" style={{ overflowY: 'auto', height: '100vh' }}>
+                            <h2 className="title is-3 has-text-centered-touch meal-plans">Meal Plans</h2>
+                            {validPlans.map((plan, index) => (
+                                <div key={plan.id} className="box box-home" style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>
+                                    <h3 className="has-text-centered-touch"><strong>{plan.date}</strong></h3>
+                                    <div className="columns is-multiline">
+                                        <div className="column is-one-third" key="breakfast">
+                                            <i><strong>Breakfast:</strong></i>
+                                            {plan.meals.breakfast === null
+                                                ? (<div>
+                                                    <p className="has-text-centered">No plan</p></div>) :
+                                                (<div>
+
+                                                    <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.breakfast)?.name}</p>
+
+                                                    <figure className="image is-4by3">
+                                                        <img src={recipes.find(recipe => recipe._id === plan.meals.breakfast)?.pictureUrl} />
+                                                    </figure>
+                                                </div>)}
+                                        </div>
+
+                                        <div className="column is-one-third" key="lunch">
+                                            <i><strong>Dinner:</strong></i>
+                                            {plan.meals.lunch === null
+                                                ? (<div>
+                                                    <p className="has-text-centered">No plan</p></div>) :
+                                                (<div>
+                                                    <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.lunch)?.name}</p>
+                                                    <figure className="image is-4by3">
+                                                        <img src={recipes.find(recipe => recipe._id === plan.meals.lunch)?.pictureUrl} />
+                                                    </figure></div>)}
+                                        </div>
+
+                                        <div className="column is-one-third" key="dinner">
+                                            <i><strong>Dinner:</strong></i>
+                                            {plan.meals.dinner === null
+                                                ? (<div>
+                                                    <p className="has-text-centered">No plan</p></div>) :
+                                                (<div>
+                                                    <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.dinner)?.name}</p>
+                                                    <figure className="image is-4by3">
+                                                        <img src={recipes.find(recipe => recipe._id === plan.meals.dinner)?.pictureUrl} />
+                                                    </figure></div>)}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    {isMobile ? (
+                        <div className="column" style={{ overflowX: 'auto', whiteSpace: 'nowrap',  marginRight: '5vw' }}>
+                            <div className="is-flex is-justify-content-space-between">
+                                <h2 className="title is-3 has-text-centered-touch" style={{ marginTop: '1vw', marginLeft: '0.5rem' }}>Shopping list</h2>
+                                <button className="button is-info is-light"
+                                    style={{ marginLeft: 'auto', marginTop: '1vw', marginBottom: '1vw', marginRight: '0.5rem' }}
+                                    onClick={() => { setEditItem(null); setShowAddItemForm(true); }}>
+                                    ➕
+                                </button>
+                            </div>
+                            {showAddItemForm && (
+                                <div style={{ marginBottom: '1vw' }}>
+                                    <form onSubmit={handleAddOrUpdateItem}>
+                                        <div className="field is-grouped">
+                                            <p className="control is-expanded">
+                                                <input className="input" type="text" name="item" defaultValue={editItem ? editItem.item : ''} placeholder="Item" required />
+                                            </p>
+                                            <p className="control is-expanded">
+                                                <input className="input" type="text" name="quantity" defaultValue={editItem ? editItem.quantity : ''} placeholder="Quantity" required />
+                                            </p>
+                                            <p className="control">
+                                                <button className="button is-success" type="submit">{editItem ? 'Update' : 'Add'}</button>
+                                            </p>
+                                            <p className="control">
+                                                <button className="button is-light" type="button" onClick={() => { setEditItem(null); setShowAddItemForm(false); }}>Cancel</button>
+                                            </p>
+                                        </div>
+                                    </form>
+                                </div>
+                            )}
+                            <div className="is-flex" style={{ alignItems: 'start', marginLeft: '2vw', marginRight: '2vw' }}>
+                                {shoppingList.map((item, index) => (
+                                    <div key={index} className="box" style={{ display: 'inline-block', width: '90vw', marginRight: '1rem', verticalAlign: 'top' }}>
+                                        <div className="level">
+                                            <div className="level-left">
+                                                <div className="level-item">
+                                                    <div style={{ flexGrow: 1, textOverflow: 'ellipsis' }}>
+                                                        <p><strong>{item.item}</strong></p>
+                                                        <p>{item.quantity}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="level-right">
+                                                <div className="level-item">
+                                                    <div className={`dropdown is-up ${activeDropdown === index ? 'is-active' : ''} is-hoverable`}>
+                                                        <div className="dropdown-trigger">
+                                                            <button className="button" aria-haspopup="true" aria-controls={`dropdown-menu-${index}`}>
+                                                                <span>...</span>
+                                                            </button>
+                                                        </div>
+                                                        <div className="dropdown-menu" id={`dropdown-menu-${index}`} role="menu">
+                                                            <div className="dropdown-content" style={{ width: '65px' }}>
+                                                                <button className="button is-white dropdown-item" onClick={() => handleEdit(item)}>
+                                                                    Edit
+                                                                </button>
+                                                                <button className="button is-white dropdown-item" onClick={() => handleDelete(item._id)}>
+                                                                    Delete
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div className="level-right">
-                                                        <div className="level-item">
-                                                            <div className={`dropdown is-right ${activeDropdown === index ? 'is-active' : ''} is-hoverable`}>
-                                                                <div className="dropdown-trigger">
-                                                                    <button className="button" aria-haspopup="true" aria-controls={`dropdown-menu-${index}`}>
-                                                                        <span>...</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="column" style={{ overflowY: 'auto', height: '100vh' }}>
+                            <div className="is-flex is-justify-content-space-between">
+                                <h2 className="title is-3 has-text-centered-touch" style={{ marginTop: '1vw', marginLeft: '0.5rem' }}>Shopping list</h2>
+                                <button className="button is-info is-light"
+                                    style={{ marginLeft: 'auto', marginTop: '1vw', marginBottom: '1vw', marginRight: '0.5rem' }}
+                                    onClick={() => { setEditItem(null); setShowAddItemForm(true); }}>
+                                    ➕
+                                </button>
+                            </div>
+                            {showAddItemForm && (
+                                <div className="box">
+                                    <form onSubmit={handleAddOrUpdateItem}>
+                                        <div className="field is-grouped">
+                                            <p className="control is-expanded">
+                                                <input className="input" type="text" name="item" defaultValue={editItem ? editItem.item : ''} placeholder="Item" required />
+                                            </p>
+                                            <p className="control is-expanded">
+                                                <input className="input" type="text" name="quantity" defaultValue={editItem ? editItem.quantity : ''} placeholder="Quantity" required />
+                                            </p>
+                                            <p className="control">
+                                                <button className="button is-success" type="submit">{editItem ? 'Update' : 'Add'}</button>
+                                            </p>
+                                            <p className="control">
+                                                <button className="button is-light" type="button" onClick={() => { setEditItem(null); setShowAddItemForm(false); }}>Cancel</button>
+                                            </p>
+                                        </div>
+                                    </form>
+                                </div>
+                            )}
+                            <div className="columns is-multiline">
+                                {shoppingList.map((item, index) => (
+                                    <div key={index} className="column is-half">
+                                        <div className="box" style={{ margin: '0.5rem' }}>
+                                            <div className="level">
+                                                <div className="level-left">
+                                                    <div className="level-item">
+                                                        <div style={{ flexGrow: 1, maxWidth: '12vw', textOverflow: 'ellipsis' }}>
+                                                            <p><strong>{item.item}</strong></p>
+                                                            <p>{item.quantity}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="level-right">
+                                                    <div className="level-item">
+                                                        <div className={`dropdown is-up ${activeDropdown === index ? 'is-active' : ''} is-hoverable`}>
+                                                            <div className="dropdown-trigger">
+                                                                <button className="button" aria-haspopup="true" aria-controls={`dropdown-menu-${index}`}>
+                                                                    <span>...</span>
+                                                                </button>
+                                                            </div>
+                                                            <div className="dropdown-menu" id={`dropdown-menu-${index}`} role="menu">
+                                                                <div className="dropdown-content" style={{ width: '65px' }}>
+                                                                    <button className="button is-white dropdown-item" onClick={() => handleEdit(item)}>
+                                                                        Edit
                                                                     </button>
-                                                                </div>
-                                                                <div className="dropdown-menu" id={`dropdown-menu-${index}`} role="menu">
-                                                                    <div className="dropdown-content">
-                                                                        <button className="button is-white dropdown-item" onClick={() => handleEdit(item)}>
-                                                                            Edit
-                                                                        </button>
-                                                                        <button className="button is-white dropdown-item" onClick={() => handleDelete(item._id)}>
-                                                                            Delete
-                                                                        </button>
-                                                                    </div>
+                                                                    <button className="button is-white dropdown-item" onClick={() => handleDelete(item._id)}>
+                                                                        Delete
+                                                                    </button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -309,11 +395,13 @@ function UserHomePage() {
                                                 </div>
                                             </div>
                                         </div>
-                                    ))}
-                                </div>
-                            </>
-                        )}
-                    </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                        </div>
+                    )}
+
                 </div>
             </div>
         </section >
