@@ -161,10 +161,13 @@ app.http('createRecipe', {
 app.http('editRecipe', {
     methods: ['PUT'],
     authLevel: 'function',
+    route: 'recipe/{recipeId}',
     handler: async (request, context) => {
         try {
             const recipeId = request.params.recipeId;
             const updates = await request.json();
+
+            delete updates._id;
 
             // Filter out empty fields
             const filteredUpdates = Object.fromEntries(
@@ -179,13 +182,13 @@ app.http('editRecipe', {
 
             return { status: 200, jsonBody: result };
         } catch (error) {
+            console.error('Error updating recipe:', error);
             return { status: 500, body: error.message };
         } finally {
             await client.close();
         }
     }
 });
-
 
 
 app.http('addMealPlan', {
