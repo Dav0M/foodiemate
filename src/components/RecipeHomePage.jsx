@@ -37,18 +37,32 @@ const RecipeHomePage = () => {
         navigate('/createrecipe');
     };
 
-    const handleSearchChange = async (event) => {
+    const debounce = (func, delay) => {
+        let inDebounce;
+        return function() {
+            const context = this;
+            const args = arguments;
+            clearTimeout(inDebounce);
+            inDebounce = setTimeout(() => func.apply(context, args), delay);
+        };
+    };
+
+    const handleSearchChange = debounce(async (event) => {
         const input = event.target.value;
         setSearchTerm(input);
+        console.log(input);
 
         if (input.length > 2) {
             const response = await fetch(`/api/searchRecipes?q=${encodeURIComponent(input)}&tag=${encodeURIComponent(activeTag)}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch: ' + response.statusText);
+            }
             const data = await response.json();
             setSuggestions(data.data.map(recipe => recipe.name));
         } else {
             setSuggestions([]);
         }
-    };
+    }, 300);
 
     const handleSuggestionClick = (name) => {
         setSearchTerm(name);
@@ -92,7 +106,7 @@ const RecipeHomePage = () => {
                         </span>
                         <div className="list is-hoverable">
                             {suggestions.map((suggestion, index) => (
-                                <a key={index} className="list-item" onClick={() => handleSuggestionClick(suggestion)}>
+                                <a key={index} className="list-item" class="box" onClick={() => handleSuggestionClick(suggestion)}>
                                     {suggestion}
                                 </a>
                             ))}

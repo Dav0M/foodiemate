@@ -312,29 +312,25 @@ app.http('getTags', {
 app.http('searchRecipes', {
     methods: ['GET'],
     authLevel: 'function',
-    route: 'searchRecipes',
     handler: async (request, context) => {
-        const query = request.query.q;
-        const tagFilter = request.query.tag;
+        const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+        let token = null
+        token = Buffer.from(headers, "base64");
+        token = JSON.parse(token.toString());
+        const userId = token.userId;
 
-        try {
-            const collection = await connectDb();
-            const filter = {};
-
-            if (query) {
-                filter.name = { $regex: query, $options: "i" };
-            }
-            if (tagFilter && tagFilter !== 'All') {
-                filter.tag = tagFilter;
-            }
-
-            const recipes = await collection.find(filter).toArray();
-
-            return { status: 200, jsonBody: { data: recipes } };
-        } catch (error) {
-            return { status: 500, body: "Failed to fetch recipes: " + error.message };
-        } finally {
-            await client.close();
+        const query = request.query.q || '';
+        const collection = await connectRecipes();
+        const filter = { userId: userId };
+        if (query) {
+            filter.name = { $regex: query, $options: 'i' }; // Use regex for case-insensitive partial matching
         }
+        const recipes = await collection.find(filter).toArray();
+
+        await client.close(); // Make sure the connection is managed correctly
+        return {
+            status: 200,
+            jsonBody: { data: recipes }
+        };  
     }
 });
