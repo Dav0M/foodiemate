@@ -46,23 +46,48 @@ const RecipeHomePage = () => {
             inDebounce = setTimeout(() => func.apply(context, args), delay);
         };
     };
+    // const handleSearchChange = debounce(async (event) => {
+    //     const input = event.target.value;
+    //     setSearchTerm(input);
+    
+    //     if (input.length > 2) {
+    //         try {
+    //             const response = await fetch(`/api/searchRecipes?q=${encodeURIComponent(input)}&tag=${encodeURIComponent(activeTag)}`);
+    //             if (!response.ok) {
+    //                 throw new Error('Failed to fetch: ' + response.statusText);
+    //             }
+    //             const data = await response.json();
+    //             setSuggestions(data.data.map(recipe => recipe.name));
+    //         } catch (error) {
+    //             console.error('Failed to load data:', error);
+    //             setSuggestions([]); // Reset suggestions or handle error differently
+    //         }
+    //     } else {
+    //         setSuggestions([]);
+    //     }
+    // }, 300);
 
-    const handleSearchChange = debounce(async (event) => {
+    const handleSearchChange = async (event) => {
         const input = event.target.value;
         setSearchTerm(input);
         console.log(input);
-
+    
         if (input.length > 2) {
-            const response = await fetch(`/api/searchRecipes?q=${encodeURIComponent(input)}&tag=${encodeURIComponent(activeTag)}`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch: ' + response.statusText);
+            try {
+                const response = await fetch(`/api/searchRecipes?q=${encodeURIComponent(input)}&tag=${encodeURIComponent(activeTag)}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch: ' + response.statusText);
+                }
+                const data = await response.json();
+                setSuggestions(data.data.map(recipe => recipe.name));
+            } catch (error) {
+                console.error('Failed to load data:', error);
+                setSuggestions([]); // Reset suggestions or handle error differently
             }
-            const data = await response.json();
-            setSuggestions(data.data.map(recipe => recipe.name));
         } else {
             setSuggestions([]);
         }
-    }, 300);
+    };
 
     const handleSuggestionClick = (name) => {
         setSearchTerm(name);
