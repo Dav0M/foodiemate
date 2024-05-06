@@ -271,13 +271,14 @@ app.http('getRecipes', {
         token = Buffer.from(headers, "base64");
         token = JSON.parse(token.toString());
         const userId = token.userId
-        const userIds = [userId, "ed3490fc-71b4-45ab-b588-d473c000f6f9"];
+        // const userIds = [userId, "ed3490fc-71b4-45ab-b588-d473c000f6f9"];
 
         const collection = await connectRecipes();
-        // const recipes = await collection.find({ userId }).toArray();
-        const recipes = await collection.find({
-            userId: { $in: userIds }
-        }).toArray();
+        const recipes = await collection.find({ userId }).toArray();
+        
+        // const recipes = await collection.find({
+        //     userId: { $in: userIds }
+        // }).toArray();
 
         await client.close();
         return {
@@ -304,7 +305,8 @@ app.http('getOneRecipe', {
         // const recipeId = body.recipeId ?? request.params.id;
 
         const collection = await connectRecipes();
-        const recipe = await collection.findOne({ _id: new ObjectId(recipeId) });
+        const recipe = await collection.findOne({ _id: new ObjectId(recipeId), userId: userId });
+        // const recipe = await collection.findOne({ _id: new ObjectId(recipeId) });  
 
         await client.close();
         return {
@@ -537,7 +539,8 @@ app.http('searchRecipes', {
         let token = null
         token = Buffer.from(headers, "base64");
         token = JSON.parse(token.toString());
-        const userId_ = token.userId;
+        // const userId_ = token.userId;
+        const userId = token.userId;
 
         const queryParams = new URLSearchParams(request.query);
         console.log("request.query", request.query);
@@ -546,11 +549,17 @@ app.http('searchRecipes', {
         console.log("Search Query:", query);
         const collection = await connectRecipes();
 
-        const userIds = [userId_, "ed3490fc-71b4-45ab-b588-d473c000f6f9"];  // 这是你想查询的userId数组
+        const filter = { userId: userId };
+        if (query) {
+            filter.name = { $regex: query, $options: 'i' }; // Use regex for case-insensitive partial matching
+        }
 
-        const filter = {
-            userId: { $in: userIds }
-        };
+        // const userIds = [userId_, "ed3490fc-71b4-45ab-b588-d473c000f6f9"];  // 这是你想查询的userId数组
+
+        // const filter = {
+        //     userId: { $in: userIds }
+        // };
+
         // const filter = { userId: userId };
         // if (query) {
         //     filter.name = { $regex: query, $options: 'i' }; // Use regex for case-insensitive partial matching
