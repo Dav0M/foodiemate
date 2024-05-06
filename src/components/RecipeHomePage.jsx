@@ -5,31 +5,13 @@ const RecipeHomePage = () => {
     // Dummy data for tags and recipes data
 
     const [recipes, setRecipes] = useState();
-    // const [newTodo, setNewTodo] = useState('');
-    // const [error, setError] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
 
+  
 
-    // const fetchRecipes = () => {
-    //     fetch('/api/recipes')
-    //         .then(response => {
-    //             if (!response.ok) {
-    //                 throw new Error('HTTP error: Status: ' + response.status);
-    //             }
-    //             return response.json();
-    //         })
-    //         .then(data => {
-    //             if (!Array.isArray(data.data)) {
-    //                 console.error('Data received is not an array:', data.data);
-    //                 throw new TypeError('Expected an array. get else.');
-    //             }
-    //             setRecipes(data.data);
-    //         })
-    //         .catch(error => {
-    //             console.error('Failed to fetch recipes:', error);
-    //         });
-    // };
+    
 
-    // useEffect(() => { fetchRecipes() }, []);
 
     const fetchRecipes = async () => {
         const response = await fetch('/api/recipes');
@@ -40,38 +22,45 @@ const RecipeHomePage = () => {
 
     const tags = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Fast Food', 'Vegan', 'Desserts', 'Salads', 'Seafood', 'Italian Cuisine', 'Beverages']
 
-    // const tags = ['All', 'Breakfast', 'Fast Food', 'Desserts', 'Salads', 'Seafood', 'Italian cuisine', 'Beverages'];
-    // const recipes = [
-    //     { name: 'Chicken Salad', tag: 'Salads' },
-    //     { name: 'Spaghetti', tag: 'Italian cuisine' },
-    //     { name: 'Caesar Salad', tag: 'Salads' },
-    //     { name: 'Tuna Casserole', tag: 'Seafood' },
-    //     { name: 'Clam Chowder', tag: 'Seafood' },
-    //     { name: 'Beef Stew', tag: 'All' },
-    //     { name: 'Hamburger', tag: 'Fast Food' },
-    // ];
+  
 
     // State for the active tag
     const [activeTag, setActiveTag] = useState('All');
 
-    // Use navigate function from react-router-dom to programmatically navigate
+
     const navigate = useNavigate();
 
-    // Navigate to Create Recipe page
+
     const goToCreateRecipe = () => {
-        // for future use
-        // if (user) {
-        //     navigate('/createrecipe');
-        // } else {
-        //     navigate('/');
-        // }
+        
 
         navigate('/createrecipe');
     };
 
+    const handleSearchChange = async (event) => {
+        const input = event.target.value;
+        setSearchTerm(input);
+
+        if (input.length > 2) {
+            const response = await fetch(`/api/searchRecipes?q=${encodeURIComponent(input)}&tag=${encodeURIComponent(activeTag)}`);
+            const data = await response.json();
+            setSuggestions(data.data.map(recipe => recipe.name));
+        } else {
+            setSuggestions([]);
+        }
+    };
+
+    const handleSuggestionClick = (name) => {
+        setSearchTerm(name);
+        setSuggestions([]);
+        fetchRecipes();
+    };
+
     if (recipes === undefined) {
         return (<div><progress className="progress is-small is-primary" max="100">Loading</progress></div>)
-    }
+    };
+
+
 
     return (
         <div>
@@ -90,7 +79,23 @@ const RecipeHomePage = () => {
             </div>
             <div className="field">
                 <p className="control has-icons-left">
-                    <input className="input" type="search" placeholder="Search" />
+                    <input
+                        className="input"
+                        type="search"
+                        placeholder="Search"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                    />
+                    <span className="icon is-left">
+                        <i className="fas fa-search"></i>
+                    </span>
+                    <div className="list is-hoverable">
+                        {suggestions.map((suggestion, index) => (
+                            <a key={index} className="list-item" onClick={() => handleSuggestionClick(suggestion)}>
+                                {suggestion}
+                            </a>
+                        ))}
+                    </div>
                 </p>
             </div>
             <button className="button is-primary" onClick={goToCreateRecipe}>

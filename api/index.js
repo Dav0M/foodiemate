@@ -307,3 +307,34 @@ app.http('getTags', {
         };
     }
 });
+
+
+app.http('searchRecipes', {
+    methods: ['GET'],
+    authLevel: 'function',
+    route: 'searchRecipes',
+    handler: async (request, context) => {
+        const query = request.query.q;
+        const tagFilter = request.query.tag;
+
+        try {
+            const collection = await connectDb();
+            const filter = {};
+
+            if (query) {
+                filter.name = { $regex: query, $options: "i" };
+            }
+            if (tagFilter && tagFilter !== 'All') {
+                filter.tag = tagFilter;
+            }
+
+            const recipes = await collection.find(filter).toArray();
+
+            return { status: 200, jsonBody: { data: recipes } };
+        } catch (error) {
+            return { status: 500, body: "Failed to fetch recipes: " + error.message };
+        } finally {
+            await client.close();
+        }
+    }
+});
