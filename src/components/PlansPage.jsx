@@ -447,7 +447,7 @@ const PlansPage = () => {
 
     };
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return (<div><progress className="progress is-small is-primary" max="100">Loading</progress></div>)
     if (error) return <p>Error loading data: {error.message}</p>;
 
 
