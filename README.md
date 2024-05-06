@@ -22,15 +22,21 @@ CSCI 5117, Spring 2024, [assignment description](https://canvas.umn.edu/courses/
 **Describe the most challenging features you implemented
 (one sentence per bullet, maximum 4 bullets):**
 
-* ...
+* Mealplanner to designate recipe plans for current and future days and for different meal times.
+
+* Nutrition calculator and integration with recipes. 
+
+* Searchbar with an autofill dropdown
+
+*
 
 Which (if any) device integration(s) does your app support?
 
-* Our web application is compatible with any web browser. When accessed on a mobile browser, the interface automatically adjusts for optimal mobile usability.
+* Our app supports camera integration through the Cloudinary Widget.
 
 Which (if any) progressive web app feature(s) does your app support?
 
-* ...
+* Our app supports Home Screen Installs to download the app to the device. 
 
 
 
@@ -61,7 +67,7 @@ Which (if any) progressive web app feature(s) does your app support?
 
 **Is there anything special we need to know in order to effectively test your app? (optional):**
 
-* ...
+* N/A
 
 
 
@@ -70,8 +76,29 @@ Which (if any) progressive web app feature(s) does your app support?
 **[Add a screenshot of each key page](https://stackoverflow.com/questions/10189356/how-to-add-screenshot-to-readmes-in-github-repository)
 along with a very brief caption:**
 
-![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
+### Home Page
+User shopping list and static display of meal plans.
+![](./demo_images/foodiemate_home.png)
 
+### Recipes Page
+View user's recipes under different categories along with a search. Can create new recipes from here or click on recipes to view details.
+![](./demo_images/foodiemate_recipes.png)
+
+### Plans Page
+Set mealplans using your recipes here. Can set breakfast/lunch/dinner for future days.
+![](./demo_images/foodiemate_plans.png)
+
+### Nutrition Page
+Nutrition tool to get information on ingredients. Comes with table and graph information.
+![](./demo_images/foodiemate_nutri.png)
+
+### Recipe Create
+Create page for new recipes. Set names, tags, steps, ingredients, images. Image upload can be done using device camera.
+![](./demo_images/foodiemate_create.png)
+
+### Recipe Details
+Page for each recipe. Shows name, tags, steps, ingredients, and an image of the item (if provided). Also option to view nutrients of recipe given the ingredients. Can edit or delete recipe from this page.
+![](./demo_images/foodiemate_details.png)
 
 
 ## External Dependencies
@@ -79,11 +106,16 @@ along with a very brief caption:**
 **Document integrations with 3rd Party code or services here.
 Please do not document required libraries (e.g., React, Azure serverless functions, Azure nosql).**
 
-* Library or service name: description of use
-* Bulma CSS
+* Bulma CSS: Page styling
+* Cloudinary: Image uploading and storing
+* (React) Google Charts: Nutrition Charts
+* Edamam: Nutrition API
+* Axios: Fetch requests for Nutrition API
 
 **If there's anything else you would like to disclose about how your project
 relied on external code, expertise, or anything else, please disclose that
 here:**
+
+* Referenced the Cloudinary tech share for Cloudinary widget and image uploads.
 
 ...
