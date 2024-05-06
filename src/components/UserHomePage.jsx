@@ -240,7 +240,7 @@ function UserHomePage() {
                         ))}
                     </div>
 
-                    <div className="column">
+                    <div className="column" style={{ overflowY: 'auto', height: '788px' }}>
                         <div className="is-flex is-justify-content-space-between">
                             <h2 className="title is-3 has-text-centered-touch" style={{ marginTop: '1vw', marginLeft: '0.5rem' }}>Shopping list</h2>
                             <button className="button is-info is-light"
