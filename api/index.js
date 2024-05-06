@@ -427,22 +427,22 @@ app.http('checkDefault7Days', {
 
             const oneDayTime = 24 * 60 * 60 * 1000;
             const now = new Date();
-            const nowTime = now.getTime() - 14 * oneDayTime;
+            const nowTime = now.getTime() + 83 * oneDayTime;
             for (let i = 0; i < 15; i++) {
                 const ShowTime = nowTime + i * oneDayTime;
                 const myDate = new Date(ShowTime);
-                // const year = myDate.getFullYear().toString();
-                // const month = (myDate.getMonth() + 1).toString();
-                // const date = myDate.getDate().toString();
+                const year = myDate.getFullYear().toString();
+                const month = (myDate.getMonth() + 1).toString();
+                const date = myDate.getDate().toString();
 
-                // function addzero(dstr) {
-                //     if (dstr.length !== 2) {
-                //         return "0" + dstr;
-                //     }
-                //     else { return dstr; }
-                // };
-                // const save_date = year + "-" + addzero(month) + "-" + addzero(date);
-                const save_date = myDate.toISOString().split('T')[0];
+                function addzero(dstr) {
+                    if (dstr.length !== 2) {
+                        return "0" + dstr;
+                    }
+                    else { return dstr; }
+                };
+                const save_date = year + "-" + addzero(month) + "-" + addzero(date);
+                // const save_date = myDate.toISOString().split('T')[0];
                 if (!sevenDays.includes(save_date)) {
                     sevenDays.push(save_date);
                 }
@@ -494,7 +494,7 @@ app.http('createDefault7Days', {
 
 
             const jason = await request.json();
-            const sevenDays = Object.values(jason);
+            const sevenDays = Object.values(jason)[0];
             const results = [];
             const collection = await connectDb('mealplans');
 
@@ -552,5 +552,63 @@ app.http('searchRecipes', {
             status: 200,
             jsonBody: { data: recipes }
         };
+    }
+});
+
+app.http('updateMealPlan', {
+    methods: ['PUT'],
+    authLevel: 'function',
+    route: "update/mealplan",
+    handler: async (request, context) => {
+        try {
+            const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
+            let token = null
+            token = Buffer.from(headers, "base64");
+            token = JSON.parse(token.toString());
+            const userId = token.userId;
+            // const updates = await request.json();
+
+
+
+            const body = await request.json();
+            const selectedDate = body.date ?? null;
+            const breakfastRecipe = body.meals.breakfast ?? null;
+            const lunchRecipe = body.meals.lunch ?? null;
+            const dinnerRecipe = body.meals.dinner ?? null;
+
+            let payload = {};
+            if (breakfastRecipe !== null) {
+                payload["meals.breakfast"] = breakfastRecipe;
+            };
+            if (lunchRecipe !== null) {
+                payload["meals.lunch"] = lunchRecipe;
+            };
+            if (dinnerRecipe !== null) {
+                payload["meals.dinner"] = dinnerRecipe;
+            };
+            if (Object.keys(payload).length === 0) throw new Error("No valid meal data provided.");
+
+            const collection = await connectDb('mealplans');
+            const result = await collection.updateOne({ userId: userId, date: selectedDate }, { $set: payload });
+            const mealplan = await collection.findOne({ userId: userId, date: selectedDate });
+            // .find({ userId: userId }).toArray();
+
+
+
+            // return {
+            //     status: 201,
+            //     jsonBody: { _id: result.insertedId, todoid, summary, createtime, isDone, category, userid }
+            // };
+
+            if (result.matchedCount === 0) throw new Error("No matching document found.");
+            if (result.modifiedCount === 0) throw new Error("No document updated.");
+
+            // return { status: 200, jsonBody: { message: "Meal plan updated successfully"  } };
+            return { status: 200, jsonBody: { message: mealplan } };
+        } catch (error) {
+            return { status: 500, body: error.message };
+        } finally {
+            await client.close();
+        }
     }
 });
