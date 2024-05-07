@@ -15,10 +15,6 @@ const CreateRecipePage = () => {
     const [stepsCount, setStepsCount] = useState(1);
 
     const [name, setName] = useState("");
-    // const [link, setLink] = useState("");
-
-    // const [checkedTags, setCheckedTags] = useState([])
-    // const checkedTags = [];
 
     const [checkedTags, setCheckedTags] = useState([]);
     const handleCheckboxChange = (tag, isChecked) => {
@@ -97,12 +93,6 @@ const CreateRecipePage = () => {
     const removeStep = (id) => {
         setSteps(steps.filter(step => step.id !== id));
     };
-
-    // const checkTag = (value) => {
-    //     checkedTags.push(value);
-    //     // setSteps([...checkedTags, { tag: stepsCount + 1, text: '' }]);
-    //     // setStepsCount(stepsCount + 1)
-    // };
 
     const submitRecipe = async () => {
         const stepsText = steps.map(s => s.text)

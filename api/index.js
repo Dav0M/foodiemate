@@ -379,48 +379,7 @@ app.http('checkDefault7Days', {
     authLevel: 'function',
     route: 'checkdefault7days',
     handler: async (request, context) => {
-
-
-        // // const sevenDays = await request.json();
-        // const jason = await request.json();
-        // const sevenDays = Object.values(jason);
-        // const results = [];
-        // // const body = await request.json();
-        // // const todoid = body.todoid ?? null;
-        // // const summary = body.summary ?? "no text";
-        // // const createtime = body.createtime ?? new Date();
-        // // const isDone = body.isDone ?? false;
-        // // const category = body.category ?? "Undefined";
-        // // const userid = body.userid ?? null;
-        // // const payload = { todoid, summary, createtime, isDone, category, userid };
-
-        // const collection = await connectDb('mealplans');
-        // // const mealplans = await collection.find({ userId: userId }).toArray();
-
-        // for (let oneday of sevenDays) {
-
-        //     let record = await collection.findOne({ date: oneday, userId: userId });
-        //     // results.push({ record });
-        //     if (!record && typeof oneday === "string") {
-        //         record = await collection.insertOne({ userId: userId, date: oneday, meals: { "breakfast": null, "lunch": null, "dinner": null } });
-        //         results.push({ date: oneday, status: 'created' });
-        //     } else {
-        //         results.push({ oneday, status: 'exists' });
-        //     }
-        // }
-
-        // await client.close();
-        // return {
-        //     status: 201,
-        //     jsonBody: { results: results }
-        // };
-
-
-
         try {
-            // const jason = await request.json();
-            // const sevenDays = Object.values(jason);
-
             const headers = Object.fromEntries(request.headers.entries())['x-ms-client-principal'];
             let token = null
             token = Buffer.from(headers, "base64");
@@ -554,16 +513,6 @@ app.http('searchRecipes', {
             filter.name = { $regex: query, $options: 'i' }; // Use regex for case-insensitive partial matching
         }
 
-        // const userIds = [userId_, "ed3490fc-71b4-45ab-b588-d473c000f6f9"];  // 这是你想查询的userId数组
-
-        // const filter = {
-        //     userId: { $in: userIds }
-        // };
-
-        // const filter = { userId: userId };
-        // if (query) {
-        //     filter.name = { $regex: query, $options: 'i' }; // Use regex for case-insensitive partial matching
-        // }
         const recipes = await collection.find(filter).toArray();
 
         await client.close(); // Make sure the connection is managed correctly
@@ -587,8 +536,6 @@ app.http('updateMealPlan', {
             const userId = token.userId;
             // const updates = await request.json();
 
-
-
             const body = await request.json();
             const selectedDate = body.date ?? null;
             const breakfastRecipe = body.meals.breakfast ?? null;
@@ -610,14 +557,6 @@ app.http('updateMealPlan', {
             const collection = await connectDb('mealplans');
             const result = await collection.updateOne({ userId: userId, date: selectedDate }, { $set: payload });
             const mealplan = await collection.findOne({ userId: userId, date: selectedDate });
-            // .find({ userId: userId }).toArray();
-
-
-
-            // return {
-            //     status: 201,
-            //     jsonBody: { _id: result.insertedId, todoid, summary, createtime, isDone, category, userid }
-            // };
 
             if (result.matchedCount === 0) throw new Error("No matching document found.");
             if (result.modifiedCount === 0) throw new Error("No document updated.");

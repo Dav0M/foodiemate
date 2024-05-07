@@ -13,9 +13,6 @@ const AboutRecipePage = () => {
     const [theSteps, setTheSteps] = useState([]);
 
     const [shoppingList, setShoppingList] = useState();
-    // const [showAddItemForm, setShowAddItemForm] = useState(false);
-    // const [activeDropdown, setActiveDropdown] = useState(null);
-    // const [editItem, setEditItem] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -25,30 +22,6 @@ const AboutRecipePage = () => {
     const [recipeAnalysis, setRecipeAnalysis] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [triggerReload, setTriggerReload] = useState(false);
-
-    // useEffect(() => {
-    //     fetch(`/api/recipe/${id}`)
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             setRecipe(data);
-    //             // console.log("data:", data);
-    //             // console.log("typeof data:", typeof data);
-    //             setLoading(false);
-    //             setTheName(data.name);
-    //             setTheTag(data.tag);
-    //             setTheImage(data.pictureUrl);
-    //             setTheIngredients(data.ingredients);
-    //             setTheSteps(data.steps);
-
-    //         })
-    //         .catch(err => {
-    //             console.error("Failed to fetch recipe:", err);
-    //             setError(err);
-    //             setLoading(false);
-    //         });
-    // // }, [id]);
-    // // }, [recipe, id]);
-    // }, [id, triggerReload]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -71,22 +44,6 @@ const AboutRecipePage = () => {
         };
         fetchData();
     }, [id, triggerReload]);
-
-    // const fetchOneRecipe = async () => {
-    //     const response = await fetch('/api/recipe/' + id);
-    //     const data = await response.json();
-    //     setRecipe(data.data);
-    //     console.log(JSON.stringify(data));
-    // };
-    // useEffect(() => { fetchOneRecipe(); }, []);
-
-
-    // console.log(recipe);
-    // console.log("name: ", theName);
-    // console.log("tag: ", theTag);
-    // console.log("image: ", theImage);
-    // console.log("ingredients: ", theIngredients);
-    // console.log("steps:", theSteps);
 
     const handleDeleteRecipe = async () => {
         if (window.confirm('Are you sure you want to delete this recipe?')) {
