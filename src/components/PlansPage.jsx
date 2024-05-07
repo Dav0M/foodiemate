@@ -323,6 +323,7 @@ const PlansPage = () => {
                                                     <div class="select-save-container">
                                                         <div class="select is-primary is-small">
                                                             <select id="recipe-select" onChange={e => updateBreakfastRecipe(e.target.value)}>
+                                                            <option>Select a recipe</option>
                                                                 {recipes.map((rec) => (
                                                                     <option key={rec._id} value={rec._id}>
                                                                         {rec.name}
@@ -387,6 +388,7 @@ const PlansPage = () => {
                                                 <div class="select-save-container">
                                                     <div class="select is-primary is-small">
                                                         <select id="recipe-select" onChange={e => updateLunchRecipe(e.target.value)}>
+                                                        <option>Select a recipe</option>
                                                             {recipes.map((rec) => (
                                                                 <option key={rec._id} value={rec._id}>
                                                                     {rec.name}
@@ -414,7 +416,6 @@ const PlansPage = () => {
                                                     </figure>
                                                 </div>
                                                 <div className="card-content">
-                                                    {/* <p className="title is-5 has-text-centered">{recipe.name}</p> */}
                                                     <div class="column is-12">
                                                         <div class="select is-primary">
                                                             <select id="recipe-select" className="title has-text-centered" defaultValue={selectedLunch} onChange={e => updateLunchRecipe(e.target.value)}>
@@ -450,6 +451,7 @@ const PlansPage = () => {
                                                 <div class="select-save-container">
                                                     <div class="select is-primary is-small">
                                                         <select id="recipe-select" onChange={e => updateDinnerRecipe(e.target.value)}>
+                                                        <option>Select a recipe</option>
                                                             {recipes.map((rec) => (
                                                                 <option key={rec._id} value={rec._id}>
                                                                     {rec.name}
@@ -462,6 +464,13 @@ const PlansPage = () => {
                                             </div>
                                         </div>
                                     )}
+                                    <div class="content">
+                                        <p> </p>
+                                    </div>
+                                    <div class="content">
+                                        &nbsp;
+                                    </div>
+    
                                     </div></div>) :
                                 (recipes
                                     .filter((recipe) => selectedDinner.includes(recipe._id))
