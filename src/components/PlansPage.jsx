@@ -251,7 +251,7 @@ const PlansPage = () => {
 
                 {validPlans.map((plan, index) => (
 
-                    <div key={plan.id} className={`box ${selectedDate === plan.date ? 'is-selected' : ''}`} ref={buttonRef} onClick={() => handleSelectDate(plan.date, plan.meals.breakfast, plan.meals.lunch, plan.meals.dinner)}>
+                    <div key={plan.id} className={`box box-plan ${selectedDate === plan.date ? 'is-selected' : ''}`} ref={buttonRef} onClick={() => handleSelectDate(plan.date, plan.meals.breakfast, plan.meals.lunch, plan.meals.dinner)}>
                         <h3><strong>{plan.date}</strong></h3>
                         <div key="breakfast">
                             <div className="columns is-multiline">
