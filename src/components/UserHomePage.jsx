@@ -151,7 +151,7 @@ function UserHomePage() {
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat'
         }}>
-            <div className="container" style={{marginBottom: '5vw'}}>
+            <div className="container" style={{ marginBottom: '5vw' }}>
                 <div className="columns">
                     {isMobile ? (
                         <div style={{ overflowX: 'auto', overflowY: 'hidden', whiteSpace: 'nowrap', marginLeft: '5vw', marginRight: '5vw' }}>
@@ -163,47 +163,86 @@ function UserHomePage() {
                                         <div >
                                             <div key="breakfast">
                                                 <i><strong>Breakfast:</strong></i>
-                                                {plan.meals.breakfast === null
-                                                    ? (
-                                                        <div><p className="has-text-centered">No plan</p></div>
+                                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                                    {plan.meals.breakfast === null ? (
+                                                        <div>
+                                                            <p className="has-text-centered">No plan</p>
+                                                        </div>
                                                     ) : (
                                                         <div>
-                                                            <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.breakfast)?.name}</p>
-                                                            <figure className="image image is-128x128">
-                                                                <img src={recipes.find(recipe => recipe._id === plan.meals.breakfast)?.pictureUrl} />
-                                                            </figure>
+                                                            {recipes.find(recipe => recipe._id === plan.meals.breakfast) ? (
+                                                                <>
+                                                                    <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.breakfast)?.name}</p>
+                                                                    <figure className="image" style={{ width: '160px', height: '120px' }}>
+                                                                        <img src={recipes.find(recipe => recipe._id === plan.meals.breakfast)?.pictureUrl} alt="Meal Image" style={{ width: '160px', height: '120px', objectFit: 'cover' }} />
+                                                                    </figure>
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <p className="has-text-centered">No plan</p>
+                                                                    {plan.meals.breakfast = null}
+                                                                </>
+                                                            )}
                                                         </div>
                                                     )}
+                                                </div>
+
                                             </div>
 
                                             <div key="lunch">
                                                 <i><strong>Lunch:</strong></i>
-                                                {plan.meals.lunch === null
-                                                    ? (
-                                                        <div><p className="has-text-centered">No plan</p></div>
+                                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                                    {plan.meals.lunch === null ? (
+                                                        <div>
+                                                            <p className="has-text-centered">No plan</p>
+                                                        </div>
                                                     ) : (
                                                         <div>
-                                                            <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.lunch)?.name}</p>
-                                                            <figure className="image is-128x128">
-                                                                <img src={recipes.find(recipe => recipe._id === plan.meals.lunch)?.pictureUrl} />
-                                                            </figure>
+                                                            {recipes.find(recipe => recipe._id === plan.meals.lunch) ? (
+                                                                <>
+                                                                    <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.lunch)?.name}</p>
+                                                                    <figure className="image" style={{ width: '160px', height: '120px' }}>
+                                                                        <img src={recipes.find(recipe => recipe._id === plan.meals.lunch)?.pictureUrl} alt="Meal Image" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                                    </figure>
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <p className="has-text-centered">No plan</p>
+                                                                    {plan.meals.lunch = null}
+                                                                </>
+                                                            )}
                                                         </div>
                                                     )}
+                                                </div>
+
                                             </div>
 
                                             <div key="dinner">
                                                 <i><strong>Dinner:</strong></i>
-                                                {plan.meals.dinner === null
-                                                    ? (
-                                                        <div><p className="has-text-centered">No plan</p></div>
+                                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                                    {plan.meals.dinner === null ? (
+                                                        <div>
+                                                            <p className="has-text-centered">No plan</p>
+                                                        </div>
                                                     ) : (
                                                         <div>
-                                                            <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.dinner)?.name}</p>
-                                                            <figure className="image is-128x128">
-                                                                <img src={recipes.find(recipe => recipe._id === plan.meals.dinner)?.pictureUrl} />
-                                                            </figure>
+                                                            {recipes.find(recipe => recipe._id === plan.meals.dinner) ? (
+                                                                <>
+                                                                    <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.dinner)?.name}</p>
+                                                                    <figure className="image" style={{ width: '160px', height: '120px' }}>
+                                                                        <img src={recipes.find(recipe => recipe._id === plan.meals.dinner)?.pictureUrl} alt="Meal Image" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                                    </figure>
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <p className="has-text-centered">No plan</p>
+                                                                    {plan.meals.dinner = null}
+                                                                </>
+                                                            )}
                                                         </div>
                                                     )}
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -223,25 +262,46 @@ function UserHomePage() {
                                                 ? (<div>
                                                     <p className="has-text-centered">No plan</p></div>) :
                                                 (<div>
-
-                                                    <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.breakfast)?.name}</p>
-
-                                                    <figure className="image is-4by3">
-                                                        <img src={recipes.find(recipe => recipe._id === plan.meals.breakfast)?.pictureUrl} />
-                                                    </figure>
+                                                    {recipes.find(recipe => recipe._id === plan.meals.breakfast) ? (
+                                                        <>
+                                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                                                <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.breakfast)?.name}</p>
+                                                                <figure className="image is-square" style={{ width: '70%', height: '70%' }}>
+                                                                    <img src={recipes.find(recipe => recipe._id === plan.meals.breakfast)?.pictureUrl} />
+                                                                </figure>
+                                                            </div>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <p className="has-text-centered">No plan</p>
+                                                            {plan.meals.breakfast = null}
+                                                        </>
+                                                    )}
                                                 </div>)}
                                         </div>
 
                                         <div className="column is-one-third" key="lunch">
-                                            <i><strong>Dinner:</strong></i>
+                                            <i><strong>Lunch:</strong></i>
                                             {plan.meals.lunch === null
                                                 ? (<div>
                                                     <p className="has-text-centered">No plan</p></div>) :
                                                 (<div>
-                                                    <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.lunch)?.name}</p>
-                                                    <figure className="image is-4by3">
-                                                        <img src={recipes.find(recipe => recipe._id === plan.meals.lunch)?.pictureUrl} />
-                                                    </figure></div>)}
+                                                    {recipes.find(recipe => recipe._id === plan.meals.lunch) ? (
+                                                        <>
+                                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                                                <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.lunch)?.name}</p>
+                                                                <figure className="image is-square" style={{ width: '70%', height: '70%' }}>
+                                                                    <img src={recipes.find(recipe => recipe._id === plan.meals.lunch)?.pictureUrl} />
+                                                                </figure>
+                                                            </div>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <p className="has-text-centered">No plan</p>
+                                                            {plan.meals.lunch = null}
+                                                        </>
+                                                    )}
+                                                </div>)}
                                         </div>
 
                                         <div className="column is-one-third" key="dinner">
@@ -250,10 +310,22 @@ function UserHomePage() {
                                                 ? (<div>
                                                     <p className="has-text-centered">No plan</p></div>) :
                                                 (<div>
-                                                    <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.dinner)?.name}</p>
-                                                    <figure className="image is-4by3">
-                                                        <img src={recipes.find(recipe => recipe._id === plan.meals.dinner)?.pictureUrl} />
-                                                    </figure></div>)}
+                                                    {recipes.find(recipe => recipe._id === plan.meals.dinner) ? (
+                                                        <>
+                                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                                                <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.dinner)?.name}</p>
+                                                                <figure className="image is-square" style={{ width: '70%', height: '70%' }}>
+                                                                    <img src={recipes.find(recipe => recipe._id === plan.meals.dinner)?.pictureUrl} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                                </figure>
+                                                            </div>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <p className="has-text-centered">No plan</p>
+                                                            {plan.meals.dinner = null}
+                                                        </>
+                                                    )}
+                                                </div>)}
                                         </div>
                                     </div>
                                 </div>
@@ -262,7 +334,7 @@ function UserHomePage() {
                     )}
 
                     {isMobile ? (
-                        <div className="column" style={{ overflowX: 'auto', whiteSpace: 'nowrap',  marginRight: '5vw' }}>
+                        <div className="column" style={{ overflowX: 'auto', whiteSpace: 'nowrap', marginRight: '5vw' }}>
                             <div className="is-flex is-justify-content-space-between">
                                 <h2 className="title is-3 has-text-centered-touch" style={{ marginTop: '1vw', marginLeft: '0.5rem' }}>Shopping list</h2>
                                 <button className="button is-info is-light"

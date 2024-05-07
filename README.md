@@ -28,11 +28,11 @@ CSCI 5117, Spring 2024, [assignment description](https://canvas.umn.edu/courses/
 
 * Cloudinary image upload and storing for recipes. 
 
-Which (if any) device integration(s) does your app support?
+**Which (if any) device integration(s) does your app support?**
 
 * Our app supports camera integration through the Cloudinary Widget.
 
-Which (if any) progressive web app feature(s) does your app support?
+**Which (if any) progressive web app feature(s) does your app support?**
 
 * Our app supports Home Screen Installs to download the app to the device. 
 
@@ -40,7 +40,7 @@ Which (if any) progressive web app feature(s) does your app support?
 
 ## Mockup images
 
-**[Add images/photos that show your mockup](https://stackoverflow.com/questions/10189356/how-to-add-screenshot-to-readmes-in-github-repository) along with a very brief caption:**
+
 
 ### Not log home page
 <!-- ![](https://media.giphy.com/media/26ufnwz3wDUli7GU0/giphy.gif) -->
@@ -71,9 +71,6 @@ Which (if any) progressive web app feature(s) does your app support?
 
 ## Screenshots of Site (complete)
 
-**[Add a screenshot of each key page](https://stackoverflow.com/questions/10189356/how-to-add-screenshot-to-readmes-in-github-repository)
-along with a very brief caption:**
-
 ### Home Page
 User shopping list and static display of meal plans.
 ![](./demo_images/foodiemate_home.png)
@@ -101,8 +98,7 @@ Page for each recipe. Shows name, tags, steps, ingredients, and an image of the 
 
 ## External Dependencies
 
-**Document integrations with 3rd Party code or services here.
-Please do not document required libraries (e.g., React, Azure serverless functions, Azure nosql).**
+**Document integrations with 3rd Party code or services here:**
 
 * Bulma CSS: Page styling
 * Cloudinary: Image uploading and storing
