@@ -151,7 +151,7 @@ function UserHomePage() {
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat'
         }}>
-            <div className="container" style={{marginBottom: '5vw'}}>
+            <div className="container" style={{ marginBottom: '5vw' }}>
                 <div className="columns">
                     {isMobile ? (
                         <div style={{ overflowX: 'auto', overflowY: 'hidden', whiteSpace: 'nowrap', marginLeft: '5vw', marginRight: '5vw' }}>
@@ -173,8 +173,8 @@ function UserHomePage() {
                                                             {recipes.find(recipe => recipe._id === plan.meals.breakfast) ? (
                                                                 <>
                                                                     <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.breakfast)?.name}</p>
-                                                                    <figure className="image is-square" style={{ width: '100%', height: '100%' }}>
-                                                                        <img src={recipes.find(recipe => recipe._id === plan.meals.breakfast)?.pictureUrl} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                                    <figure className="image" style={{ width: '160px', height: '120px' }}>
+                                                                        <img src={recipes.find(recipe => recipe._id === plan.meals.breakfast)?.pictureUrl} alt="Meal Image" style={{ width: '160px', height: '120px', objectFit: 'cover' }} />
                                                                     </figure>
                                                                 </>
                                                             ) : (
@@ -201,8 +201,8 @@ function UserHomePage() {
                                                             {recipes.find(recipe => recipe._id === plan.meals.lunch) ? (
                                                                 <>
                                                                     <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.lunch)?.name}</p>
-                                                                    <figure className="image is-square" style={{ width: '100%', height: '100%' }}>
-                                                                        <img src={recipes.find(recipe => recipe._id === plan.meals.lunch)?.pictureUrl} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                                    <figure className="image" style={{ width: '160px', height: '120px' }}>
+                                                                        <img src={recipes.find(recipe => recipe._id === plan.meals.lunch)?.pictureUrl} alt="Meal Image" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                                                     </figure>
                                                                 </>
                                                             ) : (
@@ -229,8 +229,8 @@ function UserHomePage() {
                                                             {recipes.find(recipe => recipe._id === plan.meals.dinner) ? (
                                                                 <>
                                                                     <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.dinner)?.name}</p>
-                                                                    <figure className="image is-square">
-                                                                        <img src={recipes.find(recipe => recipe._id === plan.meals.dinner)?.pictureUrl} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                                    <figure className="image" style={{ width: '160px', height: '120px' }}>
+                                                                        <img src={recipes.find(recipe => recipe._id === plan.meals.dinner)?.pictureUrl} alt="Meal Image" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                                                     </figure>
                                                                 </>
                                                             ) : (
@@ -242,7 +242,7 @@ function UserHomePage() {
                                                         </div>
                                                     )}
                                                 </div>
-                                                    
+
                                             </div>
                                         </div>
                                     </div>
@@ -334,7 +334,7 @@ function UserHomePage() {
                     )}
 
                     {isMobile ? (
-                        <div className="column" style={{ overflowX: 'auto', whiteSpace: 'nowrap',  marginRight: '5vw' }}>
+                        <div className="column" style={{ overflowX: 'auto', whiteSpace: 'nowrap', marginRight: '5vw' }}>
                             <div className="is-flex is-justify-content-space-between">
                                 <h2 className="title is-3 has-text-centered-touch" style={{ marginTop: '1vw', marginLeft: '0.5rem' }}>Shopping list</h2>
                                 <button className="button is-info is-light"
