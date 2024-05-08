@@ -266,7 +266,7 @@ function UserHomePage() {
                                                         <>
                                                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                                                 <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.breakfast)?.name}</p>
-                                                                <figure className="image is-square" style={{ width: '70%', height: '70%' }}>
+                                                                <figure className="image is-4by3" style={{ width: '100%' }}>
                                                                     <img src={recipes.find(recipe => recipe._id === plan.meals.breakfast)?.pictureUrl} />
                                                                 </figure>
                                                             </div>
@@ -290,7 +290,7 @@ function UserHomePage() {
                                                         <>
                                                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                                                 <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.lunch)?.name}</p>
-                                                                <figure className="image is-square" style={{ width: '70%', height: '70%' }}>
+                                                                <figure className="image is-4by3" style={{ width: '100%' }}>
                                                                     <img src={recipes.find(recipe => recipe._id === plan.meals.lunch)?.pictureUrl} />
                                                                 </figure>
                                                             </div>
@@ -314,7 +314,7 @@ function UserHomePage() {
                                                         <>
                                                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                                                 <p className="has-text-centered">{recipes.find(recipe => recipe._id === plan.meals.dinner)?.name}</p>
-                                                                <figure className="image is-square" style={{ width: '70%', height: '70%' }}>
+                                                                <figure className="image is-4by3" style={{ width: '100%' }}>
                                                                     <img src={recipes.find(recipe => recipe._id === plan.meals.dinner)?.pictureUrl} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                                                 </figure>
                                                             </div>
