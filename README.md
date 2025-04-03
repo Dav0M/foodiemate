@@ -1,50 +1,25 @@
-# Module 2 Group Assignment
+# FoodieMate
 
-CSCI 5117, Spring 2024, [assignment description](https://canvas.umn.edu/courses/413159/pages/project-2)
+The second of two open-ended projects where I worked in a team of six to build and deploy a full-stack application. The only strict requirements given were a provided core tech stack and the goal for the app being to privately organize some information. The overall result for this project was an A :)
 
-## App Info:
+[FoodieMate](https://purple-coast-041010610.5.azurestaticapps.net/) (Link up as of 4/3/25, but login isn't available so can't do much)
 
-* Team Name: Delulu
-* App Name: FoodieMate
-* App Link: <[FoodieMate](https://purple-coast-041010610.5.azurestaticapps.net/)>
+## Overview
 
-### Students
+FoodieMate is an all-in-one food planner that manages ingredients, recipes, and weekly meals. 
+Core features include: 
+- recipe management with image and camera support (via [Cloudinary](https://cloudinary.com/))
+- ingredient lists and tracking
+- meal planning with existing user recipes
+- nutrition calculater and displays for both ingredients and recipes (via [Edamam](https://www.edamam.com/) and [Google Charts](https://developers.google.com/chart))
+- home screen install options to download the app to a device. 
 
-* Hannah Cheng, cheng861@umn.edu
-* Lingyi Xu, xu001032@umn.edu
-* Yuankun Jiao, jiao0052@umn.edu
-* David Mai, mai00048@umn.edu
-* Jimmy Xiao, xiao0261@umn.edu
+The project is a serverless single-page application(SPA) built using React with React Router and the [Bulma](https://bulma.io/) CSS framework. User authentication and the NoSQL database used were provided and hosted by [Azure Cloud services](https://azure.microsoft.com/en-us/) and the project was hosted using the same. Serverless functions for data processing were created using [Azure Functions](https://learn.microsoft.com/en-us/azure/azure-functions/functions-overview) with Node.js.
 
+## Mockup Images
 
-## Key Features
-
-**Describe the most challenging features you implemented
-(one sentence per bullet, maximum 4 bullets):**
-
-* Mealplanner to designate recipe plans for current and future days and for different meal times.
-
-* Nutrition calculator and integration with recipes. 
-
-* Cloudinary image upload and storing for recipes. 
-
-**Which (if any) device integration(s) does your app support?**
-
-* Our app supports camera integration through the Cloudinary Widget.
-
-**Which (if any) progressive web app feature(s) does your app support?**
-
-* Our app supports Home Screen Installs to download the app to the device. 
-
-
-
-## Mockup images
-
-
-
-### Not log home page
-<!-- ![](https://media.giphy.com/media/26ufnwz3wDUli7GU0/giphy.gif) -->
-![not log home page](./mockup_images/not_log_home_page.png?raw=true)
+### Home page
+![not logged home page](./mockup_images/not_log_home_page.png?raw=true)
 
 ### User home page
 ![user home page](./mockup_images/user_home_page.png?raw=true)
@@ -61,55 +36,30 @@ CSCI 5117, Spring 2024, [assignment description](https://canvas.umn.edu/courses/
 ### Plans page
 ![plans page](./mockup_images/plans_page.png?raw=true)
 
-## Testing Notes
 
-**Is there anything special we need to know in order to effectively test your app? (optional):**
-
-* N/A
-
-
-
-## Screenshots of Site (complete)
+## Screenshots of Site
 
 ### Home Page
 User shopping list and static display of meal plans.
-![](./demo_images/foodiemate_home.png)
+![home page](./demo_images/foodiemate_home.png)
 
 ### Recipes Page
 View user's recipes under different categories along with a search. Can create new recipes from here or click on recipes to view details.
-![](./demo_images/foodiemate_recipes.png)
+![recipe page](./demo_images/foodiemate_recipes.png)
 
 ### Plans Page
 Set mealplans using your recipes here. Can set breakfast/lunch/dinner for future days.
-![](./demo_images/foodiemate_plans.png)
+![plans page](./demo_images/foodiemate_plans.png)
 
 ### Nutrition Page
 Nutrition tool to get information on ingredients. Comes with table and graph information.
-![](./demo_images/foodiemate_nutri.png)
+![nutrition page](./demo_images/foodiemate_nutri.png)
 
 ### Recipe Create
 Create page for new recipes. Set names, tags, steps, ingredients, images. Image upload can be done using device camera.
-![](./demo_images/foodiemate_create.png)
+![creating a recipe](./demo_images/foodiemate_create.png)
 
 ### Recipe Details
 Page for each recipe. Shows name, tags, steps, ingredients, and an image of the item (if provided). Also option to view nutrients of recipe given the ingredients. Can edit or delete recipe from this page.
-![](./demo_images/foodiemate_details.png)
+![details of a recipe](./demo_images/foodiemate_details.png)
 
-
-## External Dependencies
-
-**Document integrations with 3rd Party code or services here:**
-
-* Bulma CSS: Page styling
-* Cloudinary: Image uploading and storing
-* (React) Google Charts: Nutrition Charts
-* Edamam: Nutrition API
-* Axios: Fetch requests for Nutrition API
-
-**If there's anything else you would like to disclose about how your project
-relied on external code, expertise, or anything else, please disclose that
-here:**
-
-* Referenced the Cloudinary tech share for Cloudinary widget and image uploads.
-
-...
